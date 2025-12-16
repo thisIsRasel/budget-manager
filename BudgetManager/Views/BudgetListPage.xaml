@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="BudgetManager.Views.BudgetPage"
+    xmlns:vm="clr-namespace:BudgetManager.ViewModels"
+    Title="Budgets">
+
+    <Grid>
+        <!-- Main Content Area -->
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="15">
+
+                <!-- Summary Panel -->
+                <Border Padding="20"
+                        StrokeThickness="0"
+                        BackgroundColor="{StaticResource Primary}">
+                    <Border.StrokeShape>
+                        <RoundRectangle CornerRadius="15" />
+                    </Border.StrokeShape>
+                    <Grid ColumnDefinitions="*,*" RowDefinitions="Auto,Auto">
+                        <!-- Total Budget -->
+                        <Label Grid.Row="0" Grid.Column="0"
+                               Text="Total Budget"
+                               FontSize="14"
+                               Opacity="0.9" />
+                        <Label Grid.Row="1" Grid.Column="0"
+                               Text="{Binding TotalBudget, StringFormat='৳ {0:F2}'}"
+                               FontSize="24"
+                               FontAttributes="Bold" />
+
+                        <!-- Total Spent -->
+                        <Label Grid.Row="0" Grid.Column="1"
+                               Text="Total Spent"
+                               FontSize="14"
+                               Opacity="0.9"
+                               HorizontalOptions="End" />
+                        <Label Grid.Row="1" Grid.Column="1"
+                               Text="{Binding TotalSpent, StringFormat='৳ {0:F2}'}"
+                               FontSize="24"
+                               FontAttributes="Bold"
+                               HorizontalOptions="End" />
+                    </Grid>
+                </Border>
+
+                <!-- Budget List -->
+                <CollectionView ItemsSource="{Binding Budgets}">
+                    <CollectionView.EmptyView>
+                        <Label Text="No budgets yet. Tap the + button to create one!" 
+                               FontSize="16"
+                               TextColor="Gray"
+                               HorizontalOptions="Center"
+                               VerticalOptions="Center"
+                               Margin="0,50,0,0" />
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Border Margin="0,5" 
+                                    Padding="15" 
+                                    Stroke="#E0E0E0" 
+                                    StrokeThickness="1"
+                                    BackgroundColor="White">
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="8" />
+                                </Border.StrokeShape>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BudgetViewModel}}, Path=GoToBudgetDetailsCommand}"
+                                                          CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
+                                <Grid ColumnDefinitions="*,Auto,*" RowDefinitions="Auto,Auto,Auto,Auto">
+                                    <!-- Budget Name -->
+                                    <Label Grid.Row="0" Grid.Column="0"
+                                           Text="{Binding Name}" 
+                                           FontSize="18" 
+                                           FontAttributes="Bold"
+                                           TextColor="Black" />
+                                    
+                                    <!-- Budget Amount -->
+                                    <Label Grid.Row="0" Grid.Column="2"
+                                           Text="{Binding Amount, StringFormat='৳ {0:F2}'}" 
+                                           FontSize="18" 
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource Primary}"
+                                           HorizontalOptions="End" />
+                                    
+                                    <!-- Progress Bar -->
+                                    <ProgressBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                                                 Progress="{Binding ProgressPercentage}"
+                                                 ProgressColor="{StaticResource Primary}"
+                                                 HeightRequest="12"
+                                                 Margin="0,0,0,8" />
+                                    
+                                    <!-- Spent and Remaining Labels (Below Progress Bar) -->
+                                    <Label Grid.Row="2" Grid.Column="0"
+                                           Text="{Binding FormattedSpent}"
+                                           FontSize="12"
+                                           TextColor="#666666"
+                                           HorizontalOptions="Start"/>
+
+                                    <Label Grid.Row="2" Grid.Column="1"
+                                           Text="{Binding FormattedPercentage}"
+                                           FontSize="12"
+                                           FontAttributes="Bold"
+                                           TextColor="{StaticResource Primary}"
+                                           HorizontalOptions="Center"
+                                           Margin="0,0,0,2" />
+                                    
+                                    <Label Grid.Row="2" Grid.Column="2"
+                                           Text="{Binding FormattedRemaining}"
+                                           FontSize="12"
+                                           TextColor="#666666"
+                                           HorizontalOptions="End" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Floating Action Button -->
+        <Button Text="+"
+                FontSize="32"
+                WidthRequest="60"
+                HeightRequest="60"
+                CornerRadius="30"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="0,0,20,20"
+                Command="{Binding GoToAddBudgetCommand}"
+                Shadow="{Shadow Brush=Black, Opacity=0.3, Radius=10, Offset='0,4'}" />
+    </Grid>
+</ContentPage>

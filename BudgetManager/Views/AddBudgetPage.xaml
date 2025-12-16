@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BudgetManager.ViewModels"
+             x:Class="BudgetManager.Views.AddBudgetPage"
+             Title="{Binding PageTitle}">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <Label Text="Select Category" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0" />
+            <Picker ItemsSource="{Binding Categories}"
+                ItemDisplayBinding="{Binding DisplayName}"
+                SelectedItem="{Binding SelectedCategory}"
+                Title="Choose a category" />
+            
+            <Label Text="Budget Amount" FontSize="16" FontAttributes="Bold" />
+            <Entry Placeholder="Enter amount" 
+                   Keyboard="Numeric" 
+                   Text="{Binding BudgetAmount}" />
+
+            <Button Text="Save Budget" 
+                    Command="{Binding SaveBudgetCommand}"
+                    BackgroundColor="{StaticResource Primary}"
+                    TextColor="White"
+                    Margin="0,20,0,0" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

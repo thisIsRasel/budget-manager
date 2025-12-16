@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BudgetManager.ViewModels"
+             x:Class="BudgetManager.Views.EditTransactionPage"
+             Title="Edit Daily Cost">
+    <VerticalStackLayout Padding="20" Spacing="15">
+        <Label Text="Amount" FontSize="16" FontAttributes="Bold" />
+        <Entry Placeholder="Amount" Keyboard="Numeric" Text="{Binding Amount}" />
+
+        <Label Text="Category" FontSize="16" FontAttributes="Bold" />
+        <Picker Title="Select Category"
+                ItemsSource="{Binding Categories}"
+                ItemDisplayBinding="{Binding DisplayName}"
+                SelectedItem="{Binding SelectedCategory}" />
+
+        <Label Text="Date" FontSize="16" FontAttributes="Bold" />
+        <DatePicker Date="{Binding SelectedDate}" 
+                    Format="D"
+                    MinimumDate="01/01/2020"
+                    MaximumDate="12/31/2030" />
+
+        <Label Text="Note" FontSize="16" FontAttributes="Bold" />
+        <Entry Placeholder="Note" Text="{Binding Note}" />
+        
+        <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,20,0,0">
+            <Button Grid.Column="0" 
+                    Text="Delete" 
+                    Command="{Binding DeleteCommand}"
+                    BackgroundColor="#FF4444"
+                    TextColor="White" />
+            <Button Grid.Column="1" 
+                    Text="Save" 
+                    Command="{Binding SaveCommand}" />
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>
