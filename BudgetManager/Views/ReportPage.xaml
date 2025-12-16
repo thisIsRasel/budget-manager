@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="BudgetManager.Views.ReportPage"
+    xmlns:vm="clr-namespace:BudgetManager.ViewModels"
+    xmlns:micro="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui">
+    <VerticalStackLayout Padding="20" Spacing="15">
+        <Label Text="Monthly Total:" FontSize="18" />
+        <Label Text="{Binding MonthlyTotal}" FontSize="20" />
+
+        <BoxView HeightRequest="1" Color="Gray" Margin="0,10"/>
+        
+        <Label Text="Budget Spending Distribution" FontSize="18" FontAttributes="Bold"/>
+        <micro:ChartView Chart="{Binding BudgetChart}" HeightRequest="300" />
+    </VerticalStackLayout>
+</ContentPage>

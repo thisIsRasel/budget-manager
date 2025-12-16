@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="BudgetManager.Views.CategoryPage"
+    xmlns:vm="clr-namespace:BudgetManager.ViewModels"
+    Title="Categories">
+
+    <Grid>
+        <!-- Main Content Area -->
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="15">
+                <CollectionView ItemsSource="{Binding Categories}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid ColumnDefinitions="Auto, *, Auto, Auto" Padding="0,5">
+                                <Grid.GestureRecognizers>
+                                    <DropGestureRecognizer AllowDrop="True"
+                                                           DropCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryViewModel}}, Path=DropCommand}"
+                                                           DropCommandParameter="{Binding .}" />
+                                </Grid.GestureRecognizers>
+                                
+                                <Image Grid.Column="0" 
+                                       Source="drag_indicator.png" 
+                                       HeightRequest="24" 
+                                       WidthRequest="24"
+                                       Margin="0,0,10,0"
+                                       VerticalOptions="Center">
+                                    <Image.GestureRecognizers>
+                                        <DragGestureRecognizer CanDrag="True"
+                                                               DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryViewModel}}, Path=DragStartingCommand}"
+                                                               DragStartingCommandParameter="{Binding .}" />
+                                    </Image.GestureRecognizers>
+                                </Image>
+
+                                <Label Grid.Column="1"
+                                       Text="{Binding Name}" 
+                                       FontSize="20" 
+                                       TextColor="Black" 
+                                       Margin="{Binding IndentationMargin}" 
+                                       VerticalOptions="Center" />
+                                <ImageButton Grid.Column="2" 
+                                             Source="edit.png" 
+                                             HeightRequest="24"
+                                             WidthRequest="24"
+                                             Margin="0,0,10,0"
+                                             BackgroundColor="Transparent"
+                                             Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryViewModel}}, Path=EditCategoryCommand}"
+                                             CommandParameter="{Binding .}" />
+                                <ImageButton Grid.Column="3" 
+                                             Source="delete.png" 
+                                             HeightRequest="24"
+                                             WidthRequest="24"
+                                             BackgroundColor="Transparent"
+                                             Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryViewModel}}, Path=DeleteCommand}"
+                                             CommandParameter="{Binding .}" />
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </VerticalStackLayout>
+        </ScrollView>
+
+        <!-- Floating Action Button -->
+        <Button Text="+"
+                FontSize="32"
+                WidthRequest="60"
+                HeightRequest="60"
+                CornerRadius="30"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="0,0,20,20"
+                Command="{Binding GoToAddCategoryCommand}"
+                Shadow="{Shadow Brush=Black, Opacity=0.3, Radius=10, Offset='0,4'}" />
+    </Grid>
+</ContentPage>

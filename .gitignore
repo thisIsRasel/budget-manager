@@ -1,34 +1,70 @@
-# Gradle files
-.gradle/
-build/
+# ============================================
+# .NET / Visual Studio
+# ============================================
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
 
-# Local configuration file (sdk path, etc)
-local.properties
-
-# Log/OS Files
-*.log
-
-# Android Studio generated files and folders
-captures/
-.externalNativeBuild/
-.cxx/
-*.aab
-*.apk
-output-metadata.json
-
-# IntelliJ
-*.iml
+# Rider
 .idea/
-misc.xml
-deploymentTargetDropDown.xml
-render.experimental.xml
+*.sln.iml
 
-# Keystore files
-*.jks
-*.keystore
+# ============================================
+# .NET MAUI specific
+# ============================================
+# Generated app bundles & intermediates
+AppPackages/
+Artifacts/
+Logs/
 
-# Google Services (e.g. APIs or Firebase)
-google-services.json
+# Android
+**/Platforms/Android/.gradle/
+**/Platforms/Android/build/
+**/Platforms/Android/local.properties
+**/Platforms/Android/*.keystore
+**/Platforms/Android/*.jks
 
-# Android Profiling
-*.hprof
+# iOS / MacCatalyst
+**/Platforms/iOS/DerivedData/
+**/Platforms/iOS/*.xcworkspace
+**/Platforms/iOS/*.xcodeproj
+**/Platforms/iOS/*.plist
+**/Platforms/MacCatalyst/DerivedData/
+
+# Windows
+**/Platforms/Windows/AppPackages/
+
+# ============================================
+# Publish & deploy output
+# ============================================
+publish/
+*.app
+*.ipa
+*.apk
+*.aab
+*.msix
+*.msixbundle
+
+# ============================================
+# Logs & temp files
+# ============================================
+*.log
+*.tmp
+*.bak
+
+# ============================================
+# OS generated files
+# ============================================
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# ============================================
+# Secrets (IMPORTANT)
+# ============================================
+secrets.json
+appsettings.Development.json

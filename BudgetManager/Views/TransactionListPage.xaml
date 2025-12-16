@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="BudgetManager.Views.TransactionListPage"
+    xmlns:vm="clr-namespace:BudgetManager.ViewModels">
+    
+    <Shell.TitleView>
+        <Grid ColumnDefinitions="Auto,*,Auto" 
+              Margin="-20,0,0,0"
+              WidthRequest="200"
+              VerticalOptions="Center">
+            
+            <!-- Previous Month Button -->
+            <Button Grid.Column="0"
+                    Text="◀"
+                    Command="{Binding PreviousMonthCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    FontSize="20"
+                    Padding="10,0"
+                    WidthRequest="40" />
+            
+            <!-- Month Display -->
+            <Label Grid.Column="1"
+                   Text="{Binding MonthDisplay}"
+                   FontSize="16"
+                   FontAttributes="Bold"
+                   TextColor="White"
+                   HorizontalOptions="Center"
+                   VerticalOptions="Center" />
+            
+            <!-- Next Month Button -->
+            <Button Grid.Column="2"
+                    Text="▶"
+                    Command="{Binding NextMonthCommand}"
+                    BackgroundColor="Transparent"
+                    TextColor="White"
+                    FontSize="20"
+                    Padding="10,0"
+                    WidthRequest="40" />
+        </Grid>
+    </Shell.TitleView>
+
+    <Grid>
+        <!-- Main Content Area -->
+        <ScrollView>
+            <Grid RowDefinitions="*" Padding="0">
+                <CollectionView ItemsSource="{Binding GroupedCostEntries}">
+                    <CollectionView.EmptyView>
+                        <Label Text="No costs added this month." 
+                               HorizontalOptions="Center" 
+                               VerticalOptions="Center" 
+                               TextColor="Gray" />
+                    </CollectionView.EmptyView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Spacing="0" Margin="0,0,0,15">
+                                <!-- Date Header with Total -->
+                                <Grid ColumnDefinitions="*,Auto" 
+                                      Padding="15,12"
+                                      BackgroundColor="#F8F8F8">
+                                    <Label Grid.Column="0" 
+                                           Text="{Binding DisplayDate}" 
+                                           FontSize="14" 
+                                           FontAttributes="Bold"
+                                           TextColor="#333333"
+                                           VerticalOptions="Center" />
+                                    <Label Grid.Column="1" 
+                                           Text="{Binding TotalAmount, StringFormat='৳ {0:F2}'}" 
+                                           FontSize="16" 
+                                           FontAttributes="Bold"
+                                           TextColor="#FF6B4A"
+                                           HorizontalOptions="End"
+                                           VerticalOptions="Center" />
+                                </Grid>
+                                
+                                <!-- Items for this Date -->
+                                <CollectionView ItemsSource="{Binding Items}">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid ColumnDefinitions="*,Auto" 
+                                                  RowDefinitions="Auto,Auto" 
+                                                  Padding="15,12"
+                                                  BackgroundColor="White">
+                                                <Grid.GestureRecognizers>
+                                                    <TapGestureRecognizer 
+                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TransactionViewModel}}, Path=EditItemCommand}"
+                                                        CommandParameter="{Binding .}" />
+                                                </Grid.GestureRecognizers>
+                                                
+                                                <!-- Category Name -->
+                                                <Label Grid.Column="0" 
+                                                       Grid.Row="0"
+                                                       Text="{Binding CategoryName}" 
+                                                       FontSize="15" 
+                                                       FontAttributes="Bold"
+                                                       TextColor="Black"
+                                                       VerticalOptions="Center" />
+                                                
+                                                <!-- Amount -->
+                                                <Label Grid.Column="1" 
+                                                       Grid.Row="0"
+                                                       Text="{Binding Amount, StringFormat='৳ {0:F2}'}" 
+                                                       FontSize="16" 
+                                                       FontAttributes="Bold"
+                                                       TextColor="#b86552ff"
+                                                       HorizontalOptions="End"
+                                                       VerticalOptions="Center" />
+                                                
+                                            </Grid>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </ScrollView>
+
+        <!-- Floating Action Button -->
+        <Button Text="+"
+                FontSize="32"
+                WidthRequest="60"
+                HeightRequest="60"
+                CornerRadius="30"
+                BackgroundColor="{StaticResource Primary}"
+                TextColor="White"
+                HorizontalOptions="End"
+                VerticalOptions="End"
+                Margin="0,0,20,20"
+                Command="{Binding GoToAddCostCommand}"
+                Shadow="{Shadow Brush=Black, Opacity=0.3, Radius=10, Offset='0,4'}" />
+    </Grid>
+</ContentPage>
