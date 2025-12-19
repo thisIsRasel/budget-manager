@@ -4,24 +4,24 @@
              xmlns:vm="clr-namespace:BudgetManager.ViewModels"
              x:Class="BudgetManager.Views.AddBudgetPage"
              Title="{Binding PageTitle}">
-    <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="15">
-            <Label Text="Select Category" FontSize="16" FontAttributes="Bold" Margin="0,10,0,0" />
-            <Picker ItemsSource="{Binding Categories}"
-                ItemDisplayBinding="{Binding DisplayName}"
-                SelectedItem="{Binding SelectedCategory}"
-                Title="Choose a category" />
-            
-            <Label Text="Budget Amount" FontSize="16" FontAttributes="Bold" />
-            <Entry Placeholder="Enter amount" 
+
+    <Grid Style="{StaticResource PageBody}">
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="15">
+                <Picker ItemsSource="{Binding Categories}"
+                    ItemDisplayBinding="{Binding DisplayName}"
+                    SelectedItem="{Binding SelectedCategory}"
+                    Title="Select" />
+
+                <Entry Placeholder="Enter amount" 
                    Keyboard="Numeric" 
                    Text="{Binding BudgetAmount}" />
 
-            <Button Text="Save Budget" 
+                <Button Text="Save Budget" 
                     Command="{Binding SaveBudgetCommand}"
-                    BackgroundColor="{StaticResource Primary}"
                     TextColor="White"
                     Margin="0,20,0,0" />
-        </VerticalStackLayout>
-    </ScrollView>
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
 </ContentPage>

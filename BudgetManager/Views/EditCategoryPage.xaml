@@ -4,13 +4,15 @@
              xmlns:vm="clr-namespace:BudgetManager.ViewModels"
              x:Class="BudgetManager.Views.EditCategoryPage"
              Title="Edit Category">
-    <VerticalStackLayout Padding="20" Spacing="15">
-        <Picker Title="Select Parent Category"
+    <Grid Style="{StaticResource PageBody}">
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <Picker Title="Select Parent Category"
                 ItemsSource="{Binding ParentCategories}"
                 ItemDisplayBinding="{Binding DisplayName}"
                 SelectedItem="{Binding SelectedParent}" />
 
-        <Entry Placeholder="Category Name" Text="{Binding NewCategory}" />
-        <Button Text="Update" Command="{Binding UpdateCommand}" />
-    </VerticalStackLayout>
+            <Entry Placeholder="Category Name" Text="{Binding NewCategory}" />
+            <Button Text="Update" Command="{Binding UpdateCommand}" />
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>

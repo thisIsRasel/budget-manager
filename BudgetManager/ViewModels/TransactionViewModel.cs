@@ -52,7 +52,7 @@ namespace BudgetManager.ViewModels
             }
         }
 
-        public string MonthDisplay => CurrentMonth.ToString("MMMM yyyy");
+        public string MonthDisplay => CurrentMonth.ToString("MMM yyyy");
 
         public ICommand GoToAddCostCommand => new Command(async () =>
         {

@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="BudgetManager.Views.MainPage">
+
+    <Grid RowDefinitions="Auto,*,Auto">
+
+        <!-- 🔝 Header -->
+        <Grid Style="{StaticResource PageHeader}" ColumnDefinitions="Auto,*,Auto">
+            <HorizontalStackLayout>
+                <Button
+                    Text="◀"
+                    BackgroundColor="Transparent"
+                    FontSize="20"
+                    Padding="0,0,10,0"/>
+
+                <Label Text="Dec 2025"
+                   TextColor="White"
+                   FontSize="18"
+                   VerticalOptions="Center" />
+
+                <!-- Next Month Button -->
+                <Button Grid.Column="2"
+                    Text="▶"
+                    BackgroundColor="Transparent"
+                    FontSize="20"
+                    Padding="0"
+                    WidthRequest="40" />
+            </HorizontalStackLayout>
+        </Grid>
+
+        <!-- 📊 Content -->
+        <Grid Grid.Row="1" Style="{StaticResource PageBody}">
+
+            <ScrollView>
+                <VerticalStackLayout Spacing="16" Padding="16">
+
+                    <!-- Summary Card -->
+                    <Border Style="{StaticResource Card}">
+                        <Grid ColumnDefinitions="*,*,*">
+                            <VerticalStackLayout>
+                                <Label Text="Income" TextColor="Gray"/>
+                                <Label Text="100,000.00" TextColor="#4FC3F7" FontSize="16"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="1">
+                                <Label Text="Expenses" TextColor="Gray"/>
+                                <Label Text="74,890.00" TextColor="#EF5350" FontSize="16"/>
+                            </VerticalStackLayout>
+
+                            <VerticalStackLayout Grid.Column="2">
+                                <Label Text="Total" TextColor="Gray"/>
+                                <Label Text="25,110.00" TextColor="White" FontSize="16"/>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+
+                    <!-- Date Header -->
+                    <Label Text="16 Tue"
+                           TextColor="White"
+                           FontAttributes="Bold"/>
+
+                    <!-- Transaction Item -->
+                    <Border Style="{StaticResource Card}">
+                        <Grid ColumnDefinitions="Auto,*,Auto">
+                            <VerticalStackLayout>
+                                <Label Text="Others" TextColor="White"/>
+                                <Label Text="Cash" TextColor="Gray" FontSize="12"/>
+                            </VerticalStackLayout>
+
+                            <Label Grid.Column="2"
+                                   Text="+5,000.00"
+                                   TextColor="#4FC3F7"
+                                   VerticalOptions="Center"/>
+                        </Grid>
+                    </Border>
+
+                </VerticalStackLayout>
+            </ScrollView>
+
+            <Button Text="+" Style="{StaticResource Fab}"/>
+
+        </Grid>
+
+    </Grid>
+</ContentPage>

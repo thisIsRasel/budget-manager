@@ -13,6 +13,7 @@ public partial class BudgetPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
+        Shell.SetNavBarIsVisible(this, false);
         if (BindingContext is BudgetViewModel vm)
         {
             vm.LoadBudgets();

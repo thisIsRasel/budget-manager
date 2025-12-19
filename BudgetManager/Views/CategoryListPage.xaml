@@ -6,7 +6,7 @@
     xmlns:vm="clr-namespace:BudgetManager.ViewModels"
     Title="Categories">
 
-    <Grid>
+    <Grid Style="{StaticResource PageBody}">
         <!-- Main Content Area -->
         <ScrollView>
             <VerticalStackLayout Padding="20" Spacing="15">
@@ -35,8 +35,7 @@
 
                                 <Label Grid.Column="1"
                                        Text="{Binding Name}" 
-                                       FontSize="20" 
-                                       TextColor="Black" 
+                                       FontSize="16" 
                                        Margin="{Binding IndentationMargin}" 
                                        VerticalOptions="Center" />
                                 <ImageButton Grid.Column="2" 
@@ -63,16 +62,7 @@
 
         <!-- Floating Action Button -->
         <Button Text="+"
-                FontSize="32"
-                WidthRequest="60"
-                HeightRequest="60"
-                CornerRadius="30"
-                BackgroundColor="{StaticResource Primary}"
-                TextColor="White"
-                HorizontalOptions="End"
-                VerticalOptions="End"
-                Margin="0,0,20,20"
-                Command="{Binding GoToAddCategoryCommand}"
-                Shadow="{Shadow Brush=Black, Opacity=0.3, Radius=10, Offset='0,4'}" />
+                Style="{StaticResource Fab}"
+                Command="{Binding GoToAddCategoryCommand}"/>
     </Grid>
 </ContentPage>

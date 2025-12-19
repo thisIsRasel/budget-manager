@@ -4,34 +4,44 @@
              xmlns:vm="clr-namespace:BudgetManager.ViewModels"
              x:Class="BudgetManager.Views.EditTransactionPage"
              Title="Edit Daily Cost">
-    <VerticalStackLayout Padding="20" Spacing="15">
-        <Label Text="Amount" FontSize="16" FontAttributes="Bold" />
-        <Entry Placeholder="Amount" Keyboard="Numeric" Text="{Binding Amount}" />
+    <Grid Style="{StaticResource PageBody}">
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <Grid ColumnDefinitions="80,*" ColumnSpacing="20">
+                <Label VerticalOptions="Center" Text="Amount" FontSize="16" />
+                <Entry Grid.Column="1" Placeholder="Enter amount" Keyboard="Numeric" Text="{Binding Amount}" />
+            </Grid>
 
-        <Label Text="Category" FontSize="16" FontAttributes="Bold" />
-        <Picker Title="Select Category"
-                ItemsSource="{Binding Categories}"
-                ItemDisplayBinding="{Binding DisplayName}"
-                SelectedItem="{Binding SelectedCategory}" />
+            <Grid ColumnDefinitions="80,*" ColumnSpacing="20">
+                <Label VerticalOptions="Center" Text="Category" FontSize="16" />
+                <Picker Grid.Column="1" Title="Select"
+                    ItemsSource="{Binding Categories}"
+                    ItemDisplayBinding="{Binding DisplayName}"
+                    SelectedItem="{Binding SelectedCategory}" />
+            </Grid>
 
-        <Label Text="Date" FontSize="16" FontAttributes="Bold" />
-        <DatePicker Date="{Binding SelectedDate}" 
+            <Grid ColumnDefinitions="80,*" ColumnSpacing="20">
+                <Label VerticalOptions="Center" Text="Date" FontSize="16" />
+                <DatePicker Grid.Column="1" Date="{Binding SelectedDate}" 
                     Format="D"
                     MinimumDate="01/01/2020"
                     MaximumDate="12/31/2030" />
+            </Grid>
 
-        <Label Text="Note" FontSize="16" FontAttributes="Bold" />
-        <Entry Placeholder="Note" Text="{Binding Note}" />
-        
-        <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,20,0,0">
-            <Button Grid.Column="0" 
+            <Grid ColumnDefinitions="80,*" ColumnSpacing="20">
+                <Label VerticalOptions="Center" Text="Note" FontSize="16" />
+                <Entry Grid.Column="1" Placeholder="Type note" Text="{Binding Note}" />
+            </Grid>
+            
+            <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,20,0,0">
+                <Button Grid.Column="0" 
                     Text="Delete" 
                     Command="{Binding DeleteCommand}"
                     BackgroundColor="#FF4444"
                     TextColor="White" />
-            <Button Grid.Column="1" 
+                <Button Grid.Column="1" 
                     Text="Save" 
                     Command="{Binding SaveCommand}" />
-        </Grid>
-    </VerticalStackLayout>
+            </Grid>
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>

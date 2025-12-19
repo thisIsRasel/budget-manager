@@ -16,17 +16,17 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <Grid RowDefinitions="Auto,*">
+    <Grid Style="{StaticResource PageBody}" RowDefinitions="Auto,*">
         <!-- Header / Summary -->
         <Frame Grid.Row="0" Margin="15" Padding="15" BackgroundColor="{StaticResource Primary}" CornerRadius="10" HasShadow="True">
             <VerticalStackLayout Spacing="5">
                 <Label Text="{Binding CurrentBudget.Name}" TextColor="White" FontSize="20" FontAttributes="Bold"/>
                 <HorizontalStackLayout Spacing="10">
-                    <Label Text="Total Budget:" TextColor="#E3F2FD" FontSize="14"/>
+                    <Label Text="Total:" TextColor="#E3F2FD" FontSize="14"/>
                     <Label Text="{Binding CurrentBudget.Amount, StringFormat='৳ {0:F2}'}" TextColor="White" FontAttributes="Bold" FontSize="14"/>
                 </HorizontalStackLayout>
                 <HorizontalStackLayout Spacing="10">
-                    <Label Text="Spent:" TextColor="#E3F2FD" FontSize="14"/>
+                    <Label Text="Expenses:" TextColor="#E3F2FD" FontSize="14"/>
                     <Label Text="{Binding CurrentBudget.FormattedSpent}" TextColor="White" FontAttributes="Bold" FontSize="14"/>
                 </HorizontalStackLayout>
                  <HorizontalStackLayout Spacing="10">

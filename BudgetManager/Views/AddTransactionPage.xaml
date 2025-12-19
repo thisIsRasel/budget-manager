@@ -4,21 +4,36 @@
              xmlns:vm="clr-namespace:BudgetManager.ViewModels"
              x:Class="BudgetManager.Views.AddTransactionPage"
              Title="Add Daily Cost">
-    <VerticalStackLayout Padding="20" Spacing="15">
-        <Entry Placeholder="Amount" Keyboard="Numeric" Text="{Binding Amount}" />
+    
+    <Grid Style="{StaticResource PageBody}">
+        <VerticalStackLayout Padding="20" Spacing="15">
+            <Grid ColumnDefinitions="80,*" ColumnSpacing="20">
+                <Label VerticalOptions="Center" Text="Amount" FontSize="16" />
+                <Entry Grid.Column="1" Placeholder="Enter amount" Keyboard="Numeric" Text="{Binding Amount}" />
+            </Grid>
 
-        <Picker Title="Select Category"
-                ItemsSource="{Binding Categories}"
-                ItemDisplayBinding="{Binding DisplayName}"
-                SelectedItem="{Binding SelectedCategory}" />
+            <Grid ColumnDefinitions="80,*" ColumnSpacing="20">
+                <Label VerticalOptions="Center" Text="Category" FontSize="16" />
+                <Picker Grid.Column="1" Title="Select"
+                    ItemsSource="{Binding Categories}"
+                    ItemDisplayBinding="{Binding DisplayName}"
+                    SelectedItem="{Binding SelectedCategory}" />
+            </Grid>
 
-        <DatePicker Date="{Binding SelectedDate}" 
+            <Grid ColumnDefinitions="80,*" ColumnSpacing="20">
+                <Label VerticalOptions="Center" Text="Date" FontSize="16" />
+                <DatePicker Grid.Column="1" Date="{Binding SelectedDate}"
                     Format="D"
                     MinimumDate="01/01/2020"
-                    MaximumDate="12/31/2030" />
+                    MaximumDate="12/31/2050" />
+            </Grid>
 
-        <Entry Placeholder="Note" Text="{Binding Note}" />
-        
-        <Button Text="Save" Command="{Binding SaveCommand}" />
-    </VerticalStackLayout>
+            <Grid ColumnDefinitions="80,*" ColumnSpacing="20">
+                <Label VerticalOptions="Center" Text="Note" FontSize="16" />
+                <Entry Grid.Column="1" Placeholder="Type note" Text="{Binding Note}" />
+            </Grid>
+            
+            <Button Text="Save" Command="{Binding SaveCommand}" />
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>

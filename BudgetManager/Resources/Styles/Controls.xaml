@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="/Resources/Styles/Colors.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <!-- Card -->
+    <Style x:Key="Card" TargetType="Border">
+        <Setter Property="BackgroundColor" Value="{StaticResource Surface}"/>
+        <Setter Property="Padding" Value="12"/>
+        <Setter Property="StrokeShape" Value="RoundRectangle 8" />
+        <Setter Property="Margin" Value="0,4,0,0" />
+    </Style>
+
+    <!-- Floating Action Button -->
+    <Style x:Key="Fab" TargetType="Button">
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="WidthRequest" Value="60" />
+        <Setter Property="HeightRequest" Value="60" />
+        <Setter Property="CornerRadius" Value="30" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="HorizontalOptions" Value="End" />
+        <Setter Property="VerticalOptions" Value="End" />
+        <Setter Property="Margin" Value="0,0,20,20" />
+        <Setter Property="Shadow" Value="{Shadow Brush=Black, Opacity=0.3, Radius=10, Offset='0,4'}" />
+    </Style>
+
+    <Style TargetType="Label">
+        <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+    </Style>
+
+    <Style TargetType="Entry">
+        <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
+        <Setter Property="PlaceholderColor" Value="{StaticResource TextSecondary}" />
+        <Setter Property="HeightRequest" Value="48" />
+    </Style>
+
+    <Style TargetType="Picker">
+        <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
+        <Setter Property="TitleColor" Value="{StaticResource TextSecondary}" />
+        <Setter Property="HeightRequest" Value="48" />
+    </Style>
+
+    <Style TargetType="DatePicker">
+        <Setter Property="TextColor" Value="{StaticResource TextSecondary}" />
+        <Setter Property="HeightRequest" Value="48" />
+    </Style>
+
+    <!-- Page base style -->
+
+    <Style TargetType="ContentPage">
+        <Setter Property="BackgroundColor" Value="{StaticResource PageBackground}"/>
+    </Style>
+
+    <Style x:Key="PageHeader" TargetType="Grid">
+        <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
+        <Setter Property="Padding" Value="16" />
+    </Style>
+
+    <Style x:Key="PageBody" TargetType="Grid">
+        <Setter Property="BackgroundColor" Value="{StaticResource PageBackground}" />
+    </Style>
+
+    <Style TargetType="Shell" ApplyToDerivedTypes="True">
+        <Setter Property="Shell.BackgroundColor" Value="{StaticResource PageBackground}" />
+        <Setter Property="Shell.UnselectedColor" Value="{StaticResource TextPrimary}" />
+        <Setter Property="Shell.NavBarHasShadow" Value="False" />
+        <Setter Property="Shell.TabBarTitleColor" Value="{StaticResource Accent}" />
+    </Style>
+
+    <Style TargetType="ProgressBar">
+        <Setter Property="HeightRequest" Value="12"/>
+        <Setter Property="ScaleY" Value="2"/>
+        <Setter Property="ProgressColor" Value="{DynamicResource Accent}"/>
+        <Setter Property="Margin" Value="0,4,0,8" />
+    </Style>
+
+</ResourceDictionary>

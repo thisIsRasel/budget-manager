@@ -33,6 +33,7 @@ namespace BudgetManager
             builder.Services.AddTransient<ReportViewModel>();
             builder.Services.AddTransient<AddBudgetViewModel>();
 
+            builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<BudgetPage>();
             builder.Services.AddTransient<CategoryPage>();
             builder.Services.AddTransient<AddCategoryPage>();
