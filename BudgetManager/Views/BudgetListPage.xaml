@@ -16,6 +16,7 @@
                         <Button Style="{StaticResource Circular}"
                             Text="&#xf104;"
                             FontFamily="fa-solid"
+                            TextColor="{StaticResource TextPrimary}"
                             Command="{Binding PreviousMonthCommand}"/>
 
                         <Label Text="{Binding MonthDisplay}"
@@ -28,6 +29,7 @@
                             Style="{StaticResource Circular}"
                             Text="&#xf105;"
                             FontFamily="fa-solid"
+                            TextColor="{StaticResource TextPrimary}"
                             Command="{Binding NextMonthCommand}"/>
                     </HorizontalStackLayout>
 
@@ -35,6 +37,7 @@
                         <Button Style="{StaticResource Circular}"
                             Text="&#xf067;"
                             FontFamily="fa-solid"
+                            TextColor="{StaticResource TextPrimary}"
                             Command="{Binding GoToAddBudgetCommand}" />
                     </HorizontalStackLayout>
                 </Grid>
@@ -60,7 +63,7 @@
                     <VerticalStackLayout Grid.Column="2" HorizontalOptions="End">
                         <Label Text="Remaining" HorizontalOptions="Center"/>
                         <Label 
-                            Text="{Binding TotalSpent, StringFormat='৳ {0:F2}'}" 
+                            Text="{Binding RemainingAmount, StringFormat='৳ {0:F2}'}" 
                             HorizontalOptions="Center" 
                             FontSize="16"
                             TextColor="#4FC3F7" />

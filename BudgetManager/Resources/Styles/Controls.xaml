@@ -15,6 +15,10 @@
         <Setter Property="Margin" Value="0,4,0,0" />
     </Style>
 
+    <Style TargetType="Button">
+        <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
+    </Style>
+
     <!-- Floating Action Button -->
     <Style x:Key="Fab" TargetType="Button">
         <Setter Property="FontSize" Value="32" />
@@ -22,7 +26,6 @@
         <Setter Property="HeightRequest" Value="60" />
         <Setter Property="CornerRadius" Value="30" />
         <Setter Property="BackgroundColor" Value="{StaticResource Accent}" />
-        <Setter Property="TextColor" Value="White" />
         <Setter Property="HorizontalOptions" Value="End" />
         <Setter Property="VerticalOptions" Value="End" />
         <Setter Property="Margin" Value="0,0,20,20" />

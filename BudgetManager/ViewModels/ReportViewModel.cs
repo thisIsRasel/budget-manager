@@ -27,7 +27,7 @@ namespace BudgetManager.ViewModels
             LoadTotals();
         }
 
-        private async void LoadTotals()
+        public async void LoadTotals()
         {
             var today = DateTime.Today;
             var monthlyEntries = await _sqlite.GetMonthlyEntriesAsync(today.Month, today.Year);

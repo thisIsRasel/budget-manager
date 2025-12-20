@@ -13,6 +13,7 @@
                 <Button Style="{StaticResource Circular}"
                     Text="&#xf104;"
                     FontFamily="fa-solid"
+                    TextColor="{StaticResource TextPrimary}"
                     Command="{Binding PreviousMonthCommand}"/>
 
                 <Label Text="{Binding MonthDisplay}"
@@ -25,6 +26,7 @@
                     Style="{StaticResource Circular}"
                     Text="&#xf105;"
                     FontFamily="fa-solid"
+                    TextColor="{StaticResource TextPrimary}"
                     Command="{Binding NextMonthCommand}"/>
             </HorizontalStackLayout>
         </Grid>

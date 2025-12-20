@@ -107,6 +107,7 @@ namespace BudgetManager.ViewModels
 
             TotalBudget = totalBudget;
             TotalSpent = totalSpent;
+            RemainingAmount = totalBudget - totalSpent;
         }
 
         private decimal _totalBudget;
@@ -128,6 +129,17 @@ namespace BudgetManager.ViewModels
             {
                 _totalSpent = value;
                 OnPropertyChanged(nameof(TotalSpent));
+            }
+        }
+
+        private decimal _remainingAmount;
+        public decimal RemainingAmount
+        {
+            get => _remainingAmount;
+            set
+            {
+                _remainingAmount = value;
+                OnPropertyChanged(nameof(RemainingAmount));
             }
         }
 
