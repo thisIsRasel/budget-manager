@@ -10,7 +10,7 @@
         <ToolbarItem Command="{Binding EditBudgetCommand}" Order="Primary" Priority="0">
             <ToolbarItem.IconImageSource>
                 <FontImageSource
-                    FontFamily="FASolid"
+                    FontFamily="fa-solid"
                     Glyph="&#xf044;"
                     Size="20" />
             </ToolbarItem.IconImageSource>
@@ -19,7 +19,7 @@
         <ToolbarItem Command="{Binding DeleteBudgetCommand}" Order="Primary" Priority="1" >
             <ToolbarItem.IconImageSource>
                 <FontImageSource
-                    FontFamily="FASolid"
+                    FontFamily="fa-solid"
                     Glyph="&#xf2ed;"
                     Size="20" />
             </ToolbarItem.IconImageSource>

@@ -21,10 +21,10 @@ namespace BudgetManager.Services
 
         public Task<int> UpdateBudgetAsync(Budget budget)
             => _db.UpdateAsync(budget);
-        
+
         public async Task DeleteBudgetAsync(Budget budget)
         {
-             await _db.DeleteAsync(budget);
+            await _db.DeleteAsync(budget);
         }
 
         public Task<Budget> GetBudgetByIdAsync(int budgetId) => _db
@@ -38,6 +38,12 @@ namespace BudgetManager.Services
             .ThenByDescending(x => x.Month)
             .ToListAsync();
 
+        public Task<List<Budget>> GetMonthlyBudgetsAsync(int month, int year)
+        {
+            return _db.Table<Budget>()
+                .Where(x => x.Month == month && x.Year == year)
+                .ToListAsync();
+        }
 
         // Categories
         public Task<List<Category>> GetCategoriesAsync() => _db
@@ -56,7 +62,7 @@ namespace BudgetManager.Services
                 .Where(x => x.Id == id)
                 .FirstOrDefaultAsync();
 
-        public Task<List<CostEntry>> GetEntriesByMonthAsync(int month, int year)
+        public Task<List<CostEntry>> GetMonthlyEntriesAsync(int month, int year)
         {
             var startDate = new DateTime(year, month, 1);
             var endDate = startDate.AddMonths(1);
@@ -64,11 +70,6 @@ namespace BudgetManager.Services
                 .Where(x => x.Date >= startDate && x.Date < endDate)
                 .ToListAsync();
         }
-
-        public Task<List<CostEntry>> GetEntriesByDateAsync(DateTime date)
-            => _db.Table<CostEntry>()
-                .Where(x => x.Date.Date == date.Date)
-                .ToListAsync();
 
         public Task<int> UpdateEntryAsync(CostEntry entry) => _db.UpdateAsync(entry);
         public Task<int> DeleteEntryAsync(CostEntry entry) => _db.DeleteAsync(entry);

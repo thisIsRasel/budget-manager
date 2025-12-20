@@ -61,9 +61,13 @@ namespace BudgetManager.ViewModels
 
         public async void LoadBudgets()
         {
-            var budgets = await _sqlite.GetAllBudgetsAsync();
-            var allEntries = await _sqlite
-                .GetEntriesByMonthAsync(_currentMonth.Month, _currentMonth.Year);
+            var budgets = await _sqlite.GetMonthlyBudgetsAsync(
+                month: _currentMonth.Month,
+                year: _currentMonth.Year);
+
+            var allEntries = await _sqlite.GetMonthlyEntriesAsync(
+                month: _currentMonth.Month,
+                year: _currentMonth.Year);
 
             decimal totalBudget = 0;
             decimal totalSpent = 0;

@@ -106,7 +106,7 @@ namespace BudgetManager.ViewModels
                     budgetCategory.Id).ToList();
 
                 // 3. Get all entries for that month/year
-                var entries = await _sqlite.GetEntriesByMonthAsync(
+                var entries = await _sqlite.GetMonthlyEntriesAsync(
                     budget.Month,
                     budget.Year);
 

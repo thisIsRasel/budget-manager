@@ -67,7 +67,8 @@ namespace BudgetManager.ViewModels
             };
             await Shell.Current.GoToAsync(nameof(EditTransactionPage), navParam);
         });
-        public ICommand SaveCommand { get; }
+
+        public ICommand SaveCommand => new Command(async () => await SaveAsync());
         public ICommand PreviousMonthCommand => new Command(() =>
         {
             CurrentMonth = CurrentMonth.AddMonths(-1);
@@ -84,7 +85,6 @@ namespace BudgetManager.ViewModels
             _sqlite = sqlite;
             CurrentMonth = DateTime.Now; // Initialize to current month
             SelectedDate = DateTime.Now; // Initialize to today
-            SaveCommand = new Command(async () => await SaveAsync());
             LoadCategories(); // Initial load for picker
             LoadCostEntries(); // Initial load for list
         }
@@ -128,7 +128,7 @@ namespace BudgetManager.ViewModels
 
         public async void LoadCostEntries()
         {
-            var entries = await _sqlite.GetEntriesByMonthAsync(
+            var entries = await _sqlite.GetMonthlyEntriesAsync(
                 CurrentMonth.Month,
                 CurrentMonth.Year);
 

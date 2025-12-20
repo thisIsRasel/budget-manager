@@ -18,7 +18,7 @@ namespace BudgetManager
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                     fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                    fonts.AddFont("FA-Solid-900.otf", "FASolid");
+                    fonts.AddFont("FA-Solid-900.otf", "fa-solid");
                 });
 
 #if DEBUG
