@@ -10,11 +10,9 @@
         <!-- 🔝 Header -->
         <Grid Style="{StaticResource PageHeader}" ColumnDefinitions="Auto,*,Auto">
             <HorizontalStackLayout>
-                <Button
-                    Text="◀"
-                    BackgroundColor="Transparent"
-                    FontSize="20"
-                    Padding="0,0,10,0"
+                <Button Style="{StaticResource Circular}"
+                    Text="&#xf104;"
+                    FontFamily="FASolid"
                     Command="{Binding PreviousMonthCommand}"/>
 
                 <Label Text="{Binding MonthDisplay}"
@@ -24,11 +22,9 @@
 
                 <!-- Next Month Button -->
                 <Button Grid.Column="2"
-                    Text="▶"
-                    BackgroundColor="Transparent"
-                    FontSize="20"
-                    Padding="0"
-                    WidthRequest="40"
+                    Style="{StaticResource Circular}"
+                    Text="&#xf105;"
+                    FontFamily="FASolid"
                     Command="{Binding NextMonthCommand}"/>
             </HorizontalStackLayout>
         </Grid>
@@ -40,15 +36,20 @@
 
                     <CollectionView ItemsSource="{Binding GroupedCostEntries}">
                         <CollectionView.EmptyView>
-                            <Label Text="No costs added this month." 
-                               HorizontalOptions="Center" 
-                               VerticalOptions="Center"/>
+                            <Grid>
+                                <Label Text="No costs added this month."
+                                   HorizontalOptions="Center"
+                                   VerticalOptions="Center"
+                                   FontSize="16"
+                                   TextColor="White" />
+                            </Grid>
                         </CollectionView.EmptyView>
+
 
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
-                                <Border Margin="12,4" StrokeShape="RoundRectangle 4" Background="#455A64">
-                                    <StackLayout Spacing="0" Margin="0,0,0,16">
+                                <Border Margin="12,8" StrokeShape="RoundRectangle 4" Background="{StaticResource Surface}">
+                                    <StackLayout Spacing="0">
                                         <!-- Date Header with Total -->
                                         
                                         <Grid ColumnDefinitions="*,Auto" 

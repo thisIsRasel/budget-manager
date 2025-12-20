@@ -6,8 +6,24 @@
              Title="{Binding Title}">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Edit" Command="{Binding EditBudgetCommand}" Order="Primary" Priority="0" IconImageSource="edit.png" />
-        <ToolbarItem Text="Delete" Command="{Binding DeleteBudgetCommand}" Order="Primary" Priority="1" IconImageSource="delete.png" />
+
+        <ToolbarItem Command="{Binding EditBudgetCommand}" Order="Primary" Priority="0">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    FontFamily="FASolid"
+                    Glyph="&#xf044;"
+                    Size="20" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+
+        <ToolbarItem Command="{Binding DeleteBudgetCommand}" Order="Primary" Priority="1" >
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    FontFamily="FASolid"
+                    Glyph="&#xf2ed;"
+                    Size="20" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
     </ContentPage.ToolbarItems>
 
     <ContentPage.Resources>

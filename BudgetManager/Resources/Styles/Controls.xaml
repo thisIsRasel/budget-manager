@@ -29,6 +29,15 @@
         <Setter Property="Shadow" Value="{Shadow Brush=Black, Opacity=0.3, Radius=10, Offset='0,4'}" />
     </Style>
 
+    <Style x:Key="Circular" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="HeightRequest" Value="40" />
+        <Setter Property="WidthRequest" Value="40" />
+        <Setter Property="CornerRadius" Value="20" />
+    </Style>
+
     <Style TargetType="Label">
         <Setter Property="TextColor" Value="{StaticResource TextPrimary}" />
     </Style>
@@ -52,13 +61,9 @@
 
     <!-- Page base style -->
 
-    <Style TargetType="ContentPage">
-        <Setter Property="BackgroundColor" Value="{StaticResource PageBackground}"/>
-    </Style>
-
     <Style x:Key="PageHeader" TargetType="Grid">
         <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
-        <Setter Property="Padding" Value="16" />
+        <Setter Property="Padding" Value="4,8" />
     </Style>
 
     <Style x:Key="PageBody" TargetType="Grid">
@@ -74,8 +79,8 @@
 
     <Style TargetType="ProgressBar">
         <Setter Property="HeightRequest" Value="12"/>
-        <Setter Property="ScaleY" Value="2"/>
-        <Setter Property="ProgressColor" Value="{DynamicResource Accent}"/>
+        <Setter Property="ScaleY" Value="2.5"/>
+        <Setter Property="ProgressColor" Value="#00c0ff"/>
         <Setter Property="Margin" Value="0,4,0,8" />
     </Style>
 

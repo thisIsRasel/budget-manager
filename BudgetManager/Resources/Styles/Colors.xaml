@@ -11,7 +11,7 @@
 
     <!-- Backgrounds -->
     <Color x:Key="PageBackground">#374046</Color>
-    <Color x:Key="Surface">#607D8B</Color>
+    <Color x:Key="Surface">#455A64</Color>
 
     <!-- Text -->
     <Color x:Key="TextPrimary">#F9FAFB</Color>     <!-- Main text -->

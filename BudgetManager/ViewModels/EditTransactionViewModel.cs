@@ -51,6 +51,7 @@ namespace BudgetManager.ViewModels
         }
 
         public ICommand SaveCommand => new Command(async () => await SaveAsync());
+        public ICommand DeleteCommand => new Command(async () => await DeleteAsync());
 
         public EditTransactionViewModel(SQLiteService sqlite)
         {
@@ -61,7 +62,7 @@ namespace BudgetManager.ViewModels
         private async void LoadEntry(int id)
         {
             await LoadCategories();
-            var transaction = await _sqlite.GetEntriesByIdAsync(id);
+            var transaction = await _sqlite.GetEntryByIdAsync(id);
             if (transaction is null) return;
 
             Amount = transaction.Amount;
@@ -123,6 +124,25 @@ namespace BudgetManager.ViewModels
 
             // Clear form and navigate back
             ClearForm();
+            await Shell.Current.GoToAsync("..");
+        }
+
+        private async Task DeleteAsync()
+        {
+            if (TransactionId <= 0) return;
+
+            bool confirm = await App.Current.MainPage.DisplayAlert("Delete transaction",
+                "Are you sure you want to delete this transaction?",
+                "Yes", "No");
+
+            if (!confirm) return;
+
+            var transaction = await _sqlite.GetEntryByIdAsync(TransactionId);
+            if (transaction != null)
+            {
+                await _sqlite.DeleteEntryAsync(transaction);
+            }
+
             await Shell.Current.GoToAsync("..");
         }
 

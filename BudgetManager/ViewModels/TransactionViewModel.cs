@@ -68,9 +68,16 @@ namespace BudgetManager.ViewModels
             await Shell.Current.GoToAsync(nameof(EditTransactionPage), navParam);
         });
         public ICommand SaveCommand { get; }
-        public ICommand DeleteCommand { get; }
-        public ICommand PreviousMonthCommand { get; }
-        public ICommand NextMonthCommand { get; }
+        public ICommand PreviousMonthCommand => new Command(() =>
+        {
+            CurrentMonth = CurrentMonth.AddMonths(-1);
+            LoadCostEntries();
+        });
+        public ICommand NextMonthCommand => new Command(() =>
+        {
+            CurrentMonth = CurrentMonth.AddMonths(1);
+            LoadCostEntries();
+        });
 
         public TransactionViewModel(SQLiteService sqlite)
         {
@@ -78,19 +85,18 @@ namespace BudgetManager.ViewModels
             CurrentMonth = DateTime.Now; // Initialize to current month
             SelectedDate = DateTime.Now; // Initialize to today
             SaveCommand = new Command(async () => await SaveAsync());
-            PreviousMonthCommand = new Command(PreviousMonth);
-            NextMonthCommand = new Command(NextMonth);
-            //DeleteCommand = new Command(async () => await DeleteAsync());
             LoadCategories(); // Initial load for picker
             LoadCostEntries(); // Initial load for list
         }
 
         public async void LoadCategories()
         {
-            var list = await _sqlite.GetCategoriesAsync();
-            Categories.Clear();
+            var categories = (await GetMappedCategoriesAsync())
+                .Select(x => x.Value)
+                .ToList();
 
-            var roots = list
+            Categories.Clear();
+            var roots = categories
                 .Where(c => c.ParentId == null || c.ParentId == 0)
                 .OrderBy(c => c.SortOrder)
                 .ToList();
@@ -100,7 +106,7 @@ namespace BudgetManager.ViewModels
                 root.Indentation = "";
                 root.Level = 0;
                 Categories.Add(root);
-                AddChildren(root, list, 1);
+                AddChildren(root, categories, 1);
             }
         }
 
@@ -122,11 +128,11 @@ namespace BudgetManager.ViewModels
 
         public async void LoadCostEntries()
         {
-            var entries = await _sqlite.GetEntriesByMonthAsync(CurrentMonth.Month, CurrentMonth.Year);
+            var entries = await _sqlite.GetEntriesByMonthAsync(
+                CurrentMonth.Month,
+                CurrentMonth.Year);
 
-            // We need categories to map names
-            var categories = await _sqlite.GetCategoriesAsync();
-            var categoryMap = categories.ToDictionary(c => c.Id, c => c.Name);
+            var mappedCategories = await GetMappedCategoriesAsync();
 
             // Group entries by date
             var grouped = entries
@@ -137,16 +143,17 @@ namespace BudgetManager.ViewModels
                     Date = g.Key,
                     TotalAmount = g.Sum(e => e.Amount),
                     Items = new ObservableCollection<DailyCostDisplayItem>(
-                        g.Select(entry => new DailyCostDisplayItem
-                        {
-                            Id = entry.Id,
-                            CategoryId = entry.CategoryId,
-                            Amount = entry.Amount,
-                            Date = entry.Date,
-                            Note = entry.Note,
-                            CategoryName = categoryMap.ContainsKey(entry.CategoryId)
-                                ? categoryMap[entry.CategoryId]
-                                : "Unknown"
+                        g.Select(entry => {
+                            mappedCategories.TryGetValue(entry.CategoryId, out var category);
+                            return new DailyCostDisplayItem
+                            {
+                                Id = entry.Id,
+                                Amount = entry.Amount,
+                                Date = entry.Date,
+                                Note = entry.Note,
+                                CategoryId = entry.CategoryId,
+                                CategoryName = category?.Name ?? "Unknown",
+                            };
                         }).OrderByDescending(x => x.Date))
                 });
 
@@ -157,40 +164,13 @@ namespace BudgetManager.ViewModels
             }
         }
 
-        private void PreviousMonth()
+        private async Task<Dictionary<int, Category>> GetMappedCategoriesAsync()
         {
-            CurrentMonth = CurrentMonth.AddMonths(-1);
-            LoadCostEntries();
+            // We need categories to map names
+            var categories = await _sqlite.GetCategoriesAsync();
+            var categoryMap = categories.ToDictionary(c => c.Id, c => c);
+            return categoryMap;
         }
-
-        private void NextMonth()
-        {
-            CurrentMonth = CurrentMonth.AddMonths(1);
-            LoadCostEntries();
-        }
-
-        //private async Task DeleteAsync()
-        //{
-        //    if (_costItemToEdit == null) return;
-
-        //    bool confirm = await Shell.Current.DisplayAlert(
-        //        "Delete Entry",
-        //        "Are you sure you want to delete this entry?",
-        //        "Delete",
-        //        "Cancel");
-
-        //    if (!confirm) return;
-
-        //    var entry = new CostEntry { Id = _costItemToEdit.Id };
-        //    await _sqlite.DeleteEntryAsync(entry);
-
-        //    // Clear form and navigate back
-        //    ClearForm();
-        //    await Shell.Current.GoToAsync("..");
-
-        //    // Refresh list
-        //    LoadCostEntries();
-        //}
 
         private async Task SaveAsync()
         {

@@ -6,73 +6,82 @@
     xmlns:vm="clr-namespace:BudgetManager.ViewModels"
     Title="Budgets">
 
-    <Grid RowDefinitions="Auto,*,Auto">
-        <Grid Style="{StaticResource PageHeader}" ColumnDefinitions="Auto,*,Auto">
-            <HorizontalStackLayout>
-                <Button
-                    Text="◀"
-                    BackgroundColor="Transparent"
-                    FontSize="20"
-                    Padding="0,0,10,0"
-                    Command="{Binding PreviousMonthCommand}"/>
+    <Grid RowDefinitions="Auto, *">
+        <Grid RowDefinitions="Auto, Auto">
+            <Grid Style="{StaticResource PageHeader}"
+                  RowDefinitions="Auto, Auto, Auto">
+                
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <HorizontalStackLayout>
+                        <Button Style="{StaticResource Circular}"
+                            Text="&#xf104;"
+                            FontFamily="FASolid"
+                            Command="{Binding PreviousMonthCommand}"/>
 
-                <Label Text="{Binding MonthDisplay}"
-                   TextColor="White"
-                   FontSize="18"
-                   VerticalOptions="Center" />
+                        <Label Text="{Binding MonthDisplay}"
+                           TextColor="White"
+                           FontSize="18"
+                           VerticalOptions="Center" />
 
-                <!-- Next Month Button -->
-                <Button
-                    Text="▶"
-                    BackgroundColor="Transparent"
-                    FontSize="20"
-                    Padding="0"
-                    Command="{Binding NextMonthCommand}"/>
-            </HorizontalStackLayout>
+                        <!-- Next Month Button -->
+                        <Button Grid.Column="2"
+                            Style="{StaticResource Circular}"
+                            Text="&#xf105;"
+                            FontFamily="FASolid"
+                            Command="{Binding NextMonthCommand}"/>
+                    </HorizontalStackLayout>
 
-            <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End">
-                <ImageButton Grid.Column="2" 
-                     Source="plus.png" 
-                     HeightRequest="24"
-                     WidthRequest="24"
-                     Margin="0,0,10,0"
-                     BackgroundColor="Transparent"
-                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryViewModel}}, Path=EditCategoryCommand}"
-                     CommandParameter="{Binding .}" />
-            </HorizontalStackLayout>
+                    <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End">
+                        <Button Style="{StaticResource Circular}"
+                            Text="&#xf067;"
+                            FontFamily="FASolid"
+                            Command="{Binding GoToAddBudgetCommand}" />
+                    </HorizontalStackLayout>
+                </Grid>
+
+                <Grid Grid.Row="1" ColumnDefinitions="*,*,*" Margin="12">
+                    <VerticalStackLayout HorizontalOptions="Start">
+                        <Label Text="Total" HorizontalOptions="Center"/>
+                        <Label
+                            Text="{Binding TotalBudget, StringFormat='৳ {0:F2}'}" 
+                            HorizontalOptions="Center" 
+                            FontSize="16" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
+                        <Label Text="Expenses" HorizontalOptions="Center"/>
+                        <Label
+                            Text="{Binding TotalSpent, StringFormat='৳ {0:F2}'}"
+                            HorizontalOptions="Center"
+                            FontSize="16"
+                            TextColor="{StaticResource Accent}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="2" HorizontalOptions="End">
+                        <Label Text="Remaining" HorizontalOptions="Center"/>
+                        <Label 
+                            Text="{Binding TotalSpent, StringFormat='৳ {0:F2}'}" 
+                            HorizontalOptions="Center" 
+                            FontSize="16"
+                            TextColor="#4FC3F7" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Grid>
+            
+            <BoxView Grid.Row="1" HeightRequest="0.1"
+                BackgroundColor="{DynamicResource Divider}"/>
         </Grid>
 
-        <Grid Grid.Row="1" Style="{StaticResource PageBody}" Padding="12">
+        <Grid Grid.Row="1" Style="{StaticResource PageBody}">
+
             <!-- Main Content Area -->
             <ScrollView>
-                <VerticalStackLayout Spacing="15">
-
-                    <!-- Summary Card -->
-                    <Border Style="{StaticResource Card}">
-                        <Grid ColumnDefinitions="*,*,*">
-                            <VerticalStackLayout>
-                                <Label Text="Total"/>
-                                <Label Text="{Binding TotalBudget, StringFormat='৳ {0:F2}'}" TextColor="#4FC3F7" FontSize="16"/>
-                            </VerticalStackLayout>
-
-                            <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
-                                <Label Text="Expenses"/>
-                                <Label Text="{Binding TotalSpent, StringFormat='৳ {0:F2}'}" TextColor="White" FontSize="16"/>
-                            </VerticalStackLayout>
-
-                            <VerticalStackLayout Grid.Column="2" HorizontalOptions="End">
-                                <Label Text="Remaining"/>
-                                <Label Text="{Binding TotalSpent, StringFormat='৳ {0:F2}'}" TextColor="White" FontSize="16"/>
-                            </VerticalStackLayout>
-                        </Grid>
-                    </Border>
-
+                <VerticalStackLayout>
                     <!-- Budget List -->
                     <CollectionView ItemsSource="{Binding Budgets}">
                         <CollectionView.EmptyView>
                             <Label Text="No budgets yet. Tap the + button to create one!" 
                                FontSize="16"
-                               TextColor="Gray"
                                HorizontalOptions="Center"
                                VerticalOptions="Center"
                                Margin="0,50,0,0" />
@@ -80,11 +89,13 @@
                         <CollectionView.ItemTemplate>
                             <DataTemplate>
                                 <VerticalStackLayout>
-                                    <Border StrokeThickness="0" Padding="0,12">
+                                    <Border StrokeThickness="0" Padding="16">
                                         <Border.GestureRecognizers>
-                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BudgetViewModel}}, Path=GoToBudgetDetailsCommand}"
-                                                          CommandParameter="{Binding .}" />
+                                            <TapGestureRecognizer
+                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BudgetViewModel}}, Path=GoToBudgetDetailsCommand}"
+                                                CommandParameter="{Binding .}" />
                                         </Border.GestureRecognizers>
+                                        
                                         <Grid ColumnDefinitions="*,Auto,*" RowDefinitions="Auto,Auto,Auto,Auto">
                                             <!-- Budget Name -->
                                             <Label Grid.Row="0" Grid.Column="0"
@@ -128,7 +139,7 @@
                                     </Border>
 
                                     <BoxView HeightRequest="0.1"
-                                    BackgroundColor="{DynamicResource Divider}"/>
+                                        BackgroundColor="{DynamicResource Divider}"/>
                                 </VerticalStackLayout>
                             </DataTemplate>
                         </CollectionView.ItemTemplate>
@@ -136,10 +147,6 @@
                 </VerticalStackLayout>
             </ScrollView>
 
-            <!-- Floating Action Button -->
-            <Button Text="+"
-                Style="{StaticResource Fab}"
-                Command="{Binding GoToAddBudgetCommand}" />
         </Grid>
     </Grid>
 </ContentPage>

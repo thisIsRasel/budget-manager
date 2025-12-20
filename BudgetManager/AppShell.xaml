@@ -8,7 +8,7 @@
     <TabBar>
         <!-- <ShellContent Title="Home" ContentTemplate="{DataTemplate views:MainPage}" /> -->
         <ShellContent Title="Daily Trans." ContentTemplate="{DataTemplate views:TransactionListPage}" />
-        <ShellContent Title="Budget" ContentTemplate="{DataTemplate views:BudgetPage}" />
+        <ShellContent Title="Budgets" ContentTemplate="{DataTemplate views:BudgetPage}" />
         <ShellContent Title="Categories" ContentTemplate="{DataTemplate views:CategoryPage}" />
         <ShellContent Title="Reports" ContentTemplate="{DataTemplate views:ReportPage}" />
     </TabBar>

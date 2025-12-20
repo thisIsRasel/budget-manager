@@ -6,10 +6,23 @@
     xmlns:vm="clr-namespace:BudgetManager.ViewModels"
     Title="Categories">
 
+    <ContentPage.ToolbarItems>
+
+        <ToolbarItem Command="{Binding GoToAddCategoryCommand}" Order="Primary" Priority="0">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    FontFamily="FASolid"
+                    Glyph="&#xf067;"
+                    Size="16" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+        
+    </ContentPage.ToolbarItems>
+
     <Grid Style="{StaticResource PageBody}">
         <!-- Main Content Area -->
         <ScrollView>
-            <VerticalStackLayout Padding="20" Spacing="15">
+            <VerticalStackLayout Padding="8">
                 <CollectionView ItemsSource="{Binding Categories}">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
@@ -19,7 +32,7 @@
                                                            DropCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryViewModel}}, Path=DropCommand}"
                                                            DropCommandParameter="{Binding .}" />
                                 </Grid.GestureRecognizers>
-                                
+
                                 <Image Grid.Column="0" 
                                        Source="drag_indicator.png" 
                                        HeightRequest="24" 
@@ -34,35 +47,28 @@
                                 </Image>
 
                                 <Label Grid.Column="1"
-                                       Text="{Binding Name}" 
-                                       FontSize="16" 
-                                       Margin="{Binding IndentationMargin}" 
-                                       VerticalOptions="Center" />
-                                <ImageButton Grid.Column="2" 
-                                             Source="edit.png" 
-                                             HeightRequest="24"
-                                             WidthRequest="24"
-                                             Margin="0,0,10,0"
-                                             BackgroundColor="Transparent"
-                                             Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryViewModel}}, Path=EditCategoryCommand}"
-                                             CommandParameter="{Binding .}" />
-                                <ImageButton Grid.Column="3" 
-                                             Source="delete.png" 
-                                             HeightRequest="24"
-                                             WidthRequest="24"
-                                             BackgroundColor="Transparent"
-                                             Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryViewModel}}, Path=DeleteCommand}"
-                                             CommandParameter="{Binding .}" />
+                                    Text="{Binding Name}" 
+                                    FontSize="16" 
+                                    Margin="{Binding IndentationMargin}" 
+                                    VerticalOptions="Center" />
+
+                                <Button Grid.Column="2" Style="{StaticResource Circular}"
+                                    Text="&#xf044;"
+                                    FontFamily="FASolid"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryViewModel}}, Path=EditCategoryCommand}"
+                                    CommandParameter="{Binding .}" />
+
+                                <Button Grid.Column="3" Style="{StaticResource Circular}"
+                                    Text="&#xf2ed;"
+                                    FontFamily="FASolid"
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryViewModel}}, Path=DeleteCommand}"
+                                    CommandParameter="{Binding .}" />
                             </Grid>
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
             </VerticalStackLayout>
         </ScrollView>
-
-        <!-- Floating Action Button -->
-        <Button Text="+"
-                Style="{StaticResource Fab}"
-                Command="{Binding GoToAddCategoryCommand}"/>
+        
     </Grid>
 </ContentPage>

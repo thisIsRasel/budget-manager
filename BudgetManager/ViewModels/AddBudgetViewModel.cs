@@ -10,8 +10,6 @@ namespace BudgetManager.ViewModels
     {
         private readonly SQLiteService _sqlite;
 
-
-
         private decimal _budgetAmount;
         public decimal BudgetAmount
         {
@@ -102,8 +100,6 @@ namespace BudgetManager.ViewModels
             }
         }
 
-
-
         private async void LoadBudget()
         {
             if (BudgetId <= 0)
@@ -117,14 +113,8 @@ namespace BudgetManager.ViewModels
             if (budget != null)
             {
                 BudgetAmount = budget.Amount;
-                // Find associated category
-                var links = await _sqlite.GetCategoriesForBudgetAsync(BudgetId);
-                if (links.Any())
-                {
-                    // Assuming one category for now as per current logic
-                    var catId = links.First().Id;
-                    SelectedCategory = Categories.FirstOrDefault(c => c.Id == catId);
-                }
+                SelectedCategory = Categories
+                    .FirstOrDefault(c => c.Id == budget.CategoryId);
             }
         }
 
@@ -148,21 +138,10 @@ namespace BudgetManager.ViewModels
                 var budget = await _sqlite.GetBudgetByIdAsync(BudgetId);
                 if (budget != null)
                 {
-                    budget.Name = SelectedCategory.Name;
+                    budget.CategoryId = SelectedCategory.Id;
                     budget.Amount = BudgetAmount;
                     // We don't update Month/Year usually, or maybe we should? Leaving as is for now.
                     await _sqlite.UpdateBudgetAsync(budget);
-                    
-                    // Update link if category changed
-                    // For simplicity, delete old links and add new
-                    await _sqlite.DeleteBudgetCategoryLinksAsync(BudgetId);
-                    
-                     var link = new BudgetCategoryLink
-                    {
-                        BudgetId = budget.Id,
-                        CategoryId = SelectedCategory.Id
-                    };
-                    await _sqlite.SaveBudgetCategoryLinkAsync(link);
                 }
             }
             else
@@ -170,21 +149,13 @@ namespace BudgetManager.ViewModels
                 // Create new
                 var budget = new Budget
                 {
-                    Name = SelectedCategory.Name,
+                    CategoryId = SelectedCategory.Id,
                     Amount = BudgetAmount,
                     Month = DateTime.Today.Month,
                     Year = DateTime.Today.Year
                 };
 
                 await _sqlite.SaveBudgetAsync(budget);
-
-                // Save category link
-                var link = new BudgetCategoryLink
-                {
-                    BudgetId = budget.Id,
-                    CategoryId = SelectedCategory.Id
-                };
-                await _sqlite.SaveBudgetCategoryLinkAsync(link);
             }
             await Shell.Current.GoToAsync("..");
         }

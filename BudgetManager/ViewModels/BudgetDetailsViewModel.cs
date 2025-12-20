@@ -46,20 +46,17 @@ namespace BudgetManager.ViewModels
             }
         }
 
-
-        public ICommand EditBudgetCommand { get; }
-        public ICommand DeleteBudgetCommand { get; }
+        public ICommand EditBudgetCommand => new Command(async () => await EditBudgetAsync());
+        public ICommand DeleteBudgetCommand => new Command(async () => await DeleteBudgetAsync());
 
         public BudgetDetailsViewModel(SQLiteService sqlite)
         {
             _sqlite = sqlite;
-            EditBudgetCommand = new Command(async () => await EditBudgetAsync());
-            DeleteBudgetCommand = new Command(async () => await DeleteBudgetAsync());
         }
 
         private async Task EditBudgetAsync()
         {
-             if (BudgetId <= 0) return;
+            if (BudgetId <= 0) return;
             // Navigate to AddBudgetPage passing the BudgetId to trigger edit mode
             var navParam = new Dictionary<string, object>
             {
@@ -70,12 +67,12 @@ namespace BudgetManager.ViewModels
 
         private async Task DeleteBudgetAsync()
         {
-            //if (BudgetId <= 0) return;
+            if (BudgetId <= 0) return;
 
-            bool confirm = await App.Current.MainPage.DisplayAlert("Delete Budget", 
-                "Are you sure you want to delete this budget? All associated cost entries will remain, but the budget link will be removed.", 
+            bool confirm = await App.Current.MainPage.DisplayAlert("Delete Budget",
+                "Are you sure you want to delete this budget? All associated cost entries will remain, but the budget link will be removed.",
                 "Yes", "No");
-                
+
             if (!confirm) return;
 
             var budget = await _sqlite.GetBudgetByIdAsync(BudgetId);
@@ -83,7 +80,7 @@ namespace BudgetManager.ViewModels
             {
                 await _sqlite.DeleteBudgetAsync(budget);
             }
-            
+
             await Shell.Current.GoToAsync("..");
         }
 
@@ -97,28 +94,35 @@ namespace BudgetManager.ViewModels
                 var budget = await _sqlite.GetBudgetByIdAsync(BudgetId);
                 if (budget == null) return;
 
-                // 2. Get linked categories
-                var linkedCategories = await _sqlite.GetCategoriesForBudgetAsync(BudgetId);
-                var linkedCategoryIds = linkedCategories.Select(c => c.Id).ToList();
+                // 2. Get all categories and find linked ones (hierarchy)
+                var categories = await _sqlite.GetCategoriesAsync();
+                var budgetCategory = categories
+                    .FirstOrDefault(c => c.Id == budget.CategoryId);
+
+                if (budgetCategory == null) return;
+
+                var budgetCategoryIds = GetBudgetCategoryIds(
+                    categories,
+                    budgetCategory.Id).ToList();
 
                 // 3. Get all entries for that month/year
-                var entries = await _sqlite.GetEntriesByMonthAsync(budget.Month, budget.Year);
+                var entries = await _sqlite.GetEntriesByMonthAsync(
+                    budget.Month,
+                    budget.Year);
 
                 // 4. Filter entries that match linked categories
                 var filteredEntries = entries
-                    .Where(e => linkedCategoryIds.Contains(e.CategoryId))
+                    .Where(e => budgetCategoryIds.Contains(e.CategoryId))
                     .OrderByDescending(e => e.Date)
                     .ToList();
 
                 // 5. Build display items
-                var allCategories = await _sqlite.GetCategoriesAsync();
-
                 Costs.Clear();
                 decimal total = 0;
 
                 foreach (var entry in filteredEntries)
                 {
-                    var cat = allCategories.FirstOrDefault(c => c.Id == entry.CategoryId);
+                    var cat = categories.FirstOrDefault(c => c.Id == entry.CategoryId);
                     Costs.Add(new DailyCostDisplayItem
                     {
                         Id = entry.Id,
@@ -132,22 +136,34 @@ namespace BudgetManager.ViewModels
                 }
 
                 TotalSpent = total;
-
-                // Set CurrentBudget for display (re-calculating progress/etc if needed or just basics)
                 CurrentBudget = new BudgetDisplayItem
                 {
                     Id = budget.Id,
-                    Name = budget.Name,
+                    Name = budgetCategory.Name,
                     Month = budget.Month,
                     Year = budget.Year,
                     Amount = budget.Amount,
-                    SpentAmount = total // This ensures it matches the detailed view exactly
+                    SpentAmount = total
                 };
-
             }
             finally
             {
             }
+        }
+
+        private IEnumerable<int> GetBudgetCategoryIds(
+            IEnumerable<Category> categories,
+            int parentId)
+        {
+            var result = new List<int> { parentId };
+            var children = categories.Where(c => c.ParentId == parentId);
+
+            foreach (var child in children)
+            {
+                result.AddRange(GetBudgetCategoryIds(categories, child.Id));
+            }
+
+            return result;
         }
     }
 }

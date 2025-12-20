@@ -9,47 +9,88 @@ namespace BudgetManager.ViewModels
     public class BudgetViewModel : BaseViewModel
     {
         private readonly SQLiteService _sqlite;
-        public ObservableCollection<BudgetDisplayItem> Budgets { get; } = new();
+        public ObservableCollection<BudgetDisplayItem> Budgets { get; } = [];
 
-        public ICommand GoToAddBudgetCommand { get; }
-        public ICommand GoToBudgetDetailsCommand { get; }
+        private DateTime _currentMonth;
+        public DateTime CurrentMonth
+        {
+            get => _currentMonth;
+            set
+            {
+                _currentMonth = value;
+                OnPropertyChanged(nameof(CurrentMonth));
+                OnPropertyChanged(nameof(MonthDisplay));
+            }
+        }
+        public string MonthDisplay => CurrentMonth.ToString("MMM yyyy");
+
+        public ICommand GoToAddBudgetCommand => new Command(async () =>
+        {
+            await Shell.Current.GoToAsync(nameof(AddBudgetPage));
+        });
+
+        public ICommand GoToBudgetDetailsCommand => new Command<BudgetDisplayItem>(async (budget) =>
+        {
+            if (budget == null) return;
+            var navParam = new Dictionary<string, object>
+            {
+                { "BudgetId", budget.Id }
+            };
+
+            await Shell.Current.GoToAsync(nameof(BudgetDetailsPage), navParam);
+        });
+
+        public ICommand PreviousMonthCommand => new Command(() =>
+        {
+            CurrentMonth = CurrentMonth.AddMonths(-1);
+            LoadBudgets();
+        });
+
+        public ICommand NextMonthCommand => new Command(() =>
+        {
+            CurrentMonth = CurrentMonth.AddMonths(1);
+            LoadBudgets();
+        });
 
         public BudgetViewModel(SQLiteService sqlite)
         {
             _sqlite = sqlite;
-            GoToAddBudgetCommand = new Command(async () => await Shell.Current.GoToAsync(nameof(AddBudgetPage)));
-            GoToBudgetDetailsCommand = new Command<BudgetDisplayItem>(async (budget) => 
-            {
-                if (budget == null) return;
-                var navParam = new Dictionary<string, object>
-                {
-                    { "BudgetId", budget.Id }
-                };
-                await Shell.Current.GoToAsync(nameof(BudgetDetailsPage), navParam);
-            });
+            _currentMonth = DateTime.Now;
             LoadBudgets();
         }
 
         public async void LoadBudgets()
         {
             var budgets = await _sqlite.GetAllBudgetsAsync();
-            var allEntries = await _sqlite.GetEntriesByMonthAsync(DateTime.Now.Month, DateTime.Now.Year);
-            
-            Budgets.Clear();
+            var allEntries = await _sqlite
+                .GetEntriesByMonthAsync(_currentMonth.Month, _currentMonth.Year);
+
             decimal totalBudget = 0;
             decimal totalSpent = 0;
+            var categories = await _sqlite.GetCategoriesAsync();
 
+            Budgets.Clear();
             foreach (var budget in budgets)
             {
+                var budgetCategory = categories
+                    .FirstOrDefault(c => c.Id == budget.CategoryId);
+
+                if (budgetCategory == null) continue;
+
+                var budgetCategoryIds = GetBudgetCategoryIds(
+                    categories,
+                    budgetCategory.Id).ToList();
+
                 // Calculate spent amount for this budget's month/year
                 var spentAmount = allEntries
-                    .Where(e => e.Date.Month == budget.Month && e.Date.Year == budget.Year)
+                    .Where(e => budgetCategoryIds.Contains(e.CategoryId)
+                        && e.Date.Month == budget.Month && e.Date.Year == budget.Year)
                     .Sum(e => e.Amount);
-                
+
                 Budgets.Add(new BudgetDisplayItem
                 {
                     Id = budget.Id,
-                    Name = budget.Name,
+                    Name = budgetCategory.Name,
                     Month = budget.Month,
                     Year = budget.Year,
                     Amount = budget.Amount,
@@ -84,6 +125,21 @@ namespace BudgetManager.ViewModels
                 _totalSpent = value;
                 OnPropertyChanged(nameof(TotalSpent));
             }
+        }
+
+        private IEnumerable<int> GetBudgetCategoryIds(
+            IEnumerable<Category> categories,
+            int parentId)
+        {
+            var result = new List<int> { parentId };
+            var children = categories.Where(c => c.ParentId == parentId);
+
+            foreach (var child in children)
+            {
+                result.AddRange(GetBudgetCategoryIds(categories, child.Id));
+            }
+
+            return result;
         }
     }
 }
