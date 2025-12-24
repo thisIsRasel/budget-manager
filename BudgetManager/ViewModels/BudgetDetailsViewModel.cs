@@ -60,6 +60,14 @@ namespace BudgetManager.ViewModels
 
         public ICommand EditBudgetCommand => new Command(async () => await EditBudgetAsync());
         public ICommand DeleteBudgetCommand => new Command(async () => await DeleteBudgetAsync());
+        public ICommand EditTransactionCommand => new Command<DailyCostDisplayItem>(async (item) =>
+        {
+            var navParam = new Dictionary<string, object>
+            {
+                { "TransactionId", item.Id }
+            };
+            await Shell.Current.GoToAsync(nameof(EditTransactionPage), navParam);
+        });
 
         public BudgetDetailsViewModel(SQLiteService sqlite)
         {

@@ -120,20 +120,20 @@
                                                 <Grid RowDefinitions="Auto, Auto" Padding="16,8">
                                                     <Grid.GestureRecognizers>
                                                         <TapGestureRecognizer 
-                                                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TransactionViewModel}}, Path=EditItemCommand}"
-                                                        CommandParameter="{Binding .}" />
+                                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TransactionViewModel}}, Path=EditItemCommand}"
+                                                            CommandParameter="{Binding .}" />
                                                     </Grid.GestureRecognizers>
 
-                                                    <Grid ColumnDefinitions="Auto, *, Auto">
-                                                        <Label Text="{Binding CategoryName}" TextColor="{StaticResource TextPrimary}"/>
+                                                    <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto">
+                                                        <Label Grid.Row="0" Grid.Column="0" Text="{Binding CategoryName}" TextColor="{StaticResource TextPrimary}"/>
+                                                        <Label Grid.Row="0" Grid.Column="1"
+                                                            Text="{Binding Amount, StringFormat='৳ {0:F2}'}" 
+                                                            TextColor="{StaticResource Accent}"
+                                                            VerticalOptions="Center"/>
 
-                                                        <Label Grid.Column="2"
-                                                        Text="{Binding Amount, StringFormat='৳ {0:F2}'}" 
-                                                        TextColor="{StaticResource Accent}"
-                                                        VerticalOptions="Center"/>
-                                                    </Grid>
-                                                    <Grid Grid.Row="1" ColumnDefinitions="*,100" IsVisible="{Binding HasNote}">
-                                                        <Label Text="{Binding Note}" TextColor="{StaticResource TextSecondary}" FontSize="12" />
+                                                        <Label Grid.Row="1" Grid.Column="0"
+                                                            IsVisible="{Binding HasNote}"
+                                                            Text="{Binding Note}" FontSize="12" TextColor="{StaticResource TextSecondary}" LineBreakMode="TailTruncation"/>
                                                     </Grid>
                                                 </Grid>
                                             </DataTemplate>

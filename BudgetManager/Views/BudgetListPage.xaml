@@ -116,13 +116,17 @@
                                         Text="{Binding Amount, StringFormat='৳ {0:F2}'}" 
                                         FontSize="18" 
                                         FontAttributes="Bold"
-                                        TextColor="{StaticResource Primary}"
+                                        TextColor="{StaticResource TextPrimary}"
                                         HorizontalOptions="End" />
 
                                     <!-- Progress Bar -->
-                                    <ProgressBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-                                        Progress="{Binding ProgressPercentage}" />
-
+                                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                                        StrokeThickness="0"
+                                        StrokeShape="RoundRectangle 4"
+                                        Margin="0,4,0,8">
+                                        <ProgressBar Progress="{Binding ProgressPercentage}" />
+                                    </Border>
+                                    
                                     <!-- Spent and Remaining Labels (Below Progress Bar) -->
                                     <Label Grid.Row="2" Grid.Column="0"
                                         Text="{Binding FormattedSpent}"

@@ -4,6 +4,7 @@
              xmlns:vm="clr-namespace:BudgetManager.ViewModels"
              x:Class="BudgetManager.Views.EditTransactionPage"
              Title="Edit Daily Cost">
+    
     <Grid Style="{StaticResource PageBody}">
         <VerticalStackLayout Padding="20" Spacing="15">
             <Grid ColumnDefinitions="80,*" ColumnSpacing="20">
@@ -29,7 +30,12 @@
 
             <Grid ColumnDefinitions="80,*" ColumnSpacing="20">
                 <Label VerticalOptions="Center" Text="Note" FontSize="16" />
-                <Entry Grid.Column="1" Placeholder="Type note" Text="{Binding Note}" />
+                <Editor Grid.Column="1" Text="{Binding Note}" 
+                    Placeholder="Type none" 
+                    PlaceholderColor="{StaticResource TextSecondary}"
+                    TextColor="{StaticResource TextPrimary}"
+                    AutoSize="TextChanges" 
+                    HeightRequest="80"/>
             </Grid>
             
             <Grid ColumnDefinitions="*,*" ColumnSpacing="10" Margin="0,20,0,0">
