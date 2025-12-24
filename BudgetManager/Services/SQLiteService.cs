@@ -13,8 +13,6 @@ namespace BudgetManager.Services
             _db = new SQLiteAsyncConnection(dbPath);
             _db.CreateTableAsync<Budget>().Wait();
             _db.CreateTableAsync<Category>().Wait();
-            _db.CreateTableAsync<Budget>().Wait();
-            _db.CreateTableAsync<Category>().Wait();
             _db.CreateTableAsync<CostEntry>().Wait();
             _db.CreateTableAsync<Note>().Wait();
         }
@@ -34,6 +32,11 @@ namespace BudgetManager.Services
         public Task<Budget> GetBudgetByIdAsync(int budgetId) => _db
             .Table<Budget>()
             .Where(x => x.Id == budgetId)
+            .FirstOrDefaultAsync();
+
+        public Task<Budget> GetBudgetByCategoryIdAsync(int categoryId) => _db
+            .Table<Budget>()
+            .Where(x => x.CategoryId == categoryId)
             .FirstOrDefaultAsync();
 
         public Task<List<Budget>> GetAllBudgetsAsync() => _db

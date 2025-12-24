@@ -54,7 +54,7 @@ namespace BudgetManager.ViewModels
             set
             {
                 _budgetDate = value;
-                _pageTitle = $"Add Budget ({value:MMM, yyyy})";
+                _pageTitle = $"Add Budget ({value:MMM yyyy})";
                 OnPropertyChanged(nameof(PageTitle));
             }
         }
@@ -62,12 +62,12 @@ namespace BudgetManager.ViewModels
         private string _pageTitle = "Add Budget";
         public string PageTitle
         {
-             get => _pageTitle;
-             set
-             {
+            get => _pageTitle;
+            set
+            {
                 _pageTitle = value;
                 OnPropertyChanged(nameof(PageTitle));
-             }
+            }
         }
         public ICommand SaveBudgetCommand => new Command(async () => await SaveBudgetAsync());
 
@@ -117,7 +117,7 @@ namespace BudgetManager.ViewModels
         {
             if (BudgetId <= 0)
             {
-                PageTitle = $"Add Budget ({BudgetDate:MMM, yyyy})";
+                PageTitle = $"Add Budget ({BudgetDate:MMM yyyy})";
                 return;
             }
 
@@ -129,7 +129,7 @@ namespace BudgetManager.ViewModels
                     .DateTimeFormat
                     .GetAbbreviatedMonthName(budget.Month);
 
-                PageTitle = $"Edit Budget ({monthName}, {budget.Year})";
+                PageTitle = $"Edit Budget ({monthName} {budget.Year})";
                 BudgetAmount = budget.Amount;
                 SelectedCategory = Categories
                     .FirstOrDefault(c => c.Id == budget.CategoryId);
@@ -150,31 +150,26 @@ namespace BudgetManager.ViewModels
                 return;
             }
 
-            if (BudgetId > 0)
+            var budget = await _sqlite.GetBudgetByCategoryIdAsync(SelectedCategory.Id);
+
+            if (budget != null)
             {
-                // Update existing
-                var budget = await _sqlite.GetBudgetByIdAsync(BudgetId);
-                if (budget != null)
-                {
-                    budget.CategoryId = SelectedCategory.Id;
-                    budget.Amount = BudgetAmount;
-                    // We don't update Month/Year usually, or maybe we should? Leaving as is for now.
-                    await _sqlite.UpdateBudgetAsync(budget);
-                }
+                budget.Amount = BudgetAmount;
+                await _sqlite.UpdateBudgetAsync(budget);
             }
             else
             {
-                // Create new
-                var budget = new Budget
+                budget = new Budget
                 {
                     CategoryId = SelectedCategory.Id,
                     Amount = BudgetAmount,
-                    Month = DateTime.Today.Month,
-                    Year = DateTime.Today.Year
+                    Month = BudgetDate.Month,
+                    Year = BudgetDate.Year
                 };
 
                 await _sqlite.SaveBudgetAsync(budget);
             }
+
             await Shell.Current.GoToAsync("..");
         }
     }

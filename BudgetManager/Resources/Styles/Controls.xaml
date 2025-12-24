@@ -66,7 +66,7 @@
 
     <Style x:Key="PageHeader" TargetType="Grid">
         <Setter Property="BackgroundColor" Value="{StaticResource Primary}"/>
-        <Setter Property="Padding" Value="4" />
+        <Setter Property="Padding" Value="4,8" />
     </Style>
 
     <Style x:Key="PageBody" TargetType="Grid">
