@@ -31,7 +31,7 @@
             <Grid ColumnDefinitions="80,*" ColumnSpacing="20">
                 <Label VerticalOptions="Center" Text="Note" FontSize="16" />
                 <Editor Grid.Column="1" Text="{Binding Note}" 
-                    Placeholder="Type none" 
+                    Placeholder="Type note" 
                     PlaceholderColor="{StaticResource TextSecondary}"
                     TextColor="{StaticResource TextPrimary}"
                     AutoSize="TextChanges" 

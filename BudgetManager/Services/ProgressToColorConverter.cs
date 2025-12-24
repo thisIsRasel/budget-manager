@@ -14,7 +14,7 @@ namespace BudgetManager.Services
                 }
                 else if (progress >= 0.75)
                 {
-                    return Color.FromArgb("#ffa8a8");
+                    return Color.FromArgb("#ff5d5d");
                 }
             }
 
