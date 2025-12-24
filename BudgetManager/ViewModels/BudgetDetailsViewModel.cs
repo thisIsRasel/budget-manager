@@ -2,6 +2,7 @@ using BudgetManager.Models;
 using BudgetManager.Services;
 using BudgetManager.Views;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows.Input;
 
 namespace BudgetManager.ViewModels
@@ -33,8 +34,6 @@ namespace BudgetManager.ViewModels
             }
         }
 
-        public ObservableCollection<DailyCostDisplayItem> Costs { get; } = new();
-
         private decimal _totalSpent;
         public decimal TotalSpent
         {
@@ -45,6 +44,19 @@ namespace BudgetManager.ViewModels
                 OnPropertyChanged(nameof(TotalSpent));
             }
         }
+
+        private string _title;
+        public string Title
+        {
+            get => _title;
+            set
+            {
+                _title = value;
+                OnPropertyChanged(nameof(Title));
+            }
+        }
+
+        public ObservableCollection<DailyCostDisplayItem> Costs { get; } = new();
 
         public ICommand EditBudgetCommand => new Command(async () => await EditBudgetAsync());
         public ICommand DeleteBudgetCommand => new Command(async () => await DeleteBudgetAsync());
@@ -135,6 +147,12 @@ namespace BudgetManager.ViewModels
                     total += entry.Amount;
                 }
 
+                var monthName = CultureInfo
+                    .GetCultureInfo("en-US")
+                    .DateTimeFormat
+                    .GetAbbreviatedMonthName(budget.Month);
+
+                Title = $"Budget of {monthName}, {budget.Year}";
                 TotalSpent = total;
                 CurrentBudget = new BudgetDisplayItem
                 {

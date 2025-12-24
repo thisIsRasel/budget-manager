@@ -72,13 +72,46 @@ namespace BudgetManager.ViewModels
         public ICommand PreviousMonthCommand => new Command(() =>
         {
             CurrentMonth = CurrentMonth.AddMonths(-1);
-            LoadCostEntries();
+            LoadBudgetsAndCostEntries();
         });
         public ICommand NextMonthCommand => new Command(() =>
         {
             CurrentMonth = CurrentMonth.AddMonths(1);
-            LoadCostEntries();
+            LoadBudgetsAndCostEntries();
         });
+
+        private decimal _totalBudget;
+        public decimal TotalBudget
+        {
+            get => _totalBudget;
+            set
+            {
+                _totalBudget = value;
+                OnPropertyChanged(nameof(TotalBudget));
+            }
+        }
+
+        private decimal _totalSpent;
+        public decimal TotalSpent
+        {
+            get => _totalSpent;
+            set
+            {
+                _totalSpent = value;
+                OnPropertyChanged(nameof(TotalSpent));
+            }
+        }
+
+        private decimal _remainingAmount;
+        public decimal RemainingAmount
+        {
+            get => _remainingAmount;
+            set
+            {
+                _remainingAmount = value;
+                OnPropertyChanged(nameof(RemainingAmount));
+            }
+        }
 
         public TransactionViewModel(SQLiteService sqlite)
         {
@@ -86,7 +119,7 @@ namespace BudgetManager.ViewModels
             CurrentMonth = DateTime.Now; // Initialize to current month
             SelectedDate = DateTime.Now; // Initialize to today
             LoadCategories(); // Initial load for picker
-            LoadCostEntries(); // Initial load for list
+            LoadBudgetsAndCostEntries(); // Initial load for list
         }
 
         public async void LoadCategories()
@@ -126,11 +159,11 @@ namespace BudgetManager.ViewModels
             }
         }
 
-        public async void LoadCostEntries()
+        public async void LoadBudgetsAndCostEntries()
         {
             var entries = await _sqlite.GetMonthlyEntriesAsync(
-                CurrentMonth.Month,
-                CurrentMonth.Year);
+                month: CurrentMonth.Month,
+                year: CurrentMonth.Year);
 
             var mappedCategories = await GetMappedCategoriesAsync();
 
@@ -158,10 +191,26 @@ namespace BudgetManager.ViewModels
                 });
 
             GroupedCostEntries.Clear();
+            decimal totalSpent = 0;
             foreach (var group in grouped)
             {
                 GroupedCostEntries.Add(group);
+                totalSpent += group.TotalAmount;
             }
+
+            var budgtes = await _sqlite.GetMonthlyBudgetsAsync(
+                month: CurrentMonth.Month,
+                year: CurrentMonth.Year);
+
+            decimal totalBudget = 0;
+            foreach (var item in budgtes)
+            {
+                totalBudget += item.Amount;
+            }
+
+            TotalSpent = totalSpent;
+            TotalBudget = totalBudget;
+            RemainingAmount = totalBudget - totalSpent;
         }
 
         private async Task<Dictionary<int, Category>> GetMappedCategoriesAsync()
@@ -192,7 +241,7 @@ namespace BudgetManager.ViewModels
             await Shell.Current.GoToAsync("..");
 
             // Refresh list
-            LoadCostEntries();
+            LoadBudgetsAndCostEntries();
         }
 
         private void ClearForm()

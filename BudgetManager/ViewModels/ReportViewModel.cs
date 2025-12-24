@@ -30,7 +30,9 @@ namespace BudgetManager.ViewModels
         public async void LoadTotals()
         {
             var today = DateTime.Today;
-            var monthlyEntries = await _sqlite.GetMonthlyEntriesAsync(today.Month, today.Year);
+            var monthlyEntries = await _sqlite.GetMonthlyEntriesAsync(
+                today.Month,
+                today.Year);
             MonthlyTotal = monthlyEntries.Sum(e => e.Amount);
 
             // Chart Logic
@@ -78,6 +80,8 @@ namespace BudgetManager.ViewModels
                 Entries = entries,
                 LabelTextSize = 30,
                 BackgroundColor = SKColor.Parse("#374046"),
+                LabelMode = LabelMode.LeftAndRight,
+                GraphPosition = GraphPosition.Center,
             };
 
             OnPropertyChanged(nameof(MonthlyTotal));

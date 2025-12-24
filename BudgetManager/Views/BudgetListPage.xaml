@@ -9,7 +9,7 @@
     <Grid RowDefinitions="Auto, *">
         <Grid RowDefinitions="Auto, Auto">
             <Grid Style="{StaticResource PageHeader}"
-                  RowDefinitions="Auto, Auto, Auto">
+                  RowDefinitions="Auto,Auto">
                 
                 <Grid ColumnDefinitions="Auto,*,Auto">
                     <HorizontalStackLayout>
@@ -44,7 +44,7 @@
 
                 <Grid Grid.Row="1" ColumnDefinitions="*,*,*" Margin="12">
                     <VerticalStackLayout HorizontalOptions="Start">
-                        <Label Text="Total" HorizontalOptions="Center"/>
+                        <Label Text="Total Budget" HorizontalOptions="Center"/>
                         <Label
                             Text="{Binding TotalBudget, StringFormat='৳ {0:F2}'}" 
                             HorizontalOptions="Center" 
@@ -84,64 +84,62 @@
                         VerticalOptions="Center"
                         HorizontalTextAlignment="Center" />
                 </CollectionView.EmptyView>
-                
+
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ScrollView>
-                            <VerticalStackLayout>
-                                <Border StrokeThickness="0" Padding="16">
-                                    <Border.GestureRecognizers>
-                                        <TapGestureRecognizer
-                                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BudgetViewModel}}, Path=GoToBudgetDetailsCommand}"
-                                                CommandParameter="{Binding .}" />
-                                    </Border.GestureRecognizers>
+                        <VerticalStackLayout>
+                            <Border StrokeThickness="0" Padding="16">
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer
+                                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BudgetViewModel}}, Path=GoToBudgetDetailsCommand}"
+                                            CommandParameter="{Binding .}" />
+                                </Border.GestureRecognizers>
 
-                                    <Grid ColumnDefinitions="*,Auto,*" RowDefinitions="Auto,Auto,Auto,Auto">
-                                        <!-- Budget Name -->
-                                        <Label Grid.Row="0" Grid.Column="0"
-                                               Text="{Binding Name}" 
-                                               FontSize="18" 
-                                               FontAttributes="Bold" />
+                                <Grid ColumnDefinitions="*,Auto,*" RowDefinitions="Auto,Auto,Auto,Auto">
+                                    <!-- Budget Name -->
+                                    <Label Grid.Row="0" Grid.Column="0"
+                                        Text="{Binding Name}" 
+                                        FontSize="18" 
+                                        FontAttributes="Bold" />
 
-                                        <!-- Budget Amount -->
-                                        <Label Grid.Row="0" Grid.Column="2"
-                                               Text="{Binding Amount, StringFormat='৳ {0:F2}'}" 
-                                               FontSize="18" 
-                                               FontAttributes="Bold"
-                                               TextColor="{StaticResource Primary}"
-                                               HorizontalOptions="End" />
+                                    <!-- Budget Amount -->
+                                    <Label Grid.Row="0" Grid.Column="2"
+                                        Text="{Binding Amount, StringFormat='৳ {0:F2}'}" 
+                                        FontSize="18" 
+                                        FontAttributes="Bold"
+                                        TextColor="{StaticResource Primary}"
+                                        HorizontalOptions="End" />
 
-                                        <!-- Progress Bar -->
-                                        <ProgressBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-                                                 Progress="{Binding ProgressPercentage}" />
+                                    <!-- Progress Bar -->
+                                    <ProgressBar Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
+                                        Progress="{Binding ProgressPercentage}" />
 
-                                        <!-- Spent and Remaining Labels (Below Progress Bar) -->
-                                        <Label Grid.Row="2" Grid.Column="0"
-                                               Text="{Binding FormattedSpent}"
-                                               FontSize="12"
-                                               TextColor="{StaticResource TextSecondary}"
-                                               HorizontalOptions="Start"/>
+                                    <!-- Spent and Remaining Labels (Below Progress Bar) -->
+                                    <Label Grid.Row="2" Grid.Column="0"
+                                        Text="{Binding FormattedSpent}"
+                                        FontSize="12"
+                                        TextColor="{StaticResource TextSecondary}"
+                                        HorizontalOptions="Start"/>
 
-                                        <Label Grid.Row="2" Grid.Column="1"
-                                               Text="{Binding FormattedPercentage}"
-                                               FontSize="12"
-                                               FontAttributes="Bold"
-                                               TextColor="{StaticResource TextSecondary}"
-                                               HorizontalOptions="Center"
-                                               Margin="0,0,0,2" />
+                                    <Label Grid.Row="2" Grid.Column="1"
+                                        Text="{Binding FormattedPercentage}"
+                                        FontSize="12"
+                                        FontAttributes="Bold"
+                                        TextColor="{StaticResource TextSecondary}"
+                                        HorizontalOptions="Center"
+                                        Margin="0,0,0,2" />
 
-                                        <Label Grid.Row="2" Grid.Column="2"
-                                               Text="{Binding FormattedRemaining}"
-                                               FontSize="12"
-                                               TextColor="{StaticResource TextSecondary}"
-                                               HorizontalOptions="End" />
-                                    </Grid>
-                                </Border>
+                                    <Label Grid.Row="2" Grid.Column="2"
+                                        Text="{Binding FormattedRemaining}"
+                                        FontSize="12"
+                                        TextColor="{StaticResource TextSecondary}"
+                                        HorizontalOptions="End" />
+                                </Grid>
+                            </Border>
 
-                                <BoxView HeightRequest="0.1"
-                                        BackgroundColor="{DynamicResource Divider}"/>
-                            </VerticalStackLayout>
-                        </ScrollView>
+                            <BoxView HeightRequest="0.1"
+                                BackgroundColor="{DynamicResource Divider}"/>
+                        </VerticalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

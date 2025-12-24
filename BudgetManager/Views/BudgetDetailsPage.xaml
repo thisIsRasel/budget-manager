@@ -6,7 +6,6 @@
              Title="{Binding Title}">
 
     <ContentPage.ToolbarItems>
-
         <ToolbarItem Command="{Binding EditBudgetCommand}" Order="Primary" Priority="0">
             <ToolbarItem.IconImageSource>
                 <FontImageSource

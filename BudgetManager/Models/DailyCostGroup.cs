@@ -11,6 +11,6 @@ namespace BudgetManager.Models
         public string DayNumber => Date.Day.ToString();
         public string DayOfWeek => Date.ToString("ddd");
         public string YearMonth => Date.ToString("yyyy.MM");
-        public string DisplayDate => Date.ToString("dd MMMM, ddd");
+        public string DisplayDate => Date.ToString("MMMM, ddd");
     }
 }

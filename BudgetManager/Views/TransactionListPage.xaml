@@ -5,34 +5,68 @@
     x:Class="BudgetManager.Views.TransactionListPage"
     xmlns:vm="clr-namespace:BudgetManager.ViewModels">
 
-    <Grid RowDefinitions="Auto,*,Auto">
+    <Grid RowDefinitions="Auto,*">
 
-        <!-- 🔝 Header -->
-        <Grid Style="{StaticResource PageHeader}" ColumnDefinitions="Auto,*,Auto">
-            <HorizontalStackLayout>
-                <Button Style="{StaticResource Circular}"
-                    Text="&#xf104;"
-                    FontFamily="fa-solid"
-                    TextColor="{StaticResource TextPrimary}"
-                    Command="{Binding PreviousMonthCommand}"/>
+        <Grid RowDefinitions="Auto, Auto">
+            <Grid Style="{StaticResource PageHeader}"
+                RowDefinitions="Auto, Auto, Auto">
 
-                <Label Text="{Binding MonthDisplay}"
-                   TextColor="White"
-                   FontSize="18"
-                   VerticalOptions="Center" />
+                <Grid ColumnDefinitions="Auto">
+                    <HorizontalStackLayout>
+                        <Button Style="{StaticResource Circular}"
+                            Text="&#xf104;"
+                            FontFamily="fa-solid"
+                            TextColor="{StaticResource TextPrimary}"
+                            Command="{Binding PreviousMonthCommand}"/>
 
-                <!-- Next Month Button -->
-                <Button Grid.Column="2"
-                    Style="{StaticResource Circular}"
-                    Text="&#xf105;"
-                    FontFamily="fa-solid"
-                    TextColor="{StaticResource TextPrimary}"
-                    Command="{Binding NextMonthCommand}"/>
-            </HorizontalStackLayout>
+                        <Label Text="{Binding MonthDisplay}"
+                           TextColor="{StaticResource TextPrimary}"
+                           FontSize="18"
+                           VerticalOptions="Center" />
+
+                        <Button Grid.Column="2"
+                            Style="{StaticResource Circular}"
+                            Text="&#xf105;"
+                            FontFamily="fa-solid"
+                            TextColor="{StaticResource TextPrimary}"
+                            Command="{Binding NextMonthCommand}"/>
+                    </HorizontalStackLayout>
+                </Grid>
+
+                <Grid Grid.Row="1" ColumnDefinitions="*,*,*" Margin="12">
+                    <VerticalStackLayout HorizontalOptions="Start">
+                        <Label Text="Total Budget" HorizontalOptions="Center"/>
+                        <Label
+                            Text="{Binding TotalBudget, StringFormat='৳ {0:F2}'}" 
+                            HorizontalOptions="Center" 
+                            FontSize="16" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="1" HorizontalOptions="Center">
+                        <Label Text="Expenses" HorizontalOptions="Center"/>
+                        <Label
+                            Text="{Binding TotalSpent, StringFormat='৳ {0:F2}'}"
+                            HorizontalOptions="Center"
+                            FontSize="16"
+                            TextColor="{StaticResource Accent}" />
+                    </VerticalStackLayout>
+
+                    <VerticalStackLayout Grid.Column="2" HorizontalOptions="End">
+                        <Label Text="Remaining" HorizontalOptions="Center"/>
+                        <Label 
+                            Text="{Binding RemainingAmount, StringFormat='৳ {0:F2}'}" 
+                            HorizontalOptions="Center" 
+                            FontSize="16"
+                            TextColor="#4FC3F7" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Grid>
+
+            <BoxView Grid.Row="1" HeightRequest="0.1"
+                BackgroundColor="{DynamicResource Divider}"/>
         </Grid>
-
+        
         <Grid Grid.Row="1" Style="{StaticResource PageBody}">
-            <!-- Main Content Area -->
 
             <CollectionView ItemsSource="{Binding GroupedCostEntries}">
                 <CollectionView.EmptyView>
@@ -47,21 +81,27 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <ScrollView>
-                            <Border Margin="12,8" StrokeShape="RoundRectangle 4" Background="{StaticResource Surface}">
+                        <VerticalStackLayout>
+                            <Border Margin="12,8,12,0" StrokeShape="RoundRectangle 4" Background="{StaticResource Surface}">
                                 <StackLayout Spacing="0">
                                     <!-- Date Header with Total -->
 
-                                    <Grid ColumnDefinitions="*,Auto" 
+                                    <Grid ColumnDefinitions="Auto,*,Auto" 
                                         Padding="16,8">
                                         <Label Grid.Column="0" 
-                                            Text="{Binding DisplayDate}" 
-                                            FontSize="14"
+                                            Text="{Binding DayNumber}" 
+                                            FontSize="20"
                                             TextColor="{StaticResource TextPrimary}"
                                             FontAttributes="Bold"
                                             VerticalOptions="Center" />
-
+                                        
                                         <Label Grid.Column="1" 
+                                            Text="{Binding DisplayDate}" 
+                                            FontSize="14"
+                                            TextColor="{StaticResource TextPrimary}"
+                                            VerticalOptions="Center" Margin="4,0" />
+
+                                        <Label Grid.Column="2" 
                                             Text="{Binding TotalAmount, StringFormat='৳ {0:F2}'}" 
                                             FontSize="16" 
                                             FontAttributes="Bold"
@@ -77,29 +117,31 @@
                                     <CollectionView ItemsSource="{Binding Items}">
                                         <CollectionView.ItemTemplate>
                                             <DataTemplate>
-                                                <Grid ColumnDefinitions="Auto,*,Auto" Padding="16,8">
+                                                <Grid RowDefinitions="Auto, Auto" Padding="16,8">
                                                     <Grid.GestureRecognizers>
                                                         <TapGestureRecognizer 
                                                         Command="{Binding Source={RelativeSource AncestorType={x:Type vm:TransactionViewModel}}, Path=EditItemCommand}"
                                                         CommandParameter="{Binding .}" />
                                                     </Grid.GestureRecognizers>
 
-                                                    <VerticalStackLayout>
+                                                    <Grid ColumnDefinitions="Auto, *, Auto">
                                                         <Label Text="{Binding CategoryName}" TextColor="{StaticResource TextPrimary}"/>
-                                                    </VerticalStackLayout>
 
-                                                    <Label Grid.Column="2"
-                                                    Text="{Binding Amount, StringFormat='৳ {0:F2}'}" 
-                                                    TextColor="{StaticResource Accent}"
-                                                    VerticalOptions="Center"/>
+                                                        <Label Grid.Column="2"
+                                                        Text="{Binding Amount, StringFormat='৳ {0:F2}'}" 
+                                                        TextColor="{StaticResource Accent}"
+                                                        VerticalOptions="Center"/>
+                                                    </Grid>
+                                                    <Grid Grid.Row="1" ColumnDefinitions="*,100" IsVisible="{Binding HasNote}">
+                                                        <Label Text="{Binding Note}" TextColor="{StaticResource TextSecondary}" FontSize="12" />
+                                                    </Grid>
                                                 </Grid>
                                             </DataTemplate>
                                         </CollectionView.ItemTemplate>
                                     </CollectionView>
-
                                 </StackLayout>
                             </Border>
-                        </ScrollView>
+                        </VerticalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>

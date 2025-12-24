@@ -34,50 +34,48 @@
             
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <ScrollView>
-                        <Grid ColumnDefinitions="Auto, *, Auto, Auto" Padding="0,5">
-                            <Grid.GestureRecognizers>
-                                <DropGestureRecognizer
-                                    AllowDrop="True"
-                                    DropCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryViewModel}}, Path=DropCommand}"
-                                    DropCommandParameter="{Binding .}" />
-                            </Grid.GestureRecognizers>
+                    <Grid ColumnDefinitions="Auto, *, Auto, Auto" Padding="0,5">
+                        <Grid.GestureRecognizers>
+                            <DropGestureRecognizer
+                                AllowDrop="True"
+                                DropCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryViewModel}}, Path=DropCommand}"
+                                DropCommandParameter="{Binding .}" />
+                        </Grid.GestureRecognizers>
 
-                            <Image Grid.Column="0" 
-                                    Source="drag_indicator.png" 
-                                    HeightRequest="24" 
-                                    WidthRequest="24"
-                                    Margin="0,0,10,0"
-                                    VerticalOptions="Center">
-                                <Image.GestureRecognizers>
-                                    <DragGestureRecognizer
-                                        CanDrag="True"
-                                        DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryViewModel}}, Path=DragStartingCommand}"
-                                        DragStartingCommandParameter="{Binding .}" />
-                                </Image.GestureRecognizers>
-                            </Image>
+                        <Image Grid.Column="0" 
+                                Source="drag_indicator.png" 
+                                HeightRequest="24" 
+                                WidthRequest="24"
+                                Margin="0,0,10,0"
+                                VerticalOptions="Center">
+                            <Image.GestureRecognizers>
+                                <DragGestureRecognizer
+                                    CanDrag="True"
+                                    DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryViewModel}}, Path=DragStartingCommand}"
+                                    DragStartingCommandParameter="{Binding .}" />
+                            </Image.GestureRecognizers>
+                        </Image>
 
-                            <Label Grid.Column="1"
-                                Text="{Binding Name}" 
-                                FontSize="16" 
-                                Margin="{Binding IndentationMargin}" 
-                                VerticalOptions="Center" />
+                        <Label Grid.Column="1"
+                            Text="{Binding Name}" 
+                            FontSize="16" 
+                            Margin="{Binding IndentationMargin}" 
+                            VerticalOptions="Center" />
 
-                            <Button Grid.Column="2" Style="{StaticResource Circular}"
-                                Text="&#xf044;"
-                                FontFamily="fa-solid"
-                                TextColor="{StaticResource TextPrimary}"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryViewModel}}, Path=EditCategoryCommand}"
-                                CommandParameter="{Binding .}" />
+                        <Button Grid.Column="2" Style="{StaticResource Circular}"
+                            Text="&#xf044;"
+                            FontFamily="fa-solid"
+                            TextColor="{StaticResource TextPrimary}"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryViewModel}}, Path=EditCategoryCommand}"
+                            CommandParameter="{Binding .}" />
 
-                            <Button Grid.Column="3" Style="{StaticResource Circular}"
-                                Text="&#xf2ed;"
-                                FontFamily="fa-solid"
-                                TextColor="{StaticResource TextPrimary}"
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryViewModel}}, Path=DeleteCommand}"
-                                CommandParameter="{Binding .}" />
-                        </Grid>
-                    </ScrollView>
+                        <Button Grid.Column="3" Style="{StaticResource Circular}"
+                            Text="&#xf2ed;"
+                            FontFamily="fa-solid"
+                            TextColor="{StaticResource TextPrimary}"
+                            Command="{Binding Source={RelativeSource AncestorType={x:Type vm:CategoryViewModel}}, Path=DeleteCommand}"
+                            CommandParameter="{Binding .}" />
+                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>

@@ -16,7 +16,7 @@ public partial class TransactionListPage : ContentPage
         Shell.SetNavBarIsVisible(this, false);
         if (BindingContext is TransactionViewModel vm)
         {
-            vm.LoadCostEntries();
+            vm.LoadBudgetsAndCostEntries();
         }
     }
 }
