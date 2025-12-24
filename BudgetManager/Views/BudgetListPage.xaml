@@ -5,7 +5,14 @@
     x:Class="BudgetManager.Views.BudgetPage"
     xmlns:vm="clr-namespace:BudgetManager.ViewModels"
     xmlns:micro="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
+    xmlns:local="clr-namespace:BudgetManager.Services"
     Title="Budgets">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <local:ProgressToColorConverter x:Key="ProgressColorConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
 
     <Grid RowDefinitions="Auto, *">
         <Grid RowDefinitions="Auto, Auto">
@@ -124,28 +131,29 @@
                                         StrokeThickness="0"
                                         StrokeShape="RoundRectangle 4"
                                         Margin="0,4,0,8">
-                                        <ProgressBar Progress="{Binding ProgressPercentage}" />
+                                        <ProgressBar Progress="{Binding ProgressPercentage}"
+                                                     ProgressColor="{Binding ProgressPercentage, Converter={StaticResource ProgressColorConverter}}"/>
                                     </Border>
                                     
                                     <!-- Spent and Remaining Labels (Below Progress Bar) -->
                                     <Label Grid.Row="2" Grid.Column="0"
                                         Text="{Binding FormattedSpent}"
                                         FontSize="12"
-                                        TextColor="{StaticResource TextSecondary}"
+                                        TextColor="{StaticResource Accent}"
                                         HorizontalOptions="Start"/>
 
-                                    <Label Grid.Row="2" Grid.Column="1"
+                                    <Label Grid.Row="1" Grid.Column="1"
                                         Text="{Binding FormattedPercentage}"
                                         FontSize="12"
                                         FontAttributes="Bold"
-                                        TextColor="{StaticResource TextSecondary}"
+                                        TextColor="{StaticResource TextPrimary}"
                                         HorizontalOptions="Center"
-                                        Margin="0,0,0,2" />
+                                        Margin="0,6" />
 
                                     <Label Grid.Row="2" Grid.Column="2"
                                         Text="{Binding FormattedRemaining}"
                                         FontSize="12"
-                                        TextColor="{StaticResource TextSecondary}"
+                                        TextColor="#4FC3F7"
                                         HorizontalOptions="End" />
                                 </Grid>
                             </Border>
