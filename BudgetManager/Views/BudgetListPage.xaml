@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="BudgetManager.Views.BudgetPage"
     xmlns:vm="clr-namespace:BudgetManager.ViewModels"
+    xmlns:micro="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
     Title="Budgets">
 
     <Grid RowDefinitions="Auto, *">
@@ -75,8 +76,16 @@
                 BackgroundColor="{DynamicResource Divider}"/>
         </Grid>
 
-        <Grid Grid.Row="1" Style="{StaticResource PageBody}">
-            <CollectionView ItemsSource="{Binding Budgets}">
+        <Grid Grid.Row="1" Style="{StaticResource PageBody}" RowDefinitions="Auto, *">
+            <Grid Grid.Row="0" IsVisible="{Binding IsChartVisible}">
+                <VerticalStackLayout Padding="20" Spacing="15">
+                    <micro:ChartView
+                        Chart="{Binding BudgetChart}"
+                        HeightRequest="120"
+                        BackgroundColor="{StaticResource PageBackground}" />
+                </VerticalStackLayout>
+            </Grid>
+            <CollectionView Grid.Row="1" ItemsSource="{Binding Budgets}" MinimumHeightRequest="1000">
                 <CollectionView.EmptyView>
                     <Label Text="No budgets added this month yet. Tap the + button to create one!" 
                         FontSize="16"
