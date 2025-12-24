@@ -76,7 +76,11 @@ namespace BudgetManager.ViewModels
 
         public ICommand GoToAddBudgetCommand => new Command(async () =>
         {
-            await Shell.Current.GoToAsync(nameof(AddBudgetPage));
+            var navParam = new Dictionary<string, object>
+            {
+                { "BudgetDate", CurrentMonth }
+            };
+            await Shell.Current.GoToAsync(nameof(AddBudgetPage), navParam);
         });
 
         public ICommand GoToBudgetDetailsCommand => new Command<BudgetDisplayItem>(async (budget) =>

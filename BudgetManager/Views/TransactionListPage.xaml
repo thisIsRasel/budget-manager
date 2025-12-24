@@ -82,7 +82,7 @@
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <VerticalStackLayout>
-                            <Border Margin="12,8,12,0" StrokeShape="RoundRectangle 4" Background="{StaticResource Surface}">
+                            <Border Margin="12,12,12,0" StrokeShape="RoundRectangle 4" Background="{StaticResource Surface}">
                                 <StackLayout Spacing="0">
                                     <!-- Date Header with Total -->
 

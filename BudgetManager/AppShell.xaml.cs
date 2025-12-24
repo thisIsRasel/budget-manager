@@ -12,6 +12,8 @@
             Routing.RegisterRoute(nameof(Views.EditTransactionPage), typeof(Views.EditTransactionPage));
             Routing.RegisterRoute(nameof(Views.AddBudgetPage), typeof(Views.AddBudgetPage));
             Routing.RegisterRoute(nameof(Views.BudgetDetailsPage), typeof(Views.BudgetDetailsPage));
+            Routing.RegisterRoute(nameof(Views.NotesPage), typeof(Views.NotesPage));
+            Routing.RegisterRoute(nameof(Views.NoteEntryPage), typeof(Views.NoteEntryPage));
         }
     }
 }

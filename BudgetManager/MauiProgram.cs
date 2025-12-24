@@ -44,7 +44,11 @@ namespace BudgetManager
             builder.Services.AddTransient<ReportPage>();
             builder.Services.AddTransient<AddBudgetPage>();
             builder.Services.AddTransient<BudgetDetailsPage>();
+            builder.Services.AddTransient<NotesPage>();
+            builder.Services.AddTransient<NoteEntryPage>();
             builder.Services.AddTransient<BudgetDetailsViewModel>();
+            builder.Services.AddTransient<NotesViewModel>();
+            builder.Services.AddTransient<NoteEntryViewModel>();
 
             return builder.Build();
         }

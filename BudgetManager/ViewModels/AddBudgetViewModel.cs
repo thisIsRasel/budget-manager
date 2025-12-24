@@ -1,11 +1,13 @@
 using BudgetManager.Models;
 using BudgetManager.Services;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Windows.Input;
 
 namespace BudgetManager.ViewModels
 {
     [QueryProperty(nameof(BudgetId), "BudgetId")]
+    [QueryProperty(nameof(BudgetDate), "BudgetDate")]
     public class AddBudgetViewModel : BaseViewModel
     {
         private readonly SQLiteService _sqlite;
@@ -45,22 +47,33 @@ namespace BudgetManager.ViewModels
             }
         }
 
+        private DateTime _budgetDate;
+        public DateTime BudgetDate
+        {
+            get => _budgetDate;
+            set
+            {
+                _budgetDate = value;
+                _pageTitle = $"Add Budget ({value:MMM, yyyy})";
+                OnPropertyChanged(nameof(PageTitle));
+            }
+        }
+
         private string _pageTitle = "Add Budget";
         public string PageTitle
         {
              get => _pageTitle;
              set
              {
-                 _pageTitle = value;
-                 OnPropertyChanged(nameof(PageTitle));
+                _pageTitle = value;
+                OnPropertyChanged(nameof(PageTitle));
              }
         }
-        public ICommand SaveBudgetCommand { get; }
+        public ICommand SaveBudgetCommand => new Command(async () => await SaveBudgetAsync());
 
         public AddBudgetViewModel(SQLiteService sqlite)
         {
             _sqlite = sqlite;
-            SaveBudgetCommand = new Command(async () => await SaveBudgetAsync());
             LoadCategories();
         }
 
@@ -104,14 +117,19 @@ namespace BudgetManager.ViewModels
         {
             if (BudgetId <= 0)
             {
-                PageTitle = "Add Budget";
+                PageTitle = $"Add Budget ({BudgetDate:MMM, yyyy})";
                 return;
             }
 
-            PageTitle = "Edit Budget";
             var budget = await _sqlite.GetBudgetByIdAsync(BudgetId);
             if (budget != null)
             {
+                var monthName = CultureInfo
+                    .GetCultureInfo("en-US")
+                    .DateTimeFormat
+                    .GetAbbreviatedMonthName(budget.Month);
+
+                PageTitle = $"Edit Budget ({monthName}, {budget.Year})";
                 BudgetAmount = budget.Amount;
                 SelectedCategory = Categories
                     .FirstOrDefault(c => c.Id == budget.CategoryId);

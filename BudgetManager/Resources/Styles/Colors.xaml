@@ -18,6 +18,8 @@
     <Color x:Key="TextSecondary">#D1D5DB</Color>   <!-- Subtext -->
     <Color x:Key="Placeholder">#9CA3AF</Color>     <!-- Hints -->
 
+    <Color x:Key="Danger">#FF4444</Color>
+    
     <!-- Dividers -->
     <Color x:Key="Divider">#BDBDBD</Color>
 

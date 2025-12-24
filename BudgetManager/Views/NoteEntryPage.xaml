@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BudgetManager.ViewModels"
+             x:Class="BudgetManager.Views.NoteEntryPage"
+             x:DataType="vm:NoteEntryViewModel"
+             Title="Note">
+
+    <Grid Style="{StaticResource PageBody}">
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="20">
+
+                <Frame BackgroundColor="#2D2D2D" CornerRadius="10" BorderColor="Transparent" Padding="0">
+                    <DatePicker Date="{Binding Date}" 
+                        TextColor="{StaticResource TextPrimary}"
+                        Format="D"
+                        Margin="15,10"/>
+                </Frame>
+                
+                <Frame BackgroundColor="#2D2D2D" CornerRadius="10" BorderColor="Transparent" Padding="0">
+                    <Entry Text="{Binding Title}" 
+                       Placeholder="Title" 
+                       PlaceholderColor="{StaticResource TextSecondary}"
+                       TextColor="{StaticResource TextPrimary}"
+                       FontSize="20" 
+                       FontAttributes="Bold"
+                       Margin="15,10"/>
+                </Frame>
+
+                <Frame BackgroundColor="#2D2D2D" CornerRadius="10" BorderColor="Transparent" Padding="0" VerticalOptions="FillAndExpand">
+                    <Editor Text="{Binding Text}" 
+                        Placeholder="Start typing..." 
+                        PlaceholderColor="{StaticResource TextSecondary}"
+                        TextColor="{StaticResource TextPrimary}"
+                        AutoSize="TextChanges" 
+                        HeightRequest="300"
+                        Margin="15,10"/>
+                </Frame>
+
+                <Grid IsVisible="{Binding IsCreateMode}" ColumnDefinitions="*" ColumnSpacing="15" Margin="0,20,0,0">
+                    <Button Text="Save" 
+                        Command="{Binding SaveCommand}" 
+                        Grid.Column="1"
+                        TextColor="{StaticResource TextPrimary}" 
+                        FontAttributes="Bold"
+                        CornerRadius="25"/>
+                </Grid>
+
+                <Grid IsVisible="{Binding IsEditMode}" ColumnDefinitions="*,*" ColumnSpacing="15" Margin="0,20,0,0">
+                    <Button Text="Delete"
+                        Command="{Binding DeleteCommand}" 
+                        BackgroundColor="#FF4444"
+                        TextColor="White"
+                        CornerRadius="25"/>
+
+                    <Button Text="Save" 
+                        Command="{Binding SaveCommand}" 
+                        Grid.Column="1"
+                        TextColor="{StaticResource TextPrimary}" 
+                        FontAttributes="Bold"
+                        CornerRadius="25"/>
+                </Grid>
+
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

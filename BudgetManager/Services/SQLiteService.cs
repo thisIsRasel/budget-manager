@@ -1,6 +1,7 @@
 ﻿using BudgetManager.Models;
 using SQLite;
 
+
 namespace BudgetManager.Services
 {
     public class SQLiteService
@@ -12,7 +13,10 @@ namespace BudgetManager.Services
             _db = new SQLiteAsyncConnection(dbPath);
             _db.CreateTableAsync<Budget>().Wait();
             _db.CreateTableAsync<Category>().Wait();
+            _db.CreateTableAsync<Budget>().Wait();
+            _db.CreateTableAsync<Category>().Wait();
             _db.CreateTableAsync<CostEntry>().Wait();
+            _db.CreateTableAsync<Note>().Wait();
         }
 
         // Budget
@@ -73,5 +77,12 @@ namespace BudgetManager.Services
 
         public Task<int> UpdateEntryAsync(CostEntry entry) => _db.UpdateAsync(entry);
         public Task<int> DeleteEntryAsync(CostEntry entry) => _db.DeleteAsync(entry);
+
+        // Notes
+        public Task<List<Note>> GetNotesAsync() => _db.Table<Note>().OrderByDescending(x => x.Date).ToListAsync();
+        public Task<Note> GetNoteByIdAsync(int id) => _db.Table<Note>().Where(x => x.Id == id).FirstOrDefaultAsync();
+        public Task<int> SaveNoteAsync(Note note) => _db.InsertAsync(note);
+        public Task<int> UpdateNoteAsync(Note note) => _db.UpdateAsync(note);
+        public Task<int> DeleteNoteAsync(Note note) => _db.DeleteAsync(note);
     }
 }

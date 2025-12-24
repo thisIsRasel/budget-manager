@@ -152,7 +152,7 @@ namespace BudgetManager.ViewModels
                     .DateTimeFormat
                     .GetAbbreviatedMonthName(budget.Month);
 
-                Title = $"Budget of {monthName}, {budget.Year}";
+                Title = $"Budget ({monthName}, {budget.Year})";
                 TotalSpent = total;
                 CurrentBudget = new BudgetDisplayItem
                 {

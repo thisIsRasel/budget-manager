@@ -7,10 +7,35 @@
 
     <TabBar>
         <!-- <ShellContent Title="Home" ContentTemplate="{DataTemplate views:MainPage}" /> -->
-        <ShellContent Title="Daily Trans." ContentTemplate="{DataTemplate views:TransactionListPage}" />
-        <ShellContent Title="Budgets" ContentTemplate="{DataTemplate views:BudgetPage}" />
-        <ShellContent Title="Categories" ContentTemplate="{DataTemplate views:CategoryPage}" />
-        <ShellContent Title="Reports" ContentTemplate="{DataTemplate views:ReportPage}" />
+        <ShellContent Title="Daily Trans." ContentTemplate="{DataTemplate views:TransactionListPage}" >
+            <ShellContent.Icon>
+                <FontImageSource
+                    FontFamily="fa-solid"
+                    Glyph="&#xf03a;"/>
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Budgets" ContentTemplate="{DataTemplate views:BudgetPage}">
+            <ShellContent.Icon>
+                <FontImageSource
+                    FontFamily="fa-solid"
+                    Glyph="&#xf555;"/>
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Categories" ContentTemplate="{DataTemplate views:CategoryPage}">
+            <ShellContent.Icon>
+                <FontImageSource
+                    FontFamily="fa-solid"
+                    Glyph="&#xf02c;"/>
+            </ShellContent.Icon>
+        </ShellContent>
+        <ShellContent Title="Notes" ContentTemplate="{DataTemplate views:NotesPage}">
+            <ShellContent.Icon>
+                <FontImageSource
+                    FontFamily="fa-solid"
+                    Glyph="&#xf249;"/>
+            </ShellContent.Icon>
+        </ShellContent>
+        <!-- ShellContent Title="Reports" ContentTemplate="{DataTemplate views:ReportPage}" /> -->
     </TabBar>
 
 </Shell>
