@@ -34,16 +34,17 @@ namespace BudgetManager.Services
             .Where(x => x.Id == budgetId)
             .FirstOrDefaultAsync();
 
-        public Task<Budget> GetBudgetByCategoryIdAsync(int categoryId) => _db
+        public Task<Budget> GetBudgetByCategoryAsync(int categoryId) => _db
             .Table<Budget>()
             .Where(x => x.CategoryId == categoryId)
             .FirstOrDefaultAsync();
 
-        public Task<List<Budget>> GetAllBudgetsAsync() => _db
-            .Table<Budget>()
-            .OrderByDescending(x => x.Year)
-            .ThenByDescending(x => x.Month)
-            .ToListAsync();
+        public Task<List<Budget>> GetYearlyBudgetsByCategoryAsync(
+            int categoryId,
+            int year) => _db
+                .Table<Budget>()
+                .Where(x => x.CategoryId == categoryId && x.Year == year)
+                .ToListAsync();
 
         public Task<List<Budget>> GetMonthlyBudgetsAsync(int month, int year)
         {

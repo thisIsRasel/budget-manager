@@ -35,7 +35,6 @@
                     Glyph="&#xf249;"/>
             </ShellContent.Icon>
         </ShellContent>
-        <!-- ShellContent Title="Reports" ContentTemplate="{DataTemplate views:ReportPage}" /> -->
     </TabBar>
 
 </Shell>

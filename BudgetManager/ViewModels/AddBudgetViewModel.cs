@@ -150,7 +150,8 @@ namespace BudgetManager.ViewModels
                 return;
             }
 
-            var budget = await _sqlite.GetBudgetByCategoryIdAsync(SelectedCategory.Id);
+            var budget = await _sqlite
+                .GetBudgetByCategoryAsync(SelectedCategory.Id);
 
             if (budget != null)
             {

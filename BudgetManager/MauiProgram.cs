@@ -31,7 +31,6 @@ namespace BudgetManager
             builder.Services.AddTransient<CategoryViewModel>();
             builder.Services.AddTransient<TransactionViewModel>();
             builder.Services.AddTransient<EditTransactionViewModel>();
-            builder.Services.AddTransient<ReportViewModel>();
             builder.Services.AddTransient<AddBudgetViewModel>();
 
             builder.Services.AddTransient<MainPage>();
@@ -41,7 +40,6 @@ namespace BudgetManager
             builder.Services.AddTransient<EditCategoryPage>();
             builder.Services.AddTransient<TransactionListPage>();
             builder.Services.AddTransient<AddTransactionPage>();
-            builder.Services.AddTransient<ReportPage>();
             builder.Services.AddTransient<AddBudgetPage>();
             builder.Services.AddTransient<BudgetDetailsPage>();
             builder.Services.AddTransient<NotesPage>();
