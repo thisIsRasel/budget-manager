@@ -24,9 +24,16 @@ namespace BudgetManager.Services
         public Task<int> UpdateBudgetAsync(Budget budget)
             => _db.UpdateAsync(budget);
 
-        public async Task DeleteBudgetAsync(Budget budget)
+        public async Task DeleteBudgetsAsync(int categoryId)
         {
-            await _db.DeleteAsync(budget);
+            var budgets = await _db.Table<Budget>()
+                .Where(x => x.CategoryId == categoryId)
+                .ToListAsync();
+
+            foreach (var item in budgets)
+            {
+                await _db.DeleteAsync(item);
+            }
         }
 
         public Task<Budget> GetBudgetByIdAsync(int budgetId) => _db
@@ -34,16 +41,10 @@ namespace BudgetManager.Services
             .Where(x => x.Id == budgetId)
             .FirstOrDefaultAsync();
 
-        public Task<Budget> GetBudgetByCategoryAsync(int categoryId) => _db
-            .Table<Budget>()
-            .Where(x => x.CategoryId == categoryId)
-            .FirstOrDefaultAsync();
-
-        public Task<List<Budget>> GetYearlyBudgetsByCategoryAsync(
-            int categoryId,
-            int year) => _db
-                .Table<Budget>()
-                .Where(x => x.CategoryId == categoryId && x.Year == year)
+        public Task<List<Budget>> GetYearlyAndDefaultBudgetsAsync(
+            int year,
+            int categoryId) => _db.Table<Budget>()
+                .Where(x => (x.Year == 0 || x.Year == year) && x.CategoryId == categoryId)
                 .ToListAsync();
 
         public Task<List<Budget>> GetMonthlyBudgetsAsync(int month, int year)
@@ -51,6 +52,16 @@ namespace BudgetManager.Services
             return _db.Table<Budget>()
                 .Where(x => x.Month == month && x.Year == year)
                 .ToListAsync();
+        }
+
+        public Task<Budget> GetMonthlyBudgetByCategoryAsync(
+            int month,
+            int year,
+            int categoryId)
+        {
+            return _db.Table<Budget>()
+                .Where(x => x.Month == month && x.Year == year && x.CategoryId == categoryId)
+                .FirstOrDefaultAsync();
         }
 
         // Categories
@@ -84,7 +95,6 @@ namespace BudgetManager.Services
 
         // Notes
         public Task<List<Note>> GetNotesAsync() => _db.Table<Note>().OrderByDescending(x => x.Date).ToListAsync();
-        public Task<Note> GetNoteByIdAsync(int id) => _db.Table<Note>().Where(x => x.Id == id).FirstOrDefaultAsync();
         public Task<int> SaveNoteAsync(Note note) => _db.InsertAsync(note);
         public Task<int> UpdateNoteAsync(Note note) => _db.UpdateAsync(note);
         public Task<int> DeleteNoteAsync(Note note) => _db.DeleteAsync(note);

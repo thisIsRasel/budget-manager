@@ -2,7 +2,7 @@
 <ContentPage
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="BudgetManager.Views.BudgetPage"
+    x:Class="BudgetManager.Views.BudgetListPage"
     xmlns:vm="clr-namespace:BudgetManager.ViewModels"
     xmlns:micro="clr-namespace:Microcharts.Maui;assembly=Microcharts.Maui"
     xmlns:local="clr-namespace:BudgetManager.Services"
@@ -116,7 +116,8 @@
                                     <Label Grid.Row="0" Grid.Column="0"
                                         Text="{Binding Name}" 
                                         FontSize="18" 
-                                        FontAttributes="Bold" />
+                                        FontAttributes="Bold"
+                                        VerticalOptions="Center"/>
 
                                     <!-- Budget Amount -->
                                     <Label Grid.Row="0" Grid.Column="2"
@@ -124,7 +125,8 @@
                                         FontSize="18" 
                                         FontAttributes="Bold"
                                         TextColor="{StaticResource TextPrimary}"
-                                        HorizontalOptions="End" />
+                                        HorizontalOptions="End"
+                                        VerticalOptions="Center" />
 
                                     <!-- Progress Bar -->
                                     <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
@@ -134,13 +136,6 @@
                                         <ProgressBar Progress="{Binding ProgressPercentage}"
                                                      ProgressColor="{Binding ProgressPercentage, Converter={StaticResource ProgressColorConverter}}"/>
                                     </Border>
-                                    
-                                    <!-- Spent and Remaining Labels (Below Progress Bar) -->
-                                    <Label Grid.Row="2" Grid.Column="0"
-                                        Text="{Binding FormattedSpent}"
-                                        FontSize="12"
-                                        TextColor="{StaticResource Accent}"
-                                        HorizontalOptions="Start"/>
 
                                     <Label Grid.Row="1" Grid.Column="1"
                                         Text="{Binding FormattedPercentage}"
@@ -149,6 +144,13 @@
                                         TextColor="{StaticResource TextPrimary}"
                                         HorizontalOptions="Center"
                                         Margin="0,6" />
+
+                                    <!-- Spent and Remaining Labels (Below Progress Bar) -->
+                                    <Label Grid.Row="2" Grid.Column="0"
+                                        Text="{Binding FormattedSpent}"
+                                        FontSize="12"
+                                        TextColor="{StaticResource Accent}"
+                                        HorizontalOptions="Start"/>
 
                                     <Label Grid.Row="2" Grid.Column="2"
                                         Text="{Binding FormattedRemaining}"

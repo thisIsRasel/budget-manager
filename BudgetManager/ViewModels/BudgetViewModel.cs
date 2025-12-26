@@ -76,11 +76,7 @@ namespace BudgetManager.ViewModels
 
         public ICommand GoToAddBudgetCommand => new Command(async () =>
         {
-            var navParam = new Dictionary<string, object>
-            {
-                { "BudgetDate", CurrentMonth }
-            };
-            await Shell.Current.GoToAsync(nameof(AddBudgetPage), navParam);
+            await Shell.Current.GoToAsync(nameof(AddBudgetPage));
         });
 
         public ICommand GoToBudgetDetailsCommand => new Command<BudgetDisplayItem>(async (budget) =>
@@ -116,9 +112,7 @@ namespace BudgetManager.ViewModels
         public async void LoadBudgets()
         {
             var categories = await _sqlite.GetCategoriesAsync();
-            var budgets = await _sqlite.GetMonthlyBudgetsAsync(
-                month: _currentMonth.Month,
-                year: _currentMonth.Year);
+            var budgets = await GetBudgtesAsync();
 
             var monthlyEntries = await _sqlite.GetMonthlyEntriesAsync(
                 month: _currentMonth.Month,
@@ -149,6 +143,7 @@ namespace BudgetManager.ViewModels
                 Budgets.Add(new BudgetDisplayItem
                 {
                     Id = budget.Id,
+                    CategoryId = budget.CategoryId,
                     Name = budgetCategory.Name,
                     Month = budget.Month,
                     Year = budget.Year,
@@ -184,6 +179,34 @@ namespace BudgetManager.ViewModels
                 LabelMode = LabelMode.LeftAndRight,
                 GraphPosition = GraphPosition.Center,
             } : null;
+        }
+
+        private async Task<List<Budget>> GetBudgtesAsync()
+        {
+            var defaultBudgtes = await _sqlite.GetMonthlyBudgetsAsync(
+                month: 0,
+                year: 0);
+
+            var monthlyBudgets = await _sqlite.GetMonthlyBudgetsAsync(
+                month: _currentMonth.Month,
+                year: _currentMonth.Year);
+
+            var budgets = new List<Budget>();
+            foreach (var defaultBudget in defaultBudgtes)
+            {
+                var budget = monthlyBudgets
+                    .FirstOrDefault(x => x.CategoryId == defaultBudget.CategoryId);
+
+                if (budget is null)
+                {
+                    budgets.Add(defaultBudget);
+                    continue;
+                }
+
+                budgets.Add(budget);
+            }
+
+            return budgets;
         }
 
         private string GetRandomColor(Random random)

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:BudgetManager.ViewModels"
+             x:Class="BudgetManager.Views.YearlyBudgetPage"
+             Title="{Binding Category.Name}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding DeleteBudgetCommand}" Order="Primary" Priority="1" >
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                FontFamily="fa-solid"
+                Glyph="&#xf2ed;"
+                Size="20" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <Grid Style="{StaticResource PageBody}" RowDefinitions="Auto, *">
+        <VerticalStackLayout BindingContext="{Binding DefaultBudget}">
+            <VerticalStackLayout.GestureRecognizers>
+                <TapGestureRecognizer
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:YearlyBudgetViewModel}}, Path=EditBudgetCommand}"
+                    CommandParameter="{Binding .}" />
+            </VerticalStackLayout.GestureRecognizers>
+            
+            <BoxView Style="{StaticResource Divider}"></BoxView>
+            <Grid ColumnDefinitions="*,*" Padding="16,12">
+                <Label Text="Default Budget" VerticalOptions="Center" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" />
+                <Label Grid.Column="1" Text="{Binding BudgetAmount, StringFormat='৳ {0:F2}'}" FontAttributes="Bold" HorizontalOptions="End" VerticalOptions="Center" TextColor="{StaticResource Accent}"/>
+            </Grid>
+            <BoxView Style="{StaticResource Divider}"></BoxView>
+        </VerticalStackLayout>
+        
+        <CollectionView Grid.Row="1" ItemsSource="{Binding YearlyBudgets}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout>
+                        <VerticalStackLayout.GestureRecognizers>
+                            <TapGestureRecognizer
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:YearlyBudgetViewModel}}, Path=EditBudgetCommand}"
+                                CommandParameter="{Binding .}" />
+                        </VerticalStackLayout.GestureRecognizers>
+
+                        <Grid ColumnDefinitions="*,*" Padding="16,12">
+                            <Label Text="{Binding MonthName}" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
+                            <Label Grid.Column="1" Text="{Binding BudgetAmount, StringFormat='৳ {0:F2}'}" HorizontalOptions="End" VerticalOptions="Center" TextColor="{StaticResource Accent}"/>
+                        </Grid>
+                        <BoxView Style="{StaticResource Divider}"></BoxView>
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>

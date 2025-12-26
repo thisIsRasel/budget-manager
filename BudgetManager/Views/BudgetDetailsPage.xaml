@@ -6,20 +6,11 @@
              Title="{Binding Title}">
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Command="{Binding EditBudgetCommand}" Order="Primary" Priority="0">
+        <ToolbarItem Command="{Binding GoToYearlyBudgetCommand}" Order="Primary" Priority="0">
             <ToolbarItem.IconImageSource>
                 <FontImageSource
                     FontFamily="fa-solid"
                     Glyph="&#xf044;"
-                    Size="20" />
-            </ToolbarItem.IconImageSource>
-        </ToolbarItem>
-
-        <ToolbarItem Command="{Binding DeleteBudgetCommand}" Order="Primary" Priority="1" >
-            <ToolbarItem.IconImageSource>
-                <FontImageSource
-                    FontFamily="fa-solid"
-                    Glyph="&#xf2ed;"
                     Size="20" />
             </ToolbarItem.IconImageSource>
         </ToolbarItem>
@@ -29,10 +20,7 @@
 
         <Border Margin="12,12,12,0" StrokeShape="RoundRectangle 4" Background="{StaticResource Surface}">
             <VerticalStackLayout Padding="16">
-                <Label Text="{Binding CurrentBudget.Name}" TextColor="White" FontSize="20" FontAttributes="Bold"/>
-                <BoxView Margin="0,12" HeightRequest="0.1"
-                    BackgroundColor="{DynamicResource Divider}"/>
-                
+
                 <Grid ColumnDefinitions="*,*,*">
                     <VerticalStackLayout HorizontalOptions="Start">
                         <Label Text="Total" HorizontalOptions="Center"/>

@@ -198,11 +198,8 @@ namespace BudgetManager.ViewModels
                 totalSpent += group.TotalAmount;
             }
 
-            var budgtes = await _sqlite.GetMonthlyBudgetsAsync(
-                month: CurrentMonth.Month,
-                year: CurrentMonth.Year);
-
             decimal totalBudget = 0;
+            var budgtes = await GetBudgtesAsync();
             foreach (var item in budgtes)
             {
                 totalBudget += item.Amount;
@@ -219,6 +216,34 @@ namespace BudgetManager.ViewModels
             var categories = await _sqlite.GetCategoriesAsync();
             var categoryMap = categories.ToDictionary(c => c.Id, c => c);
             return categoryMap;
+        }
+
+        private async Task<List<Budget>> GetBudgtesAsync()
+        {
+            var defaultBudgtes = await _sqlite.GetMonthlyBudgetsAsync(
+                month: 0,
+                year: 0);
+
+            var monthlyBudgets = await _sqlite.GetMonthlyBudgetsAsync(
+                month: _currentMonth.Month,
+                year: _currentMonth.Year);
+
+            var budgets = new List<Budget>();
+            foreach (var defaultBudget in defaultBudgtes)
+            {
+                var budget = monthlyBudgets
+                    .FirstOrDefault(x => x.CategoryId == defaultBudget.CategoryId);
+
+                if (budget is null)
+                {
+                    budgets.Add(defaultBudget);
+                    continue;
+                }
+
+                budgets.Add(budget);
+            }
+
+            return budgets;
         }
 
         private async Task SaveAsync()

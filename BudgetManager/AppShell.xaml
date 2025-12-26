@@ -14,14 +14,14 @@
                     Glyph="&#xf03a;"/>
             </ShellContent.Icon>
         </ShellContent>
-        <ShellContent Title="Budgets" ContentTemplate="{DataTemplate views:BudgetPage}">
+        <ShellContent Title="Budgets" ContentTemplate="{DataTemplate views:BudgetListPage}">
             <ShellContent.Icon>
                 <FontImageSource
                     FontFamily="fa-solid"
                     Glyph="&#xf555;"/>
             </ShellContent.Icon>
         </ShellContent>
-        <ShellContent Title="Categories" ContentTemplate="{DataTemplate views:CategoryPage}">
+        <ShellContent Title="Categories" ContentTemplate="{DataTemplate views:CategoryListPage}">
             <ShellContent.Icon>
                 <FontImageSource
                     FontFamily="fa-solid"

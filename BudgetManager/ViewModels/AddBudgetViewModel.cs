@@ -7,7 +7,6 @@ using System.Windows.Input;
 namespace BudgetManager.ViewModels
 {
     [QueryProperty(nameof(BudgetId), "BudgetId")]
-    [QueryProperty(nameof(BudgetDate), "BudgetDate")]
     public class AddBudgetViewModel : BaseViewModel
     {
         private readonly SQLiteService _sqlite;
@@ -44,18 +43,6 @@ namespace BudgetManager.ViewModels
             {
                 _budgetId = value;
                 LoadBudget();
-            }
-        }
-
-        private DateTime _budgetDate;
-        public DateTime BudgetDate
-        {
-            get => _budgetDate;
-            set
-            {
-                _budgetDate = value;
-                _pageTitle = $"Add Budget ({value:MMM yyyy})";
-                OnPropertyChanged(nameof(PageTitle));
             }
         }
 
@@ -117,7 +104,7 @@ namespace BudgetManager.ViewModels
         {
             if (BudgetId <= 0)
             {
-                PageTitle = $"Add Budget ({BudgetDate:MMM yyyy})";
+                PageTitle = $"Add Budget";
                 return;
             }
 
@@ -150,28 +137,53 @@ namespace BudgetManager.ViewModels
                 return;
             }
 
-            var budget = await _sqlite
-                .GetBudgetByCategoryAsync(SelectedCategory.Id);
+            await AddDefaultBudgetAsync(SelectedCategory.Id);
 
-            if (budget != null)
+            await UpsertCurrentMonthBudgetAsync(SelectedCategory.Id);
+
+            await Shell.Current.GoToAsync("..");
+        }
+
+        private async Task AddDefaultBudgetAsync(int categoryId)
+        {
+            var defaultBudget = await _sqlite
+                .GetMonthlyBudgetByCategoryAsync(0, 0, categoryId);
+
+            if (defaultBudget is null)
+            {
+                defaultBudget = new Budget
+                {
+                    CategoryId = categoryId,
+                    Amount = BudgetAmount,
+                };
+
+                await _sqlite.SaveBudgetAsync(defaultBudget);
+            }
+        }
+
+        private async Task UpsertCurrentMonthBudgetAsync(int categoryId)
+        {
+            int currentYear = DateTime.Now.Year;
+            int currentMonth = DateTime.Now.Month;
+            var budget = await _sqlite
+                .GetMonthlyBudgetByCategoryAsync(currentMonth, currentYear, categoryId);
+
+            if (budget is not null)
             {
                 budget.Amount = BudgetAmount;
                 await _sqlite.UpdateBudgetAsync(budget);
+                return;
             }
-            else
+
+            budget = new Budget
             {
-                budget = new Budget
-                {
-                    CategoryId = SelectedCategory.Id,
-                    Amount = BudgetAmount,
-                    Month = BudgetDate.Month,
-                    Year = BudgetDate.Year
-                };
+                Year = currentYear,
+                Month = currentMonth,
+                CategoryId = categoryId,
+                Amount = BudgetAmount,
+            };
 
-                await _sqlite.SaveBudgetAsync(budget);
-            }
-
-            await Shell.Current.GoToAsync("..");
+            await _sqlite.SaveBudgetAsync(budget);
         }
     }
 }

@@ -86,4 +86,9 @@
         <Setter Property="ProgressColor" Value="#00c0ff"/>
     </Style>
 
+    <Style x:Key="Divider" TargetType="BoxView">
+        <Setter Property="HeightRequest" Value="0.1" />
+        <Setter Property="BackgroundColor" Value="{StaticResource Divider}" />
+    </Style>
+
 </ResourceDictionary>

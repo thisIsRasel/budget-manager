@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="BudgetManager.Views.BudgetUpdatePage"
+             xmlns:vm="clr-namespace:BudgetManager.ViewModels"
+             xmlns:local="clr-namespace:BudgetManager.Services"
+             Title="Edit">
+
+    <Grid Style="{StaticResource PageBody}">
+        <ScrollView>
+            <VerticalStackLayout Padding="20" Spacing="15">
+                <Entry Placeholder="Enter amount" 
+                   Keyboard="Numeric" 
+                   Text="{Binding BudgetAmount}" />
+
+                <Button Text="Save Budget" 
+                    Command="{Binding SaveBudgetCommand}"
+                    TextColor="White"
+                    Margin="0,20,0,0" />
+            </VerticalStackLayout>
+        </ScrollView>
+    </Grid>
+</ContentPage>

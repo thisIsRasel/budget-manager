@@ -58,8 +58,6 @@ namespace BudgetManager.ViewModels
 
         public ObservableCollection<DailyCostDisplayItem> Costs { get; } = new();
 
-        public ICommand EditBudgetCommand => new Command(async () => await EditBudgetAsync());
-        public ICommand DeleteBudgetCommand => new Command(async () => await DeleteBudgetAsync());
         public ICommand EditTransactionCommand => new Command<DailyCostDisplayItem>(async (item) =>
         {
             var navParam = new Dictionary<string, object>
@@ -69,39 +67,18 @@ namespace BudgetManager.ViewModels
             await Shell.Current.GoToAsync(nameof(EditTransactionPage), navParam);
         });
 
+        public ICommand GoToYearlyBudgetCommand => new Command(async () =>
+        {
+            var navParam = new Dictionary<string, object>
+            {
+                { "CategoryId", CurrentBudget.CategoryId }
+            };
+            await Shell.Current.GoToAsync(nameof(YearlyBudgetPage), navParam);
+        });
+
         public BudgetDetailsViewModel(SQLiteService sqlite)
         {
             _sqlite = sqlite;
-        }
-
-        private async Task EditBudgetAsync()
-        {
-            if (BudgetId <= 0) return;
-            // Navigate to AddBudgetPage passing the BudgetId to trigger edit mode
-            var navParam = new Dictionary<string, object>
-            {
-                { "BudgetId", BudgetId }
-            };
-            await Shell.Current.GoToAsync(nameof(AddBudgetPage), navParam);
-        }
-
-        private async Task DeleteBudgetAsync()
-        {
-            if (BudgetId <= 0) return;
-
-            bool confirm = await App.Current.MainPage.DisplayAlert("Delete Budget",
-                "Are you sure you want to delete this budget? All associated cost entries will remain, but the budget link will be removed.",
-                "Yes", "No");
-
-            if (!confirm) return;
-
-            var budget = await _sqlite.GetBudgetByIdAsync(BudgetId);
-            if (budget != null)
-            {
-                await _sqlite.DeleteBudgetAsync(budget);
-            }
-
-            await Shell.Current.GoToAsync("..");
         }
 
         private async void LoadData()
@@ -160,11 +137,12 @@ namespace BudgetManager.ViewModels
                     .DateTimeFormat
                     .GetAbbreviatedMonthName(budget.Month);
 
-                Title = $"Budget ({monthName} {budget.Year})";
+                Title = $"{budgetCategory.Name}";
                 TotalSpent = total;
                 CurrentBudget = new BudgetDisplayItem
                 {
                     Id = budget.Id,
+                    CategoryId = budgetCategory.Id,
                     Name = budgetCategory.Name,
                     Month = budget.Month,
                     Year = budget.Year,

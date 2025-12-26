@@ -3,6 +3,7 @@ namespace BudgetManager.Models
     public class BudgetDisplayItem
     {
         public int Id { get; set; }
+        public int CategoryId { get; set; }
         public string Name { get; set; } = string.Empty;
         public int Month { get; set; }
         public int Year { get; set; }
