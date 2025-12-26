@@ -9,4 +9,10 @@ public partial class YearlyBudgetPage : ContentPage
 		InitializeComponent();
 		BindingContext = vm;
 	}
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        Shell.SetNavBarIsVisible(this, false);
+    }
 }

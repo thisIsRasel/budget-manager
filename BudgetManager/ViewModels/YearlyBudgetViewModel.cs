@@ -50,6 +50,22 @@ namespace BudgetManager.ViewModels
             }
         }
 
+        public ICommand PreviousYearCommand => new Command(() =>
+        {
+            Year = Year - 1;
+            LoadYearlyData();
+        });
+        public ICommand NextYearCommand => new Command(() =>
+        {
+            Year = Year + 1;
+            LoadYearlyData();
+        });
+
+        public ICommand GoBackCommand => new Command(async () =>
+        {
+            await Shell.Current.GoToAsync("..");
+        });
+
         private MonthlyBudgetDisplayItem _defaultBudget;
         public MonthlyBudgetDisplayItem DefaultBudget
         {

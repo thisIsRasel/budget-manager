@@ -9,5 +9,11 @@ namespace BudgetManager.Views
             InitializeComponent();
             BindingContext = viewModel;
         }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            Shell.SetNavBarIsVisible(this, false);
+        }
     }
 }

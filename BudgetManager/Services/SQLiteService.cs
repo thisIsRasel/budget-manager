@@ -65,6 +65,10 @@ namespace BudgetManager.Services
         }
 
         // Categories
+        public Task<Category> GetCategoryByIdAsync(int id) => _db
+            .Table<Category>()
+            .Where(x => x.Id == id)
+            .FirstOrDefaultAsync();
         public Task<List<Category>> GetCategoriesAsync() => _db
             .Table<Category>()
             .ToListAsync();

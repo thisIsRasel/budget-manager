@@ -2,7 +2,6 @@ using BudgetManager.Models;
 using BudgetManager.Services;
 using BudgetManager.Views;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Windows.Input;
 
 namespace BudgetManager.ViewModels
@@ -56,7 +55,36 @@ namespace BudgetManager.ViewModels
             }
         }
 
+        private DateTime _currentMonth;
+        public DateTime CurrentMonth
+        {
+            get => _currentMonth;
+            set
+            {
+                _currentMonth = value;
+                OnPropertyChanged(nameof(CurrentMonth));
+                OnPropertyChanged(nameof(MonthDisplay));
+            }
+        }
+        public string MonthDisplay => CurrentMonth.ToString("MMM yyyy");
+
+        public ICommand PreviousMonthCommand => new Command(() =>
+        {
+            CurrentMonth = CurrentMonth.AddMonths(-1);
+            LoadData();
+        });
+        public ICommand NextMonthCommand => new Command(() =>
+        {
+            CurrentMonth = CurrentMonth.AddMonths(1);
+            LoadData();
+        });
+
         public ObservableCollection<DailyCostDisplayItem> Costs { get; } = new();
+
+        public ICommand GoBackCommand => new Command(async () =>
+        {
+            await Shell.Current.GoToAsync("..");
+        });
 
         public ICommand EditTransactionCommand => new Command<DailyCostDisplayItem>(async (item) =>
         {
@@ -79,6 +107,7 @@ namespace BudgetManager.ViewModels
         public BudgetDetailsViewModel(SQLiteService sqlite)
         {
             _sqlite = sqlite;
+            CurrentMonth = DateTime.UtcNow;
         }
 
         private async void LoadData()
@@ -104,11 +133,11 @@ namespace BudgetManager.ViewModels
 
                 // 3. Get all entries for that month/year
                 var entries = await _sqlite.GetMonthlyEntriesAsync(
-                    budget.Month,
-                    budget.Year);
+                    CurrentMonth.Month,
+                    CurrentMonth.Year);
 
                 // 4. Filter entries that match linked categories
-                var filteredEntries = entries
+                var budgetMonthlyTransactions = entries
                     .Where(e => budgetCategoryIds.Contains(e.CategoryId))
                     .OrderByDescending(e => e.Date)
                     .ToList();
@@ -117,7 +146,7 @@ namespace BudgetManager.ViewModels
                 Costs.Clear();
                 decimal total = 0;
 
-                foreach (var entry in filteredEntries)
+                foreach (var entry in budgetMonthlyTransactions)
                 {
                     var cat = categories.FirstOrDefault(c => c.Id == entry.CategoryId);
                     Costs.Add(new DailyCostDisplayItem
@@ -131,11 +160,6 @@ namespace BudgetManager.ViewModels
                     });
                     total += entry.Amount;
                 }
-
-                var monthName = CultureInfo
-                    .GetCultureInfo("en-US")
-                    .DateTimeFormat
-                    .GetAbbreviatedMonthName(budget.Month);
 
                 Title = $"{budgetCategory.Name}";
                 TotalSpent = total;

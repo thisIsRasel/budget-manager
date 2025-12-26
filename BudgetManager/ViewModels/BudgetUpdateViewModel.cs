@@ -1,6 +1,5 @@
 ﻿using BudgetManager.Models;
 using BudgetManager.Services;
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 
 namespace BudgetManager.ViewModels
@@ -18,6 +17,7 @@ namespace BudgetManager.ViewModels
             {
                 _monthlyBudgetItem = value;
                 BudgetAmount = value.BudgetAmount;
+                LoadData();
                 OnPropertyChanged(nameof(MonthlyBudgetItem));
             }
         }
@@ -33,18 +33,16 @@ namespace BudgetManager.ViewModels
             }
         }
 
-        private string _pageTitle = "Edit Budget";
-        public string PageTitle
+        private Category? _category;
+        public Category? Category
         {
-            get => _pageTitle;
+            get => _category;
             set
             {
-                _pageTitle = value;
-                OnPropertyChanged(nameof(PageTitle));
+                _category = value;
+                OnPropertyChanged(nameof(Category));
             }
         }
-
-        public ObservableCollection<Category> Categories { get; } = new();
 
         public ICommand SaveBudgetCommand => new Command(async () => await SaveBudgetAsync());
 
@@ -53,11 +51,17 @@ namespace BudgetManager.ViewModels
             _sqlite = sqlite;
         }
 
+        private async void LoadData()
+        {
+            Category = await _sqlite
+                .GetCategoryByIdAsync(MonthlyBudgetItem.CategoryId);
+        }
+
         private async Task SaveBudgetAsync()
         {
             if (BudgetAmount <= 0)
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Please enter a valid amount", "OK");
+                await Shell.Current.DisplayAlert("Error", "Please enter a valid amount", "OK");
                 return;
             }
 

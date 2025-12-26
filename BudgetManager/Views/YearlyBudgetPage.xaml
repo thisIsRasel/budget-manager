@@ -5,51 +5,95 @@
              x:Class="BudgetManager.Views.YearlyBudgetPage"
              Title="{Binding Category.Name}">
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Command="{Binding DeleteBudgetCommand}" Order="Primary" Priority="1" >
-            <ToolbarItem.IconImageSource>
-                <FontImageSource
-                FontFamily="fa-solid"
-                Glyph="&#xf2ed;"
-                Size="20" />
-            </ToolbarItem.IconImageSource>
-        </ToolbarItem>
-    </ContentPage.ToolbarItems>
+    <Grid RowDefinitions="Auto,*">
+        <Grid RowDefinitions="Auto, Auto">
+            <Grid Style="{StaticResource PageHeader}"
+                RowDefinitions="Auto,Auto">
 
-    <Grid Style="{StaticResource PageBody}" RowDefinitions="Auto, *">
-        <VerticalStackLayout BindingContext="{Binding DefaultBudget}">
-            <VerticalStackLayout.GestureRecognizers>
-                <TapGestureRecognizer
+                <Grid ColumnDefinitions="Auto,*,Auto">
+                    <HorizontalStackLayout>
+                        <Button Style="{StaticResource Circular}"
+                            Text="&#xf060;"
+                            FontFamily="fa-solid"
+                            TextColor="{StaticResource TextPrimary}"
+                            Command="{Binding GoBackCommand}"/>
+
+                        <Label Text="{Binding Category.Name}"
+                           TextColor="White"
+                           FontSize="18"
+                           VerticalOptions="Center" />
+                    </HorizontalStackLayout>
+
+                    <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End">
+                        <HorizontalStackLayout>
+                            <Button Style="{StaticResource Circular}"
+                                Text="&#xf104;"
+                                FontFamily="fa-solid"
+                                TextColor="{StaticResource TextPrimary}"
+                                Command="{Binding PreviousYearCommand}"/>
+                            
+                            <Label Text="{Binding Year}"
+                                TextColor="White"
+                                FontSize="18"
+                                VerticalOptions="Center" />
+
+                            <Button Grid.Column="2"
+                                Style="{StaticResource Circular}"
+                                Text="&#xf105;"
+                                FontFamily="fa-solid"
+                                TextColor="{StaticResource TextPrimary}"
+                                Command="{Binding NextYearCommand}"/>
+                        </HorizontalStackLayout>
+
+                        <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End">
+                            <Button Style="{StaticResource Circular}"
+                                Text="&#xf2ed;"
+                                FontFamily="fa-solid"
+                                TextColor="{StaticResource TextPrimary}"
+                                Command="{Binding DeleteBudgetCommand}" />
+                        </HorizontalStackLayout>
+                    </HorizontalStackLayout>
+                </Grid>
+            </Grid>
+
+            <BoxView Grid.Row="1" HeightRequest="0.1"
+                BackgroundColor="{DynamicResource Divider}"/>
+        </Grid>
+
+        <Grid Grid.Row="1" Style="{StaticResource PageBody}" RowDefinitions="Auto, *">
+            <VerticalStackLayout BindingContext="{Binding DefaultBudget}">
+                <VerticalStackLayout.GestureRecognizers>
+                    <TapGestureRecognizer
                     Command="{Binding Source={RelativeSource AncestorType={x:Type vm:YearlyBudgetViewModel}}, Path=EditBudgetCommand}"
                     CommandParameter="{Binding .}" />
-            </VerticalStackLayout.GestureRecognizers>
-            
-            <BoxView Style="{StaticResource Divider}"></BoxView>
-            <Grid ColumnDefinitions="*,*" Padding="16,12">
-                <Label Text="Default Budget" VerticalOptions="Center" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" />
-                <Label Grid.Column="1" Text="{Binding BudgetAmount, StringFormat='৳ {0:F2}'}" FontAttributes="Bold" HorizontalOptions="End" VerticalOptions="Center" TextColor="{StaticResource Accent}"/>
-            </Grid>
-            <BoxView Style="{StaticResource Divider}"></BoxView>
-        </VerticalStackLayout>
-        
-        <CollectionView Grid.Row="1" ItemsSource="{Binding YearlyBudgets}">
-            <CollectionView.ItemTemplate>
-                <DataTemplate>
-                    <VerticalStackLayout>
-                        <VerticalStackLayout.GestureRecognizers>
-                            <TapGestureRecognizer
+                </VerticalStackLayout.GestureRecognizers>
+
+                <Grid ColumnDefinitions="*,*" Padding="16,12">
+                    <Label Text="Default Budget" VerticalOptions="Center" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" />
+                    <Label Grid.Column="1" Text="{Binding BudgetAmount, StringFormat='৳ {0:F2}'}" FontAttributes="Bold" HorizontalOptions="End" VerticalOptions="Center" TextColor="{StaticResource Accent}"/>
+                </Grid>
+                <BoxView Style="{StaticResource Divider}"></BoxView>
+            </VerticalStackLayout>
+
+            <CollectionView Grid.Row="1" ItemsSource="{Binding YearlyBudgets}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <VerticalStackLayout>
+                            <VerticalStackLayout.GestureRecognizers>
+                                <TapGestureRecognizer
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type vm:YearlyBudgetViewModel}}, Path=EditBudgetCommand}"
                                 CommandParameter="{Binding .}" />
-                        </VerticalStackLayout.GestureRecognizers>
+                            </VerticalStackLayout.GestureRecognizers>
 
-                        <Grid ColumnDefinitions="*,*" Padding="16,12">
-                            <Label Text="{Binding MonthName}" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
-                            <Label Grid.Column="1" Text="{Binding BudgetAmount, StringFormat='৳ {0:F2}'}" HorizontalOptions="End" VerticalOptions="Center" TextColor="{StaticResource Accent}"/>
-                        </Grid>
-                        <BoxView Style="{StaticResource Divider}"></BoxView>
-                    </VerticalStackLayout>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                            <Grid ColumnDefinitions="*,*" Padding="16,12">
+                                <Label Text="{Binding MonthName}" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
+                                <Label Grid.Column="1" Text="{Binding BudgetAmount, StringFormat='৳ {0:F2}'}" HorizontalOptions="End" VerticalOptions="Center" TextColor="{StaticResource Accent}"/>
+                            </Grid>
+                            <BoxView Style="{StaticResource Divider}"></BoxView>
+                        </VerticalStackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </Grid>
     </Grid>
 </ContentPage>

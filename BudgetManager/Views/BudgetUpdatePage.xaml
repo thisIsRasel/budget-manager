@@ -4,7 +4,7 @@
              x:Class="BudgetManager.Views.BudgetUpdatePage"
              xmlns:vm="clr-namespace:BudgetManager.ViewModels"
              xmlns:local="clr-namespace:BudgetManager.Services"
-             Title="Edit">
+             Title="{Binding Category.Name}">
 
     <Grid Style="{StaticResource PageBody}">
         <ScrollView>
