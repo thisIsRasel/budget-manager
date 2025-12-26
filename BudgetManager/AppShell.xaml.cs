@@ -7,16 +7,15 @@
         public AppShell()
         {
             InitializeComponent();
-            Routing.RegisterRoute(nameof(Views.AddCategoryPage), typeof(Views.AddCategoryPage));
-            Routing.RegisterRoute(nameof(Views.EditCategoryPage), typeof(Views.EditCategoryPage));
-            Routing.RegisterRoute(nameof(Views.AddTransactionPage), typeof(Views.AddTransactionPage));
-            Routing.RegisterRoute(nameof(Views.EditTransactionPage), typeof(Views.EditTransactionPage));
+            Routing.RegisterRoute(nameof(Views.CategoryCreationPage), typeof(Views.CategoryCreationPage));
+            Routing.RegisterRoute(nameof(Views.CategoryUpdatePage), typeof(Views.CategoryUpdatePage));
+            Routing.RegisterRoute(nameof(Views.TransactionCreationPage), typeof(Views.TransactionCreationPage));
+            Routing.RegisterRoute(nameof(Views.TransactionUpdatePage), typeof(Views.TransactionUpdatePage));
             Routing.RegisterRoute(nameof(Views.BudgetListPage), typeof(Views.BudgetListPage));
-            Routing.RegisterRoute(nameof(Views.AddBudgetPage), typeof(Views.AddBudgetPage));
+            Routing.RegisterRoute(nameof(Views.BudgetCreationPage), typeof(Views.BudgetCreationPage));
             Routing.RegisterRoute(nameof(Views.BudgetDetailsPage), typeof(Views.BudgetDetailsPage));
             Routing.RegisterRoute(nameof(Views.BudgetUpdatePage), typeof(Views.BudgetUpdatePage));
             Routing.RegisterRoute(nameof(Views.YearlyBudgetPage), typeof(Views.YearlyBudgetPage));
-            Routing.RegisterRoute(nameof(Views.NotesPage), typeof(Views.NotesPage));
             Routing.RegisterRoute(nameof(Views.NoteEntryPage), typeof(Views.NoteEntryPage));
         }
 

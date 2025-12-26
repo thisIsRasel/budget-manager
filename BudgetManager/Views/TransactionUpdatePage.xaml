@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:BudgetManager.ViewModels"
-             x:Class="BudgetManager.Views.EditTransactionPage"
+             x:Class="BudgetManager.Views.TransactionUpdatePage"
              Title="Edit Daily Cost">
     
     <Grid Style="{StaticResource PageBody}">

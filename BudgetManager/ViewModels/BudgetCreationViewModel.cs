@@ -7,7 +7,7 @@ using System.Windows.Input;
 namespace BudgetManager.ViewModels
 {
     [QueryProperty(nameof(BudgetId), "BudgetId")]
-    public class AddBudgetViewModel : BaseViewModel
+    public class BudgetCreationViewModel : BaseViewModel
     {
         private readonly SQLiteService _sqlite;
 
@@ -58,7 +58,7 @@ namespace BudgetManager.ViewModels
         }
         public ICommand SaveBudgetCommand => new Command(async () => await SaveBudgetAsync());
 
-        public AddBudgetViewModel(SQLiteService sqlite)
+        public BudgetCreationViewModel(SQLiteService sqlite)
         {
             _sqlite = sqlite;
             LoadCategories();
@@ -127,20 +127,18 @@ namespace BudgetManager.ViewModels
         {
             if (BudgetAmount <= 0)
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Please enter a valid amount", "OK");
+                await Shell.Current.DisplayAlert("Error", "Please enter a valid amount", "OK");
                 return;
             }
 
             if (SelectedCategory == null)
             {
-                await App.Current.MainPage.DisplayAlert("Error", "Please select a category", "OK");
+                await Shell.Current.DisplayAlert("Error", "Please select a category", "OK");
                 return;
             }
 
             await AddDefaultBudgetAsync(SelectedCategory.Id);
-
             await UpsertCurrentMonthBudgetAsync(SelectedCategory.Id);
-
             await Shell.Current.GoToAsync("..");
         }
 

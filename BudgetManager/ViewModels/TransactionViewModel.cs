@@ -56,7 +56,7 @@ namespace BudgetManager.ViewModels
 
         public ICommand GoToAddCostCommand => new Command(async () =>
         {
-            await Shell.Current.GoToAsync(nameof(AddTransactionPage));
+            await Shell.Current.GoToAsync(nameof(TransactionCreationPage));
         });
 
         public ICommand EditItemCommand => new Command<DailyCostDisplayItem>(async (item) =>
@@ -65,7 +65,7 @@ namespace BudgetManager.ViewModels
             {
                 { "TransactionId", item.Id }
             };
-            await Shell.Current.GoToAsync(nameof(EditTransactionPage), navParam);
+            await Shell.Current.GoToAsync(nameof(TransactionUpdatePage), navParam);
         });
 
         public ICommand SaveCommand => new Command(async () => await SaveAsync());

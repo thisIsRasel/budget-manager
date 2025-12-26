@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace BudgetManager.ViewModels
 {
-    public class BudgetViewModel : BaseViewModel
+    public class BudgetListViewModel : BaseViewModel
     {
         private readonly SQLiteService _sqlite;
         public ObservableCollection<BudgetDisplayItem> Budgets { get; } = [];
@@ -76,7 +76,7 @@ namespace BudgetManager.ViewModels
 
         public ICommand GoToAddBudgetCommand => new Command(async () =>
         {
-            await Shell.Current.GoToAsync(nameof(AddBudgetPage));
+            await Shell.Current.GoToAsync(nameof(BudgetCreationPage));
         });
 
         public ICommand GoToBudgetDetailsCommand => new Command<BudgetDisplayItem>(async (budget) =>
@@ -102,7 +102,7 @@ namespace BudgetManager.ViewModels
             LoadBudgets();
         });
 
-        public BudgetViewModel(SQLiteService sqlite)
+        public BudgetListViewModel(SQLiteService sqlite)
         {
             _sqlite = sqlite;
             _currentMonth = DateTime.Now;

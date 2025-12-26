@@ -6,7 +6,7 @@ using System.Windows.Input;
 namespace BudgetManager.ViewModels
 {
     [QueryProperty(nameof(TransactionId), "TransactionId")]
-    public class EditTransactionViewModel : BaseViewModel
+    public class TransactionUpdateViewModel : BaseViewModel
     {
         private readonly SQLiteService _sqlite;
         public ObservableCollection<Category> Categories { get; } = [];
@@ -53,7 +53,7 @@ namespace BudgetManager.ViewModels
         public ICommand SaveCommand => new Command(async () => await SaveAsync());
         public ICommand DeleteCommand => new Command(async () => await DeleteAsync());
 
-        public EditTransactionViewModel(SQLiteService sqlite)
+        public TransactionUpdateViewModel(SQLiteService sqlite)
         {
             _sqlite = sqlite;
             SelectedDate = DateTime.Now;
@@ -131,7 +131,7 @@ namespace BudgetManager.ViewModels
         {
             if (TransactionId <= 0) return;
 
-            bool confirm = await App.Current.MainPage.DisplayAlert("Delete transaction",
+            bool confirm = await Shell.Current.DisplayAlert("Delete transaction",
                 "Are you sure you want to delete this transaction?",
                 "Yes", "No");
 

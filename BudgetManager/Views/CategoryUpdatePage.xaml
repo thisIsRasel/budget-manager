@@ -2,9 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:BudgetManager.ViewModels"
-             x:Class="BudgetManager.Views.AddCategoryPage"
-             Title="Add Category">
-
+             x:Class="BudgetManager.Views.CategoryUpdatePage"
+             Title="Edit Category">
     <Grid Style="{StaticResource PageBody}">
         <VerticalStackLayout Padding="20" Spacing="15">
             <Picker Title="Select Parent Category"
@@ -12,8 +11,8 @@
                 ItemDisplayBinding="{Binding DisplayName}"
                 SelectedItem="{Binding SelectedParent}" />
 
-            <Entry Placeholder="New category" Text="{Binding NewCategory}" />
-            <Button Text="Save" Command="{Binding AddCommand}" />
+            <Entry Placeholder="Category Name" Text="{Binding NewCategory}" />
+            <Button Text="Update" Command="{Binding UpdateCommand}" />
         </VerticalStackLayout>
     </Grid>
 </ContentPage>

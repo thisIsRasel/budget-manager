@@ -2,9 +2,9 @@ using BudgetManager.ViewModels;
 
 namespace BudgetManager.Views;
 
-public partial class AddTransactionPage : ContentPage
+public partial class CategoryCreationPage : ContentPage
 {
-	public AddTransactionPage(TransactionViewModel vm)
+	public CategoryCreationPage(CategoryViewModel vm)
 	{
 		InitializeComponent();
 		BindingContext = vm;

@@ -28,8 +28,7 @@ public class DailyAlarmReceiver : BroadcastReceiver
     private void ScheduleNextAlarm(Context context)
     {
         var alarmIntent = new Intent(context, typeof(DailyAlarmReceiver));
-        alarmIntent.PutExtra("title", "Daily Reminder");
-        alarmIntent.PutExtra("message", "Hello! This is your daily notification.");
+        alarmIntent.PutExtra("message", "Have you entered your daily costs today?");
 
         var pendingIntent = PendingIntent.GetBroadcast(
             context, 0, alarmIntent, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable

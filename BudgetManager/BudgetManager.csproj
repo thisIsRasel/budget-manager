@@ -77,8 +77,14 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Views\AddTransactionPage.xaml.cs">
-	    <DependentUpon>AddTransactionPage.xaml</DependentUpon>
+	  <Compile Update="Views\CategoryCreationPage.xaml.cs">
+	    <DependentUpon>CategoryCreationPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\BudgetCreationPage.xaml.cs">
+	    <DependentUpon>BudgetCreationPage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\TransactionCreationPage.xaml.cs">
+	    <DependentUpon>TransactionCreationPage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\BudgetListPage.xaml.cs">
 	    <DependentUpon>BudgetListPage.xaml</DependentUpon>
@@ -86,8 +92,11 @@
 	  <Compile Update="Views\CategoryListPage.xaml.cs">
 	    <DependentUpon>CategoryListPage.xaml</DependentUpon>
 	  </Compile>
-	  <Compile Update="Views\EditTransactionPage.xaml.cs">
-	    <DependentUpon>EditTransactionPage.xaml</DependentUpon>
+	  <Compile Update="Views\CategoryUpdatePage.xaml.cs">
+	    <DependentUpon>CategoryUpdatePage.xaml</DependentUpon>
+	  </Compile>
+	  <Compile Update="Views\TransactionUpdatePage.xaml.cs">
+	    <DependentUpon>TransactionUpdatePage.xaml</DependentUpon>
 	  </Compile>
 	  <Compile Update="Views\TransactionListPage.xaml.cs">
 	    <DependentUpon>TransactionListPage.xaml</DependentUpon>

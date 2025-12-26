@@ -92,7 +92,7 @@ namespace BudgetManager.ViewModels
             {
                 { "TransactionId", item.Id }
             };
-            await Shell.Current.GoToAsync(nameof(EditTransactionPage), navParam);
+            await Shell.Current.GoToAsync(nameof(TransactionUpdatePage), navParam);
         });
 
         public ICommand GoToYearlyBudgetCommand => new Command(async () =>

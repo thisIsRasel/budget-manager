@@ -29,12 +29,12 @@ namespace BudgetManager
 
             builder.Services.AddTransient<MainPage>();
             builder.Services.AddTransient<CategoryListPage>();
-            builder.Services.AddTransient<AddCategoryPage>();
-            builder.Services.AddTransient<EditCategoryPage>();
+            builder.Services.AddTransient<CategoryCreationPage>();
+            builder.Services.AddTransient<CategoryUpdatePage>();
             builder.Services.AddTransient<TransactionListPage>();
-            builder.Services.AddTransient<AddTransactionPage>();
+            builder.Services.AddTransient<TransactionCreationPage>();
             builder.Services.AddTransient<BudgetListPage>();
-            builder.Services.AddTransient<AddBudgetPage>();
+            builder.Services.AddTransient<BudgetCreationPage>();
             builder.Services.AddTransient<BudgetDetailsPage>();
             builder.Services.AddTransient<BudgetUpdatePage>();
             builder.Services.AddTransient<NotesPage>();
@@ -43,9 +43,9 @@ namespace BudgetManager
 
             builder.Services.AddTransient<CategoryViewModel>();
             builder.Services.AddTransient<TransactionViewModel>();
-            builder.Services.AddTransient<EditTransactionViewModel>();
-            builder.Services.AddTransient<BudgetViewModel>();
-            builder.Services.AddTransient<AddBudgetViewModel>();
+            builder.Services.AddTransient<TransactionUpdateViewModel>();
+            builder.Services.AddTransient<BudgetListViewModel>();
+            builder.Services.AddTransient<BudgetCreationViewModel>();
             builder.Services.AddTransient<BudgetUpdateViewModel>();
             builder.Services.AddTransient<BudgetDetailsViewModel>();
             builder.Services.AddTransient<YearlyBudgetViewModel>();

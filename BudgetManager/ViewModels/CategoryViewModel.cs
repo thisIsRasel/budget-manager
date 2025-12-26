@@ -9,13 +9,13 @@ namespace BudgetManager.ViewModels
     [QueryProperty(nameof(CategoryToEdit), "Category")]
     public class CategoryViewModel : BaseViewModel
     {
-        private Category _categoryToEdit;
-        private Category? _selectedParent;
         private string _newCategory;
         private Category DragSource { get; set; }
         private readonly SQLiteService _sqlite;
         public ObservableCollection<Category> Categories { get; } = [];
         public ObservableCollection<Category> ParentCategories { get; } = [];
+
+        private Category _categoryToEdit;
         public Category CategoryToEdit
         {
             get => _categoryToEdit;
@@ -31,6 +31,8 @@ namespace BudgetManager.ViewModels
                 }
             }
         }
+
+        private Category? _selectedParent;
         public Category? SelectedParent
         {
             get => _selectedParent;
@@ -53,7 +55,7 @@ namespace BudgetManager.ViewModels
 
         public ICommand AddCommand => new Command(async () => await AddCategoryAsync());
         public ICommand GoToAddCategoryCommand
-            => new Command(async () => await Shell.Current.GoToAsync(nameof(AddCategoryPage)));
+            => new Command(async () => await Shell.Current.GoToAsync(nameof(CategoryCreationPage)));
 
         public ICommand EditCategoryCommand => new Command<Category>(async (cat) =>
         {
@@ -61,7 +63,7 @@ namespace BudgetManager.ViewModels
             {
                 { "Category", cat }
             };
-            await Shell.Current.GoToAsync(nameof(EditCategoryPage), navParam);
+            await Shell.Current.GoToAsync(nameof(CategoryUpdatePage), navParam);
         });
 
         public ICommand UpdateCommand => new Command(async () =>
@@ -244,7 +246,7 @@ namespace BudgetManager.ViewModels
         {
             if (cat == null) return;
 
-            bool confirm = await App.Current.MainPage.DisplayAlert("Delete Category",
+            bool confirm = await Shell.Current.DisplayAlert("Delete Category",
                 $"Are you sure you want to delete '{cat.Name}'? Any sub-categories will be removed too!",
                 "Yes", "No");
 

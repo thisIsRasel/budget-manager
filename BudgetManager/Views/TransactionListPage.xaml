@@ -131,9 +131,11 @@
                                                             TextColor="{StaticResource Accent}"
                                                             VerticalOptions="Center"/>
 
-                                                        <Label Grid.Row="1" Grid.Column="0"
-                                                            IsVisible="{Binding HasNote}"
-                                                            Text="{Binding Note}" FontSize="12" TextColor="{StaticResource TextSecondary}" LineBreakMode="TailTruncation"/>
+                                                        <Grid Grid.Row="1" ColumnDefinitions="Auto,*" IsVisible="{Binding HasNote}">
+                                                            <Label Grid.Column="0" Text="Note: " FontSize="12" FontAttributes="Italic" />
+                                                            <Label Grid.Column="1"
+                                                                Text="{Binding Note}" FontSize="12" FontAttributes="Italic" TextColor="{StaticResource TextSecondary}" LineBreakMode="TailTruncation"/>
+                                                        </Grid>
                                                     </Grid>
                                                 </Grid>
                                             </DataTemplate>
