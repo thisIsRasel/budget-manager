@@ -13,9 +13,9 @@ public partial class CategoryListPage : ContentPage
     protected override void OnAppearing()
     {
         base.OnAppearing();
-        if (BindingContext is CategoryViewModel vm)
-        {
-            vm.LoadCategories();
-        }
+        //if (BindingContext is CategoryViewModel vm)
+        //{
+        //    vm.LoadCategories();
+        //}
     }
 }

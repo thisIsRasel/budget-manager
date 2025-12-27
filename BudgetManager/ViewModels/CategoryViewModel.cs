@@ -105,7 +105,7 @@ namespace BudgetManager.ViewModels
         public CategoryViewModel(SQLiteService sqlite)
         {
             _sqlite = sqlite;
-            //LoadCategories();
+            LoadCategories();
         }
 
         public async void LoadCategories()
