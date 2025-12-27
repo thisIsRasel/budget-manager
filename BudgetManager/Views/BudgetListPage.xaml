@@ -87,8 +87,7 @@
                 <VerticalStackLayout Padding="20" Spacing="15">
                     <micro:ChartView
                         Chart="{Binding BudgetChart}"
-                        HeightRequest="120"
-                        BackgroundColor="{StaticResource PageBackground}" />
+                        HeightRequest="120" />
                 </VerticalStackLayout>
             </Grid>
             <CollectionView Grid.Row="1" ItemsSource="{Binding Budgets}" MinimumHeightRequest="1000">

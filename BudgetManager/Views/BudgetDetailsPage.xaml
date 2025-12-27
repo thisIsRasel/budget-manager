@@ -114,7 +114,7 @@
                                 <Label Grid.Row="0" Grid.Column="0" Text="{Binding CategoryName}" FontAttributes="Bold" TextColor="Black"/>
                                 <Label Grid.Row="0" Grid.Column="1" Text="{Binding Amount, StringFormat='- ৳ {0:F2}'}" TextColor="{StaticResource Accent}" FontAttributes="Bold"/>
 
-                                <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
+                                <Grid Grid.Row="1" ColumnDefinitions="Auto,*" IsVisible="{Binding HasNote}">
                                     <Label Grid.Column="0" Text="Note: " FontSize="12" FontAttributes="Italic" TextColor="Gray" />
                                     <Label Grid.Column="1"
                                         Text="{Binding Note}" FontSize="12" FontAttributes="Italic" TextColor="Gray" LineBreakMode="TailTruncation"/>

@@ -8,11 +8,13 @@
 
     <Grid Style="{StaticResource PageBody}">
         <ScrollView>
-            <VerticalStackLayout Padding="20" Spacing="15">
-                <Entry Placeholder="Enter amount" 
-                   Keyboard="Numeric" 
-                   Text="{Binding BudgetAmount}" />
-
+            <VerticalStackLayout Padding="20" Spacing="16">
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="20">
+                    <Label Grid.Column="0" Text="{Binding BudgetDateLabel}" VerticalOptions="Center" />
+                    <Entry Grid.Column="1" Placeholder="Enter amount" 
+                       Keyboard="Numeric" 
+                       Text="{Binding BudgetAmount}" />
+                </Grid>
                 <Button Text="Save Budget" 
                     Command="{Binding SaveBudgetCommand}"
                     TextColor="White"

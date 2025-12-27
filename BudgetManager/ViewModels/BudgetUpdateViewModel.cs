@@ -19,6 +19,7 @@ namespace BudgetManager.ViewModels
                 BudgetAmount = value.BudgetAmount;
                 LoadData();
                 OnPropertyChanged(nameof(MonthlyBudgetItem));
+                OnPropertyChanged(nameof(BudgetDateLabel));
             }
         }
 
@@ -43,6 +44,10 @@ namespace BudgetManager.ViewModels
                 OnPropertyChanged(nameof(Category));
             }
         }
+
+        public string BudgetDateLabel => MonthlyBudgetItem is not null
+            ? MonthlyBudgetItem.Month > 0 ? $"{MonthlyBudgetItem.MonthName} {MonthlyBudgetItem.Year}" : "Default Budget"
+            : "Amount";
 
         public ICommand SaveBudgetCommand => new Command(async () => await SaveBudgetAsync());
 
