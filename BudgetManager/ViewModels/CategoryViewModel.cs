@@ -25,8 +25,6 @@ namespace BudgetManager.ViewModels
                 if (value != null)
                 {
                     NewCategory = value.Name;
-                    // Filter parents to avoid circular dependency + current category
-                    // Also select current parent
                     UpdateParentCategoriesForEdit(value);
                 }
             }
@@ -79,8 +77,6 @@ namespace BudgetManager.ViewModels
                 : null;
 
             await _sqlite.UpdateCategoryAsync(CategoryToEdit);
-
-            // Navigate back
             await Shell.Current.GoToAsync("..");
         });
 
@@ -137,56 +133,32 @@ namespace BudgetManager.ViewModels
             }
         }
 
-        private void UpdateParentCategoriesForEdit(Category current)
+        private async void UpdateParentCategoriesForEdit(Category current)
         {
+            var list = await _sqlite.GetCategoriesAsync();
+            var roots = list.Where(c => c.ParentId == null || c.ParentId == 0).ToList();
+
             ParentCategories.Clear();
-            ParentCategories.Add(new Category { Id = 0, Name = "<No Parent>" });
-
-            // Get all categories again to ensure fresh list
-            // In a real app we might want to reload from DB, but here we use cached List if possible or reload.
-            // Since we are transient, LoadCategories might have been called.
-            // But we need a full list to filter.
-            // Let's reload to be safe.
-            Task.Run(async () =>
+            // Better approach: build tree, then flatten, skipping the branch of 'current'.
+            foreach (var root in roots)
             {
-                var list = await _sqlite.GetCategoriesAsync();
-                var roots = list.Where(c => c.ParentId == null || c.ParentId == 0).ToList();
+                if (root.Id == current.Id) continue; // Skip current
 
-                // Exclude current and its children
-                // Helper to check if 'c' is 'current' or a descendant of 'current'
-                bool IsDescendant(Category potentialDescendant)
-                {
-                    if (potentialDescendant.Id == current.Id) return true;
-                    // Recursive check not easy with flat list without building tree
-                    // Simple check: don't allow current.
-                    // Fully robust check requires tree traversal.
-                    // For now, let's just exclude 'current'.
-                    // To properly exclude children, we need to know children.
-                    return potentialDescendant.Id == current.Id;
-                }
+                root.Indentation = "";
+                root.Level = 0;
+                ParentCategories.Add(root);
+                AddChildrenForEdit(root, list, 1, current.Id);
+            }
 
-                // Better approach: build tree, then flatten, skipping the branch of 'current'.
-
-                foreach (var root in roots)
-                {
-                    if (root.Id == current.Id) continue; // Skip current
-
-                    root.Indentation = "";
-                    root.Level = 0;
-                    ParentCategories.Add(root);
-                    AddChildrenForEdit(root, list, 1, current.Id);
-                }
-
-                // Set selected parent
-                if (current.ParentId != null)
-                {
-                    SelectedParent = ParentCategories.FirstOrDefault(c => c.Id == current.ParentId);
-                }
-                else
-                {
-                    SelectedParent = ParentCategories.First(); // <No Parent>
-                }
-            });
+            // Set selected parent
+            if (current.ParentId != null)
+            {
+                SelectedParent = ParentCategories.FirstOrDefault(c => c.Id == current.ParentId);
+            }
+            else
+            {
+                SelectedParent = ParentCategories.First(); // <No Parent>
+            }
         }
 
         private void AddChildrenForEdit(Category parent, List<Category> all, int level, int excludeId)
