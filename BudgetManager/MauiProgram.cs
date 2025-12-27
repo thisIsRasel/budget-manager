@@ -43,7 +43,7 @@ namespace BudgetManager
 
             builder.Services.AddTransient<CategoryViewModel>();
             builder.Services.AddTransient<TransactionViewModel>();
-            builder.Services.AddTransient<TransactionUpdateViewModel>();
+            builder.Services.AddTransient<TransactionEntryViewModel>();
             builder.Services.AddTransient<BudgetListViewModel>();
             builder.Services.AddTransient<BudgetCreationViewModel>();
             builder.Services.AddTransient<BudgetUpdateViewModel>();

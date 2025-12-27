@@ -46,7 +46,7 @@
                     TextColor="White" />
                 <Button Grid.Column="1" 
                     Text="Save" 
-                    Command="{Binding SaveCommand}" />
+                    Command="{Binding UpdateCommand}" />
             </Grid>
         </VerticalStackLayout>
     </Grid>

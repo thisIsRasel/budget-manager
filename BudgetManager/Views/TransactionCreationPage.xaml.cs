@@ -4,7 +4,7 @@ namespace BudgetManager.Views;
 
 public partial class TransactionCreationPage : ContentPage
 {
-	public TransactionCreationPage(TransactionViewModel vm)
+	public TransactionCreationPage(TransactionEntryViewModel vm)
 	{
 		InitializeComponent();
 		BindingContext = vm;

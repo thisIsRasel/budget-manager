@@ -5,8 +5,7 @@ using System.Windows.Input;
 
 namespace BudgetManager.ViewModels
 {
-    [QueryProperty(nameof(TransactionId), "TransactionId")]
-    public class TransactionUpdateViewModel : BaseViewModel
+    public class TransactionEntryViewModel : BaseViewModel, IQueryAttributable
     {
         private readonly SQLiteService _sqlite;
         public ObservableCollection<Category> Categories { get; } = [];
@@ -46,22 +45,33 @@ namespace BudgetManager.ViewModels
             set
             {
                 _transactionId = value;
-                LoadEntry(value);
             }
         }
 
         public ICommand SaveCommand => new Command(async () => await SaveAsync());
+        public ICommand UpdateCommand => new Command(async () => await UpdateAsync());
         public ICommand DeleteCommand => new Command(async () => await DeleteAsync());
 
-        public TransactionUpdateViewModel(SQLiteService sqlite)
+        public TransactionEntryViewModel(SQLiteService sqlite)
         {
             _sqlite = sqlite;
             SelectedDate = DateTime.Now;
         }
 
-        private async void LoadEntry(int id)
+        public async void ApplyQueryAttributes(IDictionary<string, object> query)
         {
-            await LoadCategories();
+            await LoadCategoriesAsync();
+
+            if (query.TryGetValue(nameof(TransactionId), out var value)
+                && value is int id)
+            {
+                TransactionId = id;
+                await LoadEntryAsync(id);
+            }
+        }
+
+        private async Task LoadEntryAsync(int id)
+        {
             var transaction = await _sqlite.GetEntryByIdAsync(id);
             if (transaction is null) return;
 
@@ -72,7 +82,7 @@ namespace BudgetManager.ViewModels
                 .FirstOrDefault(c => c.Id == transaction.CategoryId);
         }
 
-        public async Task LoadCategories()
+        public async Task LoadCategoriesAsync()
         {
             var list = await _sqlite.GetCategoriesAsync();
             Categories.Clear();
@@ -108,6 +118,26 @@ namespace BudgetManager.ViewModels
         }
 
         private async Task SaveAsync()
+        {
+            if (SelectedCategory == null) return;
+
+            var entry = new CostEntry
+            {
+                Amount = Amount,
+                CategoryId = SelectedCategory.Id,
+                Note = Note!,
+                Date = SelectedDate
+            };
+
+            // Insert new entry
+            await _sqlite.SaveEntryAsync(entry);
+
+            // Clear form and navigate back
+            ClearForm();
+            await Shell.Current.GoToAsync("..");
+        }
+
+        private async Task UpdateAsync()
         {
             if (SelectedCategory == null) return;
 
