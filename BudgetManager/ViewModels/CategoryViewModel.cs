@@ -139,6 +139,8 @@ namespace BudgetManager.ViewModels
             var roots = list.Where(c => c.ParentId == null || c.ParentId == 0).ToList();
 
             ParentCategories.Clear();
+            ParentCategories.Add(new Category { Id = 0, Name = "<No Parent>" });
+
             // Better approach: build tree, then flatten, skipping the branch of 'current'.
             foreach (var root in roots)
             {
