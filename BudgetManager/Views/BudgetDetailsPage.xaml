@@ -33,9 +33,9 @@
                                 Command="{Binding PreviousMonthCommand}"/>
 
                             <Label Text="{Binding MonthDisplay}"
-                               TextColor="{StaticResource TextPrimary}"
-                               FontSize="18"
-                               VerticalOptions="Center" />
+                                TextColor="{StaticResource TextPrimary}"
+                                FontSize="18"
+                                VerticalOptions="Center" />
 
                             <Button Grid.Column="2"
                                 Style="{StaticResource Circular}"
@@ -99,7 +99,7 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border Margin="0,8,0,0" Padding="16" StrokeThickness="0" BackgroundColor="#F5F5F5">
+                        <Border Margin="0,12,0,0" Padding="16" StrokeThickness="0" BackgroundColor="#F5F5F5">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="4"/>
                             </Border.StrokeShape>
