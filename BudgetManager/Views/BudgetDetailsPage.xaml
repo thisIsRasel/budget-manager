@@ -2,27 +2,27 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="BudgetManager.Views.BudgetDetailsPage"
-             xmlns:vm="clr-namespace:BudgetManager.ViewModels"
-             Title="{Binding Title}">
+             xmlns:vm="clr-namespace:BudgetManager.ViewModels">
 
     <Grid RowDefinitions="Auto,*">
         <Grid RowDefinitions="Auto, Auto">
             <Grid Style="{StaticResource PageHeader}"
                 RowDefinitions="Auto,Auto">
 
-                <Grid ColumnDefinitions="Auto,*,Auto">
-                    <HorizontalStackLayout>
+                <Grid ColumnDefinitions="*,Auto">
+                    <Grid Grid.Column="0" ColumnDefinitions="Auto,*">
                         <Button Style="{StaticResource Circular}"
                             Text="&#xf060;"
                             FontFamily="fa-solid"
                             TextColor="{StaticResource TextPrimary}"
                             Command="{Binding GoBackCommand}"/>
 
-                        <Label Text="{Binding Title}"
-                           TextColor="White"
-                           FontSize="18"
-                           VerticalOptions="Center" />
-                    </HorizontalStackLayout>
+                        <Label Grid.Column="1" Text="{Binding Title}"
+                            TextColor="{StaticResource TextPrimary}"
+                            FontSize="18"
+                            VerticalOptions="Center"
+                            LineBreakMode="TailTruncation" />
+                    </Grid>
 
                     <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End">
                         <HorizontalStackLayout>
@@ -33,7 +33,7 @@
                                 Command="{Binding PreviousMonthCommand}"/>
 
                             <Label Text="{Binding MonthDisplay}"
-                               TextColor="White"
+                               TextColor="{StaticResource TextPrimary}"
                                FontSize="18"
                                VerticalOptions="Center" />
 

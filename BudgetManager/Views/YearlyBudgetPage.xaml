@@ -10,19 +10,20 @@
             <Grid Style="{StaticResource PageHeader}"
                 RowDefinitions="Auto,Auto">
 
-                <Grid ColumnDefinitions="Auto,*,Auto">
-                    <HorizontalStackLayout>
+                <Grid ColumnDefinitions="*,Auto">
+                    <Grid ColumnDefinitions="Auto,*">
                         <Button Style="{StaticResource Circular}"
                             Text="&#xf060;"
                             FontFamily="fa-solid"
                             TextColor="{StaticResource TextPrimary}"
                             Command="{Binding GoBackCommand}"/>
 
-                        <Label Text="{Binding Category.Name}"
+                        <Label Grid.Column="1" Text="{Binding Category.Name}"
                            TextColor="White"
                            FontSize="18"
-                           VerticalOptions="Center" />
-                    </HorizontalStackLayout>
+                           VerticalOptions="Center"
+                           LineBreakMode="TailTruncation" />
+                    </Grid>
 
                     <HorizontalStackLayout Grid.Column="1" HorizontalOptions="End">
                         <HorizontalStackLayout>

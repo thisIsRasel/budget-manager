@@ -109,53 +109,54 @@
                                             CommandParameter="{Binding .}" />
                                 </Border.GestureRecognizers>
 
-                                <Grid ColumnDefinitions="*,Auto,*" RowDefinitions="Auto,Auto,Auto,Auto">
-                                    <!-- Budget Name -->
-                                    <Label Grid.Row="0" Grid.Column="0"
-                                        Text="{Binding Name}" 
-                                        FontSize="18" 
-                                        FontAttributes="Bold"
-                                        VerticalOptions="Center"/>
+                                <VerticalStackLayout>
+                                    <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+                                        <Label
+                                            Text="{Binding Name}" 
+                                            FontSize="18" 
+                                            FontAttributes="Bold"
+                                            VerticalOptions="Center"/>
 
-                                    <!-- Budget Amount -->
-                                    <Label Grid.Row="0" Grid.Column="2"
-                                        Text="{Binding Amount, StringFormat='৳ {0:F2}'}" 
-                                        FontSize="18" 
-                                        FontAttributes="Bold"
-                                        TextColor="{StaticResource TextPrimary}"
-                                        HorizontalOptions="End"
-                                        VerticalOptions="Center" />
+                                        <Label Grid.Column="1"
+                                            Text="{Binding Amount, StringFormat='৳ {0:F2}'}" 
+                                            FontSize="18" 
+                                            FontAttributes="Bold"
+                                            TextColor="{StaticResource TextPrimary}"
+                                            HorizontalOptions="End"
+                                            VerticalOptions="Center" />
+                                    </Grid>
 
-                                    <!-- Progress Bar -->
-                                    <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="3"
-                                        StrokeThickness="0"
-                                        StrokeShape="RoundRectangle 4"
-                                        Margin="0,4,0,8">
-                                        <ProgressBar Progress="{Binding ProgressPercentage}"
-                                                     ProgressColor="{Binding ProgressPercentage, Converter={StaticResource ProgressColorConverter}}"/>
-                                    </Border>
+                                    <Grid Grid.Row="1">
+                                        <Border StrokeThickness="0"
+                                            StrokeShape="RoundRectangle 4"
+                                            Margin="0,8">
+                                            <ProgressBar
+                                                Progress="{Binding ProgressPercentage}"
+                                                ProgressColor="{Binding ProgressPercentage, Converter={StaticResource ProgressColorConverter}}"/>
+                                        </Border>
 
-                                    <Label Grid.Row="1" Grid.Column="1"
-                                        Text="{Binding FormattedPercentage}"
-                                        FontSize="12"
-                                        FontAttributes="Bold"
-                                        TextColor="{StaticResource TextPrimary}"
-                                        HorizontalOptions="Center"
-                                        Margin="0,6" />
+                                        <Label Text="{Binding FormattedPercentage}"
+                                            FontSize="12"
+                                            FontAttributes="Bold"
+                                            TextColor="{StaticResource TextPrimary}"
+                                            HorizontalOptions="Center"
+                                            Margin="10" />
+                                    </Grid>
 
-                                    <!-- Spent and Remaining Labels (Below Progress Bar) -->
-                                    <Label Grid.Row="2" Grid.Column="0"
-                                        Text="{Binding FormattedSpent}"
-                                        FontSize="12"
-                                        TextColor="{StaticResource Accent}"
-                                        HorizontalOptions="Start"/>
+                                    <Grid Grid.Row="2">
+                                        <Label Grid.Column="0"
+                                            Text="{Binding FormattedSpent}"
+                                            FontSize="12"
+                                            TextColor="{StaticResource Accent}"
+                                            HorizontalOptions="Start"/>
 
-                                    <Label Grid.Row="2" Grid.Column="2"
-                                        Text="{Binding FormattedRemaining}"
-                                        FontSize="12"
-                                        TextColor="#4FC3F7"
-                                        HorizontalOptions="End" />
-                                </Grid>
+                                        <Label Grid.Column="1"
+                                            Text="{Binding FormattedRemaining}"
+                                            FontSize="12"
+                                            TextColor="#4FC3F7"
+                                            HorizontalOptions="End" />
+                                    </Grid>
+                                </VerticalStackLayout>
                             </Border>
 
                             <BoxView Style="{StaticResource Divider}"/>
