@@ -79,8 +79,6 @@ namespace BudgetManager.ViewModels
 
         public ICommand DeleteBudgetCommand => new Command(async () =>
         {
-            //if (BudgetId <= 0) return;
-
             bool confirm = await Shell.Current.DisplayAlert("Delete Budget",
                 "Are you sure you want to delete this budget? All associated cost entries will remain, but the budget link will be removed.",
                 "Yes", "No");

@@ -106,7 +106,7 @@ namespace BudgetManager.ViewModels
         {
             _sqlite = sqlite;
             _currentMonth = DateTime.Now;
-            LoadBudgets();
+            //LoadBudgets();
         }
 
         public async void LoadBudgets()
@@ -171,6 +171,7 @@ namespace BudgetManager.ViewModels
             TotalSpent = totalSpent;
             RemainingAmount = totalBudget - totalSpent;
 
+            var typeface = await LoadTypefaceAsync();
             BudgetChart = entries.Any() ? new PieChart
             {
                 Entries = entries,
@@ -178,7 +179,25 @@ namespace BudgetManager.ViewModels
                 BackgroundColor = SKColor.Parse("#374046"),
                 LabelMode = LabelMode.LeftAndRight,
                 GraphPosition = GraphPosition.Center,
+                Typeface = typeface,
             } : null;
+        }
+
+        static async Task<SKTypeface> LoadTypefaceAsync()
+        {
+            var targetPath = Path.Combine(
+                FileSystem.AppDataDirectory,
+                "NotoSansBengali-Regular.ttf"
+            );
+
+            if (!File.Exists(targetPath))
+            {
+                using var source = await FileSystem.OpenAppPackageFileAsync("NotoSansBengali-Regular.ttf");
+                using var dest = File.Create(targetPath);
+                await source.CopyToAsync(dest);
+            }
+
+            return SKTypeface.FromFile(targetPath);
         }
 
         private async Task<List<Budget>> GetBudgtesAsync()

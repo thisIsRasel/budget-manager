@@ -87,7 +87,7 @@ namespace BudgetManager.ViewModels
         {
             _sqlite = sqlite;
             CurrentMonth = DateTime.Now; // Initialize to current month
-            LoadBudgetsAndCostEntries(); // Initial load for list
+            //LoadBudgetsAndCostEntries(); // Initial load for list
         }
 
         public async void LoadBudgetsAndCostEntries()

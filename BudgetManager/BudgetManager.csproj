@@ -107,6 +107,9 @@
 	  <MauiFont Update="Resources\Fonts\FA-Solid-900.otf">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </MauiFont>
+	  <MauiFont Update="Resources\Fonts\NotoSansBengali-Regular.ttf">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </MauiFont>
 	</ItemGroup>
 
 	<ItemGroup>
