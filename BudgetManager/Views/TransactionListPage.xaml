@@ -62,8 +62,7 @@
                 </Grid>
             </Grid>
 
-            <BoxView Grid.Row="1" HeightRequest="0.1"
-                BackgroundColor="{DynamicResource Divider}"/>
+            <BoxView Grid.Row="1" Style="{StaticResource Divider}" />
         </Grid>
         
         <Grid Grid.Row="1" Style="{StaticResource PageBody}">
@@ -110,8 +109,7 @@
                                             VerticalOptions="Center" />
                                     </Grid>
 
-                                    <BoxView HeightRequest="0.1"
-                                        BackgroundColor="{DynamicResource Divider}"/>
+                                    <BoxView Style="{StaticResource Divider}"/>
 
                                     <!-- Items for this Date -->
                                     <CollectionView ItemsSource="{Binding Items}">

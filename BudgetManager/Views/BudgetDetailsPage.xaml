@@ -84,8 +84,7 @@
                 </Grid>
             </Grid>
 
-            <BoxView Grid.Row="1" HeightRequest="0.1"
-                BackgroundColor="{DynamicResource Divider}"/>
+            <BoxView Grid.Row="1" Style="{StaticResource Divider}" />
         </Grid>
 
         <Grid Grid.Row="1" Style="{StaticResource PageBody}" RowDefinitions="Auto,*">
@@ -100,23 +99,26 @@
 
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Border Margin="0,8" Padding="16" StrokeThickness="0" BackgroundColor="#F5F5F5">
+                        <Border Margin="0,8,0,0" Padding="16" StrokeThickness="0" BackgroundColor="#F5F5F5">
                             <Border.StrokeShape>
                                 <RoundRectangle CornerRadius="4"/>
                             </Border.StrokeShape>
 
                             <Border.GestureRecognizers>
                                 <TapGestureRecognizer 
-                                Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BudgetDetailsViewModel}}, Path=EditTransactionCommand}"
-                                CommandParameter="{Binding .}" />
+                                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:BudgetDetailsViewModel}}, Path=EditTransactionCommand}"
+                                    CommandParameter="{Binding .}" />
                             </Border.GestureRecognizers>
 
                             <Grid ColumnDefinitions="*, Auto" RowDefinitions="Auto, Auto">
                                 <Label Grid.Row="0" Grid.Column="0" Text="{Binding CategoryName}" FontAttributes="Bold" TextColor="Black"/>
                                 <Label Grid.Row="0" Grid.Column="1" Text="{Binding Amount, StringFormat='- ৳ {0:F2}'}" TextColor="{StaticResource Accent}" FontAttributes="Bold"/>
 
-
-                                <Label Grid.Row="1" Grid.Column="0" Text="{Binding Note}" FontSize="12" TextColor="Gray" LineBreakMode="TailTruncation"/>
+                                <Grid Grid.Row="1" ColumnDefinitions="Auto,*">
+                                    <Label Grid.Column="0" Text="Note: " FontSize="12" FontAttributes="Italic" TextColor="Gray" />
+                                    <Label Grid.Column="1"
+                                        Text="{Binding Note}" FontSize="12" FontAttributes="Italic" TextColor="Gray" LineBreakMode="TailTruncation"/>
+                                </Grid>
                                 <Label Grid.Row="1" Grid.Column="1" Text="{Binding DisplayDate}" FontSize="12"  HorizontalOptions="End" TextColor="Gray"/>
                             </Grid>
                         </Border>

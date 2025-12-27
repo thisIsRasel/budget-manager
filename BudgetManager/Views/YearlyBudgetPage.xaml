@@ -56,23 +56,22 @@
                 </Grid>
             </Grid>
 
-            <BoxView Grid.Row="1" HeightRequest="0.1"
-                BackgroundColor="{DynamicResource Divider}"/>
+            <BoxView Grid.Row="1" Style="{StaticResource Divider}"/>
         </Grid>
 
         <Grid Grid.Row="1" Style="{StaticResource PageBody}" RowDefinitions="Auto, *">
             <VerticalStackLayout BindingContext="{Binding DefaultBudget}">
                 <VerticalStackLayout.GestureRecognizers>
                     <TapGestureRecognizer
-                    Command="{Binding Source={RelativeSource AncestorType={x:Type vm:YearlyBudgetViewModel}}, Path=EditBudgetCommand}"
-                    CommandParameter="{Binding .}" />
+                        Command="{Binding Source={RelativeSource AncestorType={x:Type vm:YearlyBudgetViewModel}}, Path=EditBudgetCommand}"
+                        CommandParameter="{Binding .}" />
                 </VerticalStackLayout.GestureRecognizers>
 
                 <Grid ColumnDefinitions="*,*" Padding="16,12">
-                    <Label Text="Default Budget" VerticalOptions="Center" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" />
-                    <Label Grid.Column="1" Text="{Binding BudgetAmount, StringFormat='৳ {0:F2}'}" FontAttributes="Bold" HorizontalOptions="End" VerticalOptions="Center" TextColor="{StaticResource Accent}"/>
+                    <Label Text="Default Budget" VerticalOptions="Center" FontSize="16" FontAttributes="Bold" TextColor="{StaticResource TextPrimary}" />
+                    <Label Grid.Column="1" Text="{Binding BudgetAmount, StringFormat='৳ {0:F2}'}" FontSize="16" FontAttributes="Bold" HorizontalOptions="End" VerticalOptions="Center" TextColor="{StaticResource Accent}"/>
                 </Grid>
-                <BoxView Style="{StaticResource Divider}"></BoxView>
+                <BoxView Style="{StaticResource Divider}" />
             </VerticalStackLayout>
 
             <CollectionView Grid.Row="1" ItemsSource="{Binding YearlyBudgets}">
@@ -89,7 +88,7 @@
                                 <Label Text="{Binding MonthName}" VerticalOptions="Center" TextColor="{StaticResource TextPrimary}" />
                                 <Label Grid.Column="1" Text="{Binding BudgetAmount, StringFormat='৳ {0:F2}'}" HorizontalOptions="End" VerticalOptions="Center" TextColor="{StaticResource Accent}"/>
                             </Grid>
-                            <BoxView Style="{StaticResource Divider}"></BoxView>
+                            <BoxView Style="{StaticResource Divider}" />
                         </VerticalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>

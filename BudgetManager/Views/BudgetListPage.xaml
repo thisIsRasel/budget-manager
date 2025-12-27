@@ -79,8 +79,7 @@
                 </Grid>
             </Grid>
             
-            <BoxView Grid.Row="1" HeightRequest="0.1"
-                BackgroundColor="{DynamicResource Divider}"/>
+            <BoxView Grid.Row="1" Style="{StaticResource Divider}"/>
         </Grid>
 
         <Grid Grid.Row="1" Style="{StaticResource PageBody}" RowDefinitions="Auto, *">
@@ -160,8 +159,7 @@
                                 </Grid>
                             </Border>
 
-                            <BoxView HeightRequest="0.1"
-                                BackgroundColor="{DynamicResource Divider}"/>
+                            <BoxView Style="{StaticResource Divider}"/>
                         </VerticalStackLayout>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
